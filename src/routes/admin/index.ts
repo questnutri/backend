@@ -12,12 +12,11 @@ import UpdateAdminDto from '../../models/admin/dto/update.admin.dto'
 const adminRoutes = Router()
 
 adminRoutes.route('/')
-	.post(validateDto(CreateAdminDto), adminController.create)
-
-adminRoutes.route('/manage-self/:adminId')
 	.get(adminController.getById)
 	.patch(validateDto(UpdateAdminDto), adminController.updateById)
-	.delete(adminController.deleteById)
+
+adminRoutes.route('/new-admin')
+	.post(validateDto(CreateAdminDto), adminController.create)
 
 adminRoutes.route('/nutritionist')
 	.get(nutritionistController.getAll)

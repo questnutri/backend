@@ -5,7 +5,7 @@ import NotFound from '../errors/NotFound.error'
 class AdminController {
 	async getById(req: Request, res: Response, next: NextFunction): Promise<void | any> {
 		try {
-			const admin = await adminService.findById(req.params.id)
+			const admin = await adminService.findById(req.params.adminId ?? req.headers.adminId)
 			if (!admin) throw new NotFound('Admin not found')
 			return res.status(200).json(admin)
 		} catch (error) {
@@ -34,7 +34,7 @@ class AdminController {
 
 	async updateById(req: Request, res: Response, next: NextFunction): Promise<void | any> {
 		try {
-			const admin = await adminService.update(req.params.id, req.body)
+			const admin = await adminService.update(req.params.adminId ?? req.headers.adminId, req.body)
 			if (!admin) throw new NotFound('Admin not foud')
 			return res.status(200).json(admin)
 		} catch (error) {
@@ -44,7 +44,7 @@ class AdminController {
 
 	async deleteById(req: Request, res: Response, next: NextFunction): Promise<void | any> {
 		try {
-			const admin = await adminService.delete(req.params.id)
+			const admin = await adminService.delete(req.params.adminId)
 			if (!admin) throw new NotFound('Admin not found')
 			return res.status(200).json({ message: 'Admin deleted' })
 		} catch (error) {

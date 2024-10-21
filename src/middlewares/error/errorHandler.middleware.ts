@@ -5,7 +5,7 @@ import ReqError from '../../errors/ReqError.error'
 import BadRequest from '../../errors/BadRequest.error'
 
 export default function errorHandler(error: any, req: Request, res: Response, next: NextFunction) {
-	console.error(error)
+	//console.error(error)
 	switch(error.constructor.name) {
 	case ReqError.name:
 		error.sendMessage()

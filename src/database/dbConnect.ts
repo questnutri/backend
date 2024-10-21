@@ -14,3 +14,12 @@ export default async (): Promise<boolean> => {
 		return false
 	}
 }
+
+export async function checkConnection(): Promise<boolean> {
+	try {
+		await mongoose.connect(uri)
+		return true
+	} catch (error) {
+		return false
+	}
+}
