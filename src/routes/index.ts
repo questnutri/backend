@@ -6,7 +6,7 @@ import authRoutes from './auth'
 import { authAdmin, authNutritionist, authPatient } from '../middlewares/auth/auth.middleware'
 import healthRoutes from './health'
 import swaggerUi from 'swagger-ui-express'
-import swaggerDocs from './../swagger.json'
+import swaggerDocs from '../swagger'
 
 const routes = Router()
 routes.use('/auth', authRoutes)

@@ -1,4 +1,6 @@
-{
+import responseSwagger from "./responses/status-code/response.swagger";
+
+export default {
   "openapi": "3.0.0",
   "info": {
     "title": "",
@@ -50,9 +52,8 @@
           }
         },
         "responses": {
-          "400": {
-            "description": "Email already in use"
-          },
+          ...responseSwagger(400, 'Email already in use'),
+          ...responseSwagger(201, 'Nutritionist created'),
           "200": {
             "description": "OK",
             "content": {
