@@ -6,10 +6,10 @@
  * @returns Novo objeto resultante da mesclagem de `original` e `mods`.
  */
 export function swapSingleRoot(original: any, mods: any) {
-    return {
-        ...original,
-        ...mods,
-    }
+	return {
+		...original,
+		...mods,
+	}
 }
 
 /**
@@ -20,15 +20,15 @@ export function swapSingleRoot(original: any, mods: any) {
  * @returns Uma cópia de `rootLoop` com as tags atualizadas para cada método.
  */
 export function swapTagMultipleRoot(tags: string[], rootLoop: any) {
-    const copyRootLoop = JSON.parse(JSON.stringify(rootLoop))  // Copia profunda
+	const copyRootLoop = JSON.parse(JSON.stringify(rootLoop))  // Copia profunda
 
-    for(const path in copyRootLoop) {
-        for(const method in copyRootLoop[path]) {
-            copyRootLoop[path][method].tags = tags
-        }
-    }
+	for(const path in copyRootLoop) {
+		for(const method in copyRootLoop[path]) {
+			copyRootLoop[path][method].tags = tags
+		}
+	}
 
-    return copyRootLoop
+	return copyRootLoop
 }
 
 /**
@@ -38,12 +38,12 @@ export function swapTagMultipleRoot(tags: string[], rootLoop: any) {
  * @param rootLoop - Objeto que contém os métodos nos quais os parâmetros serão inseridos.
  */
 export function injectParameter(parameters: any[], rootLoop: any) {
-    for(const path in rootLoop) {
-        for(const method in rootLoop[path]) {
-            rootLoop[path][method].parameters = [
-                ...(rootLoop[path][method].parameters || []),
-                ...parameters,
-            ]
-        }
-    }
+	for(const path in rootLoop) {
+		for(const method in rootLoop[path]) {
+			rootLoop[path][method].parameters = [
+				...(rootLoop[path][method].parameters || []),
+				...parameters,
+			]
+		}
+	}
 }

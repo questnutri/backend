@@ -5,9 +5,9 @@
  * @returns - JSON com paths reformulados
  */
 export default function(path: string, json: any) {
-    const rebasedJson: { [key: string]: any } = {};
-    for (const key in json) {
-        rebasedJson[`${path}/${key}`] = json[key]
-    }
-    return rebasedJson
+	const rebasedJson: { [key: string]: any } = {}
+	for (const key in json) {
+		rebasedJson[`${path}/${key}`] = json[key]
+	}
+	return rebasedJson
 }

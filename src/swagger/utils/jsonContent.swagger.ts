@@ -7,14 +7,14 @@
  * @returns Um objeto JSON que contém o esquema e exemplos formatados em `application/json`.
  */
 export default function (schema: any, examples?: any) {
-    return {
-        "aplication/json": {
-            "schema": {
-                ...schema,
-            },
-            "examples": {
-                ...examples
-            }
-        }
-    }
+	return {
+		'application/json': {
+			'schema': {
+				...schema,
+			},
+			'examples': {
+				...examples
+			}
+		}
+	}
 }
