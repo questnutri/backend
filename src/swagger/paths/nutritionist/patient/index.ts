@@ -10,7 +10,7 @@ const root = {
 	get: {
 		summary: "Nutritionist's Patients",
 		description:
-      'This route retrieves all the patients related to a nutritionist',
+			'This route retrieves all the patients related to a nutritionist',
 		tags: ['Nutritionist'],
 		security: [
 			{
@@ -21,17 +21,17 @@ const root = {
 			...loggedSessionRequiredSwaggerResponse,
 		},
 	},
-	post:{
+	post: {
 		summary: 'Create a new patient',
 		description:
-      'This route create a new patient',
+			'This route create a new patient',
 		tags: ['Nutritionist'],
 		security: [
 			{
 				bearerAuth: [],
 			},
 		],
-		'requestBody':{
+		'requestBody': {
 			'content': {
 				...jsonContentSwagger(Patient_NewSwagger)
 			}
@@ -45,11 +45,16 @@ const root = {
 
 injectParameter(
 	[
+
 		{
+			in: 'path',
 			name: 'patientId',
-			in: 'header',
 			description: 'Patient ID to control state',
 			required: true,
+			schema: {
+				type: 'string',
+				minimum: 1
+			}
 		},
 	],
 	PatientId
