@@ -4,38 +4,33 @@ import jsonContentSwagger from '../../utils/jsonContent.swagger'
 import swaggerResponse from '../../utils/responses/status-code/response.swagger'
 
 export const patientRoot = {
-	get: {
-		summary: 'Patient info',
-		description: 'This route retrieves basic information related to a patient',
-		tags: ['Patient'],
-		security: [
+	"get": {
+		"summary": "Patient info",
+		"description": "This route retrieves basic information related to a patient",
+		"tags": ['Patient'],
+		"security": [
 			{
-				bearerAuth: [],
-			},
-		],
-		responses: {
-			...loggedSessionRequiredSwaggerResponse,
-		},
-	},
-	patch: {
-		summary: 'Update patient',
-		description: 'This route updates patient data',
-		tags: ['Patient'],
-		security: [
-			{
-				bearerAuth: [],
-			},
-		],
-		'requestBody':{
-			'content': {
-				...jsonContentSwagger(Patient_UpdateSwagger)
+				"bearerAuth": []
 			}
-		},
-		responses: {
+		],
+		"responses": {
 			...loggedSessionRequiredSwaggerResponse,
-			...swaggerResponse(200,'Ok', jsonContentSwagger(Patient_UpdateSwagger))
-		},
+		}
+
 	},
+	"patch": {
+		"summary": "Update patient info",
+		"description": "This route updates basic information related to a patient.",
+		"tags": ['Patient'],
+		"security": [
+			{
+				"bearerAuth": []
+			}
+		],
+		"responses": {
+			...loggedSessionRequiredSwaggerResponse,
+		}
+	}
 }
 
 export default {

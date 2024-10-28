@@ -27,6 +27,14 @@ export default {
 	'components': {
 		'schemas': {
 			...schemas,
-		}
-	}
+		},
+		securitySchemes: {
+			bearerAuth: {
+				type: 'http',
+				scheme: 'bearer',
+				bearerFormat: 'JWT',
+			},
+		},
+	},
+
 }

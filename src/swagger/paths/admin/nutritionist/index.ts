@@ -27,10 +27,14 @@ const nutritionistRoot = {
 
 injectParameter([
 	{
-		'name': 'nutritionistId',
-		'in': 'header',
-		'description': 'Nutritionist ID to control state',
-		'required': true
+		in: 'path',
+		name: 'nutritionistId',
+		description: 'Nutritionist ID to control state',
+		required: true,
+		schema: {
+			type: 'string',
+			minimum: 1
+		}
 	}
 ], nutritionistRoot)
 

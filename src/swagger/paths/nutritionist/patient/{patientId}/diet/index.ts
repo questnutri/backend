@@ -1,3 +1,4 @@
+import PatientId from '..'
 import { Diet_SchemaSwagger, Diet_SwaggerExample } from '../../../../../schemas_and_examples/diet'
 import loggedSessionRequiredSwaggerResponse from '../../../../../utils/common/loggedSessionRequired.swagger-response'
 import jsonContentSwagger from '../../../../../utils/jsonContent.swagger'
@@ -20,8 +21,8 @@ export const root = {
 			...swaggerResponse(200, 'All diets')
 		}
 
-	}, 
-	'post':{
+	},
+	'post': {
 		'summary': 'Create a new diet',
 		'description': 'This route creates a new diet',
 		'tags': ['Nutritionist'],
@@ -30,7 +31,7 @@ export const root = {
 				'bearerAuth': []
 			}
 		],
-		'requestBody':{
+		'requestBody': {
 			'content': {
 				...jsonContentSwagger(Diet_SchemaSwagger)
 			}

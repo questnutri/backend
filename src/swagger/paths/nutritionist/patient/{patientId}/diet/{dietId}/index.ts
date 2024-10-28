@@ -3,6 +3,7 @@ import loggedSessionRequiredSwaggerResponse from '../../../../../../utils/common
 import jsonContentSwagger from '../../../../../../utils/jsonContent.swagger'
 import rebasePathSwagger from '../../../../../../utils/rebasePath.swagger'
 import swaggerResponse from '../../../../../../utils/responses/status-code/response.swagger'
+import meal from './meal'
 
 export const root = {
 	'get': {
@@ -57,9 +58,10 @@ export const root = {
 			...loggedSessionRequiredSwaggerResponse,
 			...swaggerResponse(200, 'Diet deleted successfully')
 		}
-	}
+	},
 }
 
 export default {
 	'': root,
+	...rebasePathSwagger('meal', meal)
 }

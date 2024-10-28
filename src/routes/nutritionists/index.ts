@@ -11,6 +11,7 @@ const nutritionistRoutes = Router()
 
 nutritionistRoutes.route('/').all(fctx.findNutritionist)
 	.get(nutritionistController.getById)
+	.patch(nutritionistController.updateById)
 
 nutritionistRoutes.route('/patient').all(fctx.findNutritionist)
 	.get(patientController.getAll)

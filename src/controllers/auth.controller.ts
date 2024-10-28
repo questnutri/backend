@@ -27,11 +27,11 @@ class AuthController {
 		try {
 			const { email, password } = req.body
 			const nutritionist = await nutritionistService.findByEmail(email)
-			if(!nutritionist) throw new NotFound('E-mail not found')
-			if(!bcrypt.compareSync(password, nutritionist.password)) throw new Unauthorized('Invalid password')
+			if (!nutritionist) throw new NotFound('E-mail not found')
+			if (!bcrypt.compareSync(password, nutritionist.password)) throw new Unauthorized('Invalid password')
 			const payload = { nutritionistId: nutritionist._id, role: 'nutritionist' }
 			const token = jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: '1h' })
-			return res.status(200).json({token})
+			return res.status(200).json({ token })
 		} catch (error) {
 			next(error)
 		}
@@ -40,11 +40,11 @@ class AuthController {
 
 	async sendResetPasswordToken(req: Request, res: Response, next: NextFunction): Promise<void | any> {
 		try {
-			const {email} = req.body
+			const { email } = req.body
 			const patient = await patientService.findByEmail(email)
-			if(!patient) throw new NotFound(`There's no user with this email`)
+			if (!patient) throw new NotFound(`There's no user with this email`)
 			//send email later
-			return res.status(200).json({token: generatePasswordResetToken('Patient', patient._id as string)})
+			return res.status(200).json({ token: generatePasswordResetToken('Patient', patient._id as string) })
 
 		} catch (error) {
 			next(error)
@@ -53,16 +53,16 @@ class AuthController {
 
 	async resetPasswordPatient(req: Request, res: Response, next: NextFunction): Promise<void | any> {
 		try {
-			const {token} = req.params
+			const { token } = req.params
 			try {
 				const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { resetPatientId: string }
 				console.log(decoded)
 				const patient = await patientService.findById(decoded?.resetPatientId)
-				if(!patient) throw new ShouldNeverHappen(`Reseting a patient's password`)
-				const {password} = req.body
+				if (!patient) throw new ShouldNeverHappen(`Reseting a patient's password`)
+				const { password } = req.body
 				patient.password = password
 				await patient.save()
-				return res.status(200).json({message: 'Password updated successfully'})
+				return res.status(200).json({ message: 'Password updated successfully' })
 			} catch (error) {
 				throw new BadRequest('Invalid token')
 			}
@@ -75,11 +75,11 @@ class AuthController {
 		try {
 			const { email, password } = req.body
 			const patient = await patientService.findByEmail(email)
-			if(!patient) throw new NotFound('E-mail not found')
-			if(!bcrypt.compareSync(password, patient.password)) throw new Unauthorized('Invalid password')
+			if (!patient) throw new NotFound('E-mail not found')
+			if (!bcrypt.compareSync(password, patient.password)) throw new Unauthorized('Invalid password')
 			const payload = { patientId: patient._id, role: 'patient' }
 			const token = jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: '1h' })
-			return res.status(200).json({token})
+			return res.status(200).json({ token })
 		} catch (error) {
 			next(error)
 		}
@@ -89,11 +89,11 @@ class AuthController {
 		try {
 			const { email, password } = req.body
 			const admin = await adminService.findByEmail(email)
-			if(!admin) throw new NotFound('E-mail not found')
-			if(!bcrypt.compareSync(password, admin.password)) throw new Unauthorized('Invalid password')
+			if (!admin) throw new NotFound('E-mail not found')
+			if (!bcrypt.compareSync(password, admin.password)) throw new Unauthorized('Invalid password')
 			const payload = { adminId: admin._id, role: 'admin' }
 			const token = jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: '1h' })
-			return res.status(200).json({token})
+			return res.status(200).json({ token })
 		} catch (error) {
 			next(error)
 		}
