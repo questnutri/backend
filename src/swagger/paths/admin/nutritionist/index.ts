@@ -1,4 +1,6 @@
+import { Admin_AllNutritionistSchema } from '../../../schemas_and_examples/admin'
 import loggedSessionRequiredSwaggerResponse from '../../../utils/common/loggedSessionRequired.swagger-response'
+import jsonContentSwagger from '../../../utils/jsonContent.swagger'
 import rebasePathSwagger from '../../../utils/rebasePath.swagger'
 import swaggerResponse from '../../../utils/responses/status-code/response.swagger'
 import { injectParameter, swapTagMultipleRoot } from '../../../utils/swapDetails.swagger'
@@ -16,7 +18,7 @@ const root = {
 		],
 		responses: {
 			...loggedSessionRequiredSwaggerResponse,
-			...swaggerResponse(200, 'Ok'),
+			...swaggerResponse(200, 'Ok', jsonContentSwagger(Admin_AllNutritionistSchema)),
 		},
 	},
 }

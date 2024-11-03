@@ -1,3 +1,4 @@
+import { Nutritionist_AllPatientsSchema } from '../../../schemas_and_examples/nutritionist'
 import { Patient_NewSwagger, Patient_UpdateSwagger } from '../../../schemas_and_examples/patient'
 import loggedSessionRequiredSwaggerResponse from '../../../utils/common/loggedSessionRequired.swagger-response'
 import jsonContentSwagger from '../../../utils/jsonContent.swagger'
@@ -19,6 +20,7 @@ const root = {
 		],
 		responses: {
 			...loggedSessionRequiredSwaggerResponse,
+			...swaggerResponse(200, 'Ok', jsonContentSwagger(Nutritionist_AllPatientsSchema))
 		},
 	},
 	post: {
@@ -45,7 +47,6 @@ const root = {
 
 injectParameter(
 	[
-
 		{
 			in: 'path',
 			name: 'patientId',

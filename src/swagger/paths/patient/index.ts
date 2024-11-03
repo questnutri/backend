@@ -1,4 +1,5 @@
-import { Patient_UpdateSwagger } from '../../schemas_and_examples/patient'
+import { Nutritionist_UpdatePatientSchema } from '../../schemas_and_examples/nutritionist'
+import { Patient_InfoSchema, Patient_UpdateSwagger } from '../../schemas_and_examples/patient'
 import loggedSessionRequiredSwaggerResponse from '../../utils/common/loggedSessionRequired.swagger-response'
 import jsonContentSwagger from '../../utils/jsonContent.swagger'
 import swaggerResponse from '../../utils/responses/status-code/response.swagger'
@@ -15,6 +16,7 @@ export const patientRoot = {
 		],
 		"responses": {
 			...loggedSessionRequiredSwaggerResponse,
+			...swaggerResponse(200, 'Ok', jsonContentSwagger(Patient_InfoSchema))
 		}
 
 	},
@@ -27,6 +29,11 @@ export const patientRoot = {
 				"bearerAuth": []
 			}
 		],
+		'requestBody': {
+			'content': {
+				...jsonContentSwagger(Nutritionist_UpdatePatientSchema)
+			}
+		},
 		"responses": {
 			...loggedSessionRequiredSwaggerResponse,
 		}
