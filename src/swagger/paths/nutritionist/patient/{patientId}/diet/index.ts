@@ -4,6 +4,7 @@ import loggedSessionRequiredSwaggerResponse from '../../../../../utils/common/lo
 import jsonContentSwagger from '../../../../../utils/jsonContent.swagger'
 import rebasePathSwagger from '../../../../../utils/rebasePath.swagger'
 import swaggerResponse from '../../../../../utils/responses/status-code/response.swagger'
+import { injectParameter } from '../../../../../utils/swapDetails.swagger'
 import DietId from './{dietId}'
 
 export const root = {
@@ -42,7 +43,22 @@ export const root = {
 		}
 	}
 }
+injectParameter(
+	[
 
+		{
+			in: 'path',
+			name: 'dietId',
+			description: 'Diet ID to control state',
+			required: true,
+			schema: {
+				type: 'string',
+				minimum: 1
+			}
+		},
+	],
+	DietId
+)
 export default {
 	'': root,
 	...rebasePathSwagger('{dietId}', DietId),
