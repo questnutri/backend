@@ -1,4 +1,4 @@
-import { Patient_InfoSchema } from "../patient"
+import { Patient_InfoSchema } from '../patient'
 
 export const Nutritionist_SwaggerSchema = {
 	'type': 'object',
@@ -63,6 +63,9 @@ export const Nutritionist_InfoSchema = {
 			'items': {
 				'type': 'string'
 			}
+		},
+		'_v':{
+			'type': 'number'
 		}
 	}
 }
@@ -84,5 +87,17 @@ export const Nutritionist_UpdatePatientSchema = {
 		'password': {
 			'type': 'string',
 		},
+	}
+}
+
+export const Nutritionist_NewPatientSchema = {
+	'type': 'object',
+	'properties': {
+		'patient': {
+			...Patient_InfoSchema
+		},
+		'activationToken': {
+			'type': 'string'
+		}
 	}
 }

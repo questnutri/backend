@@ -66,3 +66,8 @@ export const Patient_InfoSchema = {
 		}
 	}
 }
+
+export const NewPatient_Schema = {
+	...Patient_InfoSchema,
+	
+}
