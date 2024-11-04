@@ -1,4 +1,4 @@
-import { Diet_SchemaSwagger } from '../../../../../../schemas_and_examples/diet'
+import { Diet_SchemaSwagger, GetDiet_Schema } from '../../../../../../schemas_and_examples/diet'
 import loggedSessionRequiredSwaggerResponse from '../../../../../../utils/common/loggedSessionRequired.swagger-response'
 import jsonContentSwagger from '../../../../../../utils/jsonContent.swagger'
 import rebasePathSwagger from '../../../../../../utils/rebasePath.swagger'
@@ -17,7 +17,7 @@ export const root = {
 		],
 		'responses': {
 			...loggedSessionRequiredSwaggerResponse,
-			...swaggerResponse(200, 'Ok')
+			...swaggerResponse(200, 'Ok', jsonContentSwagger(GetDiet_Schema))
 		}
 
 	}, 
@@ -37,7 +37,7 @@ export const root = {
 		},
 		'responses': {
 			...loggedSessionRequiredSwaggerResponse,
-			...swaggerResponse(201, 'New diet successfully created')
+			...swaggerResponse(201, 'New diet successfully created', jsonContentSwagger(GetDiet_Schema))
 		}
 	},
 	'delete':{
@@ -49,11 +49,6 @@ export const root = {
 				'bearerAuth': []
 			}
 		],
-		'requestBody':{
-			'content': {
-				...jsonContentSwagger(Diet_SchemaSwagger)
-			}
-		},
 		'responses': {
 			...loggedSessionRequiredSwaggerResponse,
 			...swaggerResponse(200, 'Diet deleted successfully')

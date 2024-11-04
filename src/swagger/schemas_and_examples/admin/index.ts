@@ -1,5 +1,5 @@
-import jsonContentSwagger from "../../utils/jsonContent.swagger"
-import { Nutritionist_InfoSchema } from "../nutritionist"
+import jsonContentSwagger from '../../utils/jsonContent.swagger'
+import { Nutritionist_InfoSchema } from '../nutritionist'
 
 export const Admin_SchemaSwagger = {
 	'type': 'object',
@@ -31,7 +31,7 @@ export const Admin_InfoSchema = {
 			'type': 'string'
 		},
 		'_v': {
-			'type': 'string'
+			'type': 'number'
 		}
 	}
 }
@@ -39,4 +39,4 @@ export const Admin_InfoSchema = {
 export const Admin_AllNutritionistSchema = {
 	'type': 'array',
 	'items': Nutritionist_InfoSchema
-};
+}
