@@ -1,5 +1,6 @@
 import PatientId from '..'
 import { Diet_SchemaSwagger, Diet_SwaggerExample, GetDiet_Schema, NewDietResponse_Schema } from '../../../../../schemas_and_examples/diet'
+import { Patient_InfoSchema } from '../../../../../schemas_and_examples/patient'
 import loggedSessionRequiredSwaggerResponse from '../../../../../utils/common/loggedSessionRequired.swagger-response'
 import jsonContentSwagger from '../../../../../utils/jsonContent.swagger'
 import rebasePathSwagger from '../../../../../utils/rebasePath.swagger'
@@ -39,7 +40,7 @@ export const root = {
 		},
 		'responses': {
 			...loggedSessionRequiredSwaggerResponse,
-			...swaggerResponse(201, 'New diet successfully created', jsonContentSwagger(NewDietResponse_Schema))
+			...swaggerResponse(201, 'New diet successfully created', jsonContentSwagger(Patient_InfoSchema))
 		}
 	}
 }

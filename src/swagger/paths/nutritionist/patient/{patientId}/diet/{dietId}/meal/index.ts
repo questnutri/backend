@@ -1,4 +1,6 @@
-import { NewMeal_SchemaSwagger } from '../../../../../../../schemas_and_examples/meal'
+import { PatientSchema } from '../../../../../../../../models/patient/Patient.model'
+import { GetMeal_SchemaSwagger, NewMeal_SchemaSwagger } from '../../../../../../../schemas_and_examples/meal'
+import { Patient_InfoSchema } from '../../../../../../../schemas_and_examples/patient'
 import loggedSessionRequiredSwaggerResponse from '../../../../../../../utils/common/loggedSessionRequired.swagger-response'
 import jsonContentSwagger from '../../../../../../../utils/jsonContent.swagger'
 import rebasePathSwagger from '../../../../../../../utils/rebasePath.swagger'
@@ -17,7 +19,7 @@ export const root = {
 		],
 		'responses': {
 			...loggedSessionRequiredSwaggerResponse,
-			...swaggerResponse(200, 'Ok')
+			...swaggerResponse(200, 'Ok', jsonContentSwagger(GetMeal_SchemaSwagger))
 		}
 
 	},
@@ -37,7 +39,7 @@ export const root = {
 		},
 		'responses': {
 			...loggedSessionRequiredSwaggerResponse,
-			...swaggerResponse(201, 'Successfully created meal', jsonContentSwagger(NewMeal_SchemaSwagger))
+			...swaggerResponse(201, 'Successfully created meal', jsonContentSwagger(GetMeal_SchemaSwagger))
 		}
 
 	}
