@@ -1,3 +1,5 @@
+import { GetMeal_SchemaSwagger, NewMeal_SchemaSwagger } from '../meal'
+
 export const Diet_SchemaSwagger = {
 	'type': 'object',
 	'properties': {
@@ -26,11 +28,7 @@ export const GetDiet_Schema = {
 			},
 			'meals':{
 				'type': 'array',
-				'items': {
-					'_id': {
-						'type': 'string'
-					}
-				}
+				'items': GetMeal_SchemaSwagger
 			},
 			'createdAt': {
 				'type': 'string'

@@ -1,3 +1,5 @@
+import { GetDiet_Schema } from '../diet'
+
 export const Patient_UpdateSwagger = {
 	'type': 'object',
 	'properties': {
@@ -51,9 +53,7 @@ export const Patient_InfoSchema = {
 		},
 		'diets': {
 			'type': 'array',
-			'items': {
-				'type': 'string'
-			}
+			'items': GetDiet_Schema
 		},
 		'createdAt': {
 			'type': 'string'

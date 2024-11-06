@@ -28,4 +28,44 @@ export const NewMeal_SchemaSwagger = {
 	},
 	'required': ['name', 'hour', 'daysOfWeek']
 }
+export const GetMeal_SchemaSwagger = {
+	'type': 'object',
+	'properties': {
+		'_id': {
+			'type': 'string'
+		},
+		'name': {
+			'type': 'string',
+			'description': 'Name of the meal',
+		},
+		'hour': {
+			'type': 'string',
+			'description': 'Time of the meal in HH:mm format',
+		},
+		'obs': {
+			'type': 'string',
+			'description': 'Optional notes or observations about the meal',
+		},
+		'daysOfWeek': {
+			'type': 'array',
+			'description': 'Days of the week when the meal is scheduled',
+			'items': {
+				'type': 'string',
+				'enum': ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+			}
+		},
+		'foods': {
+			'type': 'array',
+			'items': {
+				'type': 'object',
+				'properties': {
+					'name': {
+						'type': 'string'
+					}
+				}
+			}
+		}
+	},
+
+}
   

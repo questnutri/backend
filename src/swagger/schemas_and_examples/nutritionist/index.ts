@@ -94,7 +94,14 @@ export const Nutritionist_NewPatientSchema = {
 	'type': 'object',
 	'properties': {
 		'patient': {
-			...Patient_InfoSchema
+			'type': 'object',
+			'properties': {
+				...Patient_InfoSchema.properties,
+				'diets': {
+					'type': 'array',
+					'items': {}
+				}
+			}
 		},
 		'activationToken': {
 			'type': 'string'
