@@ -7,7 +7,7 @@ class PatientService {
 	}
 
 	async findAllFromNutritionist(nutritionistId: string) {
-		return await patientRepository.findAllWhere({nutri: nutritionistId}, '-password')
+		return await patientRepository.findAllWhere({ nutri: nutritionistId }, '-password')
 	}
 
 	async findById(id: string) {
@@ -15,7 +15,7 @@ class PatientService {
 	}
 
 	async findByEmail(email: string) {
-		return await patientRepository.findOneWhere({email}, 'password')
+		return await patientRepository.findOneWhere({ email }, 'password')
 	}
 
 	async create(data: Partial<IPatient>) {

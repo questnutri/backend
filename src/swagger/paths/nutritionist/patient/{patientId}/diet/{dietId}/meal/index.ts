@@ -1,6 +1,4 @@
-import { PatientSchema } from '../../../../../../../../models/patient/Patient.model'
 import { GetMeal_SchemaSwagger, NewMeal_SchemaSwagger } from '../../../../../../../schemas_and_examples/meal'
-import { Patient_InfoSchema } from '../../../../../../../schemas_and_examples/patient'
 import loggedSessionRequiredSwaggerResponse from '../../../../../../../utils/common/loggedSessionRequired.swagger-response'
 import jsonContentSwagger from '../../../../../../../utils/jsonContent.swagger'
 import rebasePathSwagger from '../../../../../../../utils/rebasePath.swagger'

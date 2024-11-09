@@ -1,5 +1,4 @@
-import { NewFood_SchemaSwagger } from '../../../../../../../../../schemas_and_examples/food'
-import { NewMeal_SchemaSwagger } from '../../../../../../../../../schemas_and_examples/meal'
+import { GetAllFoods_SchemaSwagger, NewFood_SchemaSwagger } from '../../../../../../../../../schemas_and_examples/food'
 import loggedSessionRequiredSwaggerResponse from '../../../../../../../../../utils/common/loggedSessionRequired.swagger-response'
 import jsonContentSwagger from '../../../../../../../../../utils/jsonContent.swagger'
 import rebasePathSwagger from '../../../../../../../../../utils/rebasePath.swagger'
@@ -19,7 +18,7 @@ export const root = {
 		],
 		'responses': {
 			...loggedSessionRequiredSwaggerResponse,
-			...swaggerResponse(200, 'Ok')
+			...swaggerResponse(200, 'Ok', jsonContentSwagger(GetAllFoods_SchemaSwagger))
 		}
 
 	},

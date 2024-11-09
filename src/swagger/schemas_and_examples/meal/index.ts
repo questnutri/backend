@@ -1,3 +1,5 @@
+import { GetAllFoods_SchemaSwagger } from "../food"
+
 export const NewMeal_SchemaSwagger = {
 	'type': 'object',
 	'properties': {
@@ -57,15 +59,9 @@ export const GetMeal_SchemaSwagger = {
 		'foods': {
 			'type': 'array',
 			'items': {
-				'type': 'object',
-				'properties': {
-					'name': {
-						'type': 'string'
-					}
-				}
+				...GetAllFoods_SchemaSwagger
 			}
 		}
 	},
 
 }
-  
