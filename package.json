@@ -7,7 +7,8 @@
     "build": "npm install && tsc",
     "dev": "ts-node-dev src/server.ts",
     "lint": "eslint . --fix",
-    "cycle:diet": "ts-node-dev src/scripts/resetPatientDailyDiet.ts"
+    "cycle:diet": "ts-node-dev src/scripts/resetPatientDailyDiet.ts",
+    "local-mongo": "docker-compose down -v && docker-compose up"
   },
   "keywords": [],
   "author": "",
@@ -34,6 +35,7 @@
     "@types/node": "^22.7.4",
     "@typescript-eslint/eslint-plugin": "^8.8.0",
     "@typescript-eslint/parser": "^8.8.0",
+    "colors": "^1.4.0",
     "eslint": "^9.12.0",
     "nodemon": "^3.1.7",
     "ts-node-dev": "^2.0.0",

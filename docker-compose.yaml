@@ -1,0 +1,27 @@
+services:
+  mongo:
+    image: mongo:latest
+    container_name: questnutri-container
+    environment:
+      - DB_CONNECTION_URI=${DB_CONNECTION_URI}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - PORT=${PORT}
+    volumes:
+      - questnutri-volume:/data/db
+      - questnutri-volume:/data/dump
+    ports:
+      - "27017:27017"
+    command: >
+      bash -c "
+        mongod --bind_ip 0.0.0.0 --fork --logpath /var/log/mongod.log &&
+        sleep 5 &&
+        mongodump --uri='mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}${DB_CONNECTION_URI}' --out=/dump &&
+        mongorestore --uri='mongodb://localhost:27017' /dump &&
+        tail -f /dev/null
+      "
+    restart: always
+
+volumes:
+  questnutri-volume:
+    driver: local

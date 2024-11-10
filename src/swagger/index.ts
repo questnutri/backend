@@ -1,4 +1,5 @@
 import paths from './paths'
+import 'dotenv/config'
 import schemas from './schemas_and_examples'
 
 export default {
@@ -13,12 +14,12 @@ export default {
 	},
 	'servers': [
 		{
-			'url': 'http://localhost:3000/api/v1',
-			'description': 'API de desenvolvimento.'
+			'url': `http://localhost:${process.env.PORT || 3000}/api/v1`,
+			'description': 'Local Environment.'
 		},
 		{
 			'url': 'https://backend-ssj4.onrender.com/api/v1',
-			'description': 'API de produção.'
+			'description': 'Production Environment'
 		}
 	],
 	'paths': {
