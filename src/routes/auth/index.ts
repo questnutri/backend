@@ -7,21 +7,18 @@ import { PasswordResetDto, SendPasswordResetDto } from '../../models/passwordRes
 
 const authRoutes = Router()
 
+authRoutes.route('/')
+	.get(authController.checkToken)
+
 authRoutes.route('/register')
 	.post(validateDto(CreateNutritionistDto), authController.register)
 
-authRoutes.route('/login/nutritionist')
-	.post(validateDto(LoginDto), authController.nutriLogin)
-
-authRoutes.route('/login/patient')
-	.post(validateDto(LoginDto), authController.patientLogin)
-
-authRoutes.route('/login/admin')
-	.post(authController.adminLogin)
+authRoutes.route('/login/:role')
+	.post(validateDto(LoginDto), authController.login)
 
 authRoutes.route('/password/reset/patient/send')
 	.post(validateDto(SendPasswordResetDto), authController.sendResetPasswordToken)
-    
+
 authRoutes.route('/password/reset/patient/validate/:token')
 	.post(validateDto(PasswordResetDto), authController.resetPasswordPatient)
 

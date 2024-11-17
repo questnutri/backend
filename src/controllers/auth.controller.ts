@@ -9,6 +9,7 @@ import patientService from '../services/patient.service'
 import ShouldNeverHappen from '../errors/ShouldNeverHappen.error'
 import { generatePasswordResetToken } from '../utils/password.reset.util'
 import adminService from '../services/admin.service'
+import { decodeToken, storeToken } from '../middlewares/auth/auth.middleware'
 
 class AuthController {
 	async register(req: Request, res: Response, next: NextFunction): Promise<void | any> {
@@ -23,19 +24,38 @@ class AuthController {
 		}
 	}
 
-	async nutriLogin(req: Request, res: Response, next: NextFunction): Promise<void | any> {
+	async login(req: Request, res: Response, next: NextFunction): Promise<void | any> {
 		try {
 			const { email, password } = req.body
-			const nutritionist = await nutritionistService.findByEmail(email)
-			if (!nutritionist) throw new NotFound('E-mail not found')
-			if (!bcrypt.compareSync(password, nutritionist.password)) throw new Unauthorized('Invalid password')
-			const payload = { nutritionistId: nutritionist._id, role: 'nutritionist' }
+			const { role } = req.params
+			let service;
+
+			switch (role) {
+				case 'nutritionist':
+					service = nutritionistService;
+					break;
+				case 'patient':
+					service = patientService;
+					break;
+				case 'admin':
+					service = adminService;
+					break;
+				default:
+					throw new NotFound('Invalid role')
+			}
+
+			const user = await service.findByEmail(email)
+			if (!user) throw new NotFound('E-mail not found')
+			if (!bcrypt.compareSync(password, user.password)) throw new Unauthorized('Invalid password')
+
+			const payload = { id: user._id as string, role }
 			const token = jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: '1h' })
+			await storeToken(payload, token)
+
 			return res.status(200).json({ token })
 		} catch (error) {
 			next(error)
 		}
-
 	}
 
 	async sendResetPasswordToken(req: Request, res: Response, next: NextFunction): Promise<void | any> {
@@ -71,29 +91,10 @@ class AuthController {
 		}
 	}
 
-	async patientLogin(req: Request, res: Response, next: NextFunction): Promise<void | any> {
+	async checkToken(req: Request, res: Response, next: NextFunction): Promise<void | any> {
 		try {
-			const { email, password } = req.body
-			const patient = await patientService.findByEmail(email)
-			if (!patient) throw new NotFound('E-mail not found')
-			if (!bcrypt.compareSync(password, patient.password)) throw new Unauthorized('Invalid password')
-			const payload = { patientId: patient._id, role: 'patient' }
-			const token = jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: '1h' })
-			return res.status(200).json({ token })
-		} catch (error) {
-			next(error)
-		}
-	}
-
-	async adminLogin(req: Request, res: Response, next: NextFunction): Promise<void | any> {
-		try {
-			const { email, password } = req.body
-			const admin = await adminService.findByEmail(email)
-			if (!admin) throw new NotFound('E-mail not found')
-			if (!bcrypt.compareSync(password, admin.password)) throw new Unauthorized('Invalid password')
-			const payload = { adminId: admin._id, role: 'admin' }
-			const token = jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: '1h' })
-			return res.status(200).json({ token })
+			const decoded = await decodeToken(req)
+			return res.status(200).json(decoded)
 		} catch (error) {
 			next(error)
 		}
