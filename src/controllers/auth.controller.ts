@@ -9,7 +9,8 @@ import patientService from '../services/patient.service'
 import ShouldNeverHappen from '../errors/ShouldNeverHappen.error'
 import { generatePasswordResetToken } from '../utils/password.reset.util'
 import adminService from '../services/admin.service'
-import { decodeToken, storeToken } from '../middlewares/auth/auth.middleware'
+import { decodeToken } from '../middlewares/auth/auth.middleware'
+import { TokenController } from './token.controller'
 
 class AuthController {
 	async register(req: Request, res: Response, next: NextFunction): Promise<void | any> {
@@ -50,12 +51,22 @@ class AuthController {
 
 			const payload = { id: user._id as string, role }
 			const token = jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: '1h' })
-			await storeToken(payload, token)
+			await TokenController.storeToken(payload, token)
 
 			return res.status(200).json({ token })
 		} catch (error) {
 			next(error)
 		}
+	}
+	
+	async logout(req: Request, res: Response, next: NextFunction): Promise<void | any> {
+		try {
+			await TokenController.logoutStoredToken(req)
+			return res.status(204).send()
+		} catch (error) {
+			next(error)
+		}
+
 	}
 
 	async sendResetPasswordToken(req: Request, res: Response, next: NextFunction): Promise<void | any> {
@@ -94,6 +105,7 @@ class AuthController {
 	async checkToken(req: Request, res: Response, next: NextFunction): Promise<void | any> {
 		try {
 			const decoded = await decodeToken(req)
+			await TokenController.verifyStoredToken(decoded, req.header('Authorization')!.replace('Bearer ', '').toString())
 			return res.status(200).json(decoded)
 		} catch (error) {
 			next(error)

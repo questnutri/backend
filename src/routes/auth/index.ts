@@ -16,6 +16,9 @@ authRoutes.route('/register')
 authRoutes.route('/login/:role')
 	.post(validateDto(LoginDto), authController.login)
 
+authRoutes.route('/logout/:role')
+	.post(authController.logout)
+
 authRoutes.route('/password/reset/patient/send')
 	.post(validateDto(SendPasswordResetDto), authController.sendResetPasswordToken)
 

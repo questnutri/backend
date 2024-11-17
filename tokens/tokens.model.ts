@@ -18,6 +18,11 @@ const createModel = (modelName: string) => {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
+            logout: {
+                type: DataTypes.BOOLEAN,
+                allowNull: false,
+                defaultValue: false,
+            }
         },
         {
             tableName: modelName.toLowerCase() + 's',
