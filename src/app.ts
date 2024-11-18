@@ -13,6 +13,9 @@ app.use(cors({
 	},
 	credentials: true,
 }))
+app.get('/', (req, res) => {
+	res.redirect('/api/v1/health')
+})
 app.use('/api/v1/', routes)
 app.use(notFoundHandler)
 app.use(errorHandler)

@@ -8,8 +8,11 @@ import { Food } from '../models/patient/diet/food/Food.interface'
 import { INutritionist } from '../models/nutritionist/Nutritionist.model'
 import nutritionistService from '../services/nutritionist.service'
 import ShouldNeverHappen from '../errors/ShouldNeverHappen.error'
+import { IAdmin } from '../models/admin/Admin.model'
 
 export interface ContextRequest extends Request {
+	role?: 'nutritionist' | 'patient' | 'admin'
+	admin?: IAdmin
 	nutritionist?: INutritionist
     patient?: IPatient
     diet?: Diet

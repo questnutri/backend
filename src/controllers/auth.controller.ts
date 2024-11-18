@@ -11,6 +11,7 @@ import { generatePasswordResetToken } from '../utils/password.reset.util'
 import adminService from '../services/admin.service'
 import { decodeToken } from '../middlewares/auth/auth.middleware'
 import { TokenController } from './token.controller'
+import BaseError from '../errors/BaseError.error'
 
 class AuthController {
 	async register(req: Request, res: Response, next: NextFunction): Promise<void | any> {
@@ -29,17 +30,17 @@ class AuthController {
 		try {
 			const { email, password } = req.body
 			const { role } = req.params
-			let service;
+			let service
 
 			switch (role) {
 				case 'nutritionist':
-					service = nutritionistService;
+					service = nutritionistService
 					break;
 				case 'patient':
-					service = patientService;
+					service = patientService
 					break;
 				case 'admin':
-					service = adminService;
+					service = adminService
 					break;
 				default:
 					throw new NotFound('Invalid role')
@@ -47,6 +48,7 @@ class AuthController {
 
 			const user = await service.findByEmail(email)
 			if (!user) throw new NotFound('E-mail not found')
+			if (!user.password) throw new BaseError('Password not defined', 204)
 			if (!bcrypt.compareSync(password, user.password)) throw new Unauthorized('Invalid password')
 
 			const payload = { id: user._id as string, role }
@@ -87,7 +89,6 @@ class AuthController {
 			const { token } = req.params
 			try {
 				const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { resetPatientId: string }
-				console.log(decoded)
 				const patient = await patientService.findById(decoded?.resetPatientId)
 				if (!patient) throw new ShouldNeverHappen(`Reseting a patient's password`)
 				const { password } = req.body

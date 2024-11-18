@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/server.js",
-    "build": "npm install && tsc",
+    "build": "tsc",
     "dev": "ts-node-dev src/server.ts",
     "lint": "eslint . --fix",
     "cycle:diet": "ts-node-dev src/scripts/resetPatientDailyDiet.ts",

@@ -15,7 +15,7 @@ class PatientService {
 	}
 
 	async findByEmail(email: string) {
-		return await patientRepository.findOneWhere({ email }, 'password')
+		return await patientRepository.findOneWhere({ email })
 	}
 
 	async create(data: Partial<IPatient>) {

@@ -3,20 +3,37 @@ import jwt from 'jsonwebtoken'
 import 'dotenv/config'
 import BadRequest from '../../errors/BadRequest.error'
 import Unauthorized from '../../errors/Unauthorized.error'
-import { AdminTokenModel, NutritionistTokenModel, PatientTokenModel } from '../../../tokens/tokens.model'
-import Forbidden from '../../errors/Forbidden.error'
 import { TokenController } from '../../controllers/token.controller'
+import { ContextRequest } from '../../controllers/findContext.controller'
+import Forbidden from '../../errors/Forbidden.error'
+import NotFound from '../../errors/NotFound.error'
 
 export async function authLogin(req: Request, res: Response, next: NextFunction) {
 	try {
 		const decoded = await decodeToken(req)
 		await TokenController.verifyStoredToken(decoded, req.header('Authorization')!.replace('Bearer ', '').toString())
 		if (decoded) {
-			req.headers[`${(await decoded)?.role}Id`] = (await decoded)?.id.toString()
+			req.headers[`${decoded?.role}Id`] = decoded?.id.toString()
+			req.headers.role = decoded?.role
 			next()
 		}
 	} catch (error) {
 		next(error) //preventing route exposure
+	}
+}
+
+export async function guardRole(req: ContextRequest, res: Response, next: NextFunction) {
+	try {
+		const baseUrl = req.baseUrl
+		const segments = baseUrl.split('/')
+		const neededRole = segments[segments.length - 1]
+
+		if (neededRole !== req.headers.role) {
+			throw new NotFound()
+		}
+		next()
+	} catch (error) {
+		next(error)
 	}
 }
 
