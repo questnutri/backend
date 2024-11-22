@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import fcx from '../../controllers/findContext.controller'
-import patientController from '../../controllers/patient.controller'
+import patientController from '../../controllers/patient/patient.controller'
 import { validateDto } from '../../middlewares/validate/validateDto.middleware'
 import { UpdatePatientDto } from '../../models/patient/dto/update.patient.dto'
 

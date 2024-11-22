@@ -1,14 +1,14 @@
 import { Router } from 'express'
 import fctx from '../../../controllers/findContext.controller'
-import dietController from '../../../controllers/diet/diet.controller'
-import mealController from '../../../controllers/diet/meal.controller'
-import foodController from '../../../controllers/diet/food.controller'
 import { validateDto } from '../../../middlewares/validate/validateDto.middleware'
 import { DietDto } from '../../../models/patient/diet/dto/generic.diet.dto'
 import { CreateMealDto as CreateMealDto } from '../../../models/patient/diet/meal/dto/create.meal.dto'
 import { UpdateMealDto } from '../../../models/patient/diet/meal/dto/update.meal.dto'
 import { CreateFoodDto } from '../../../models/patient/diet/food/dto/create.food.dto'
 import { UpdateFoodDto } from '../../../models/patient/diet/food/dto/update.food.dto'
+import dietController from '../../../controllers/patient/diet/diet.controller'
+import mealController from '../../../controllers/patient/diet/meal.controller'
+import foodController from '../../../controllers/patient/diet/food.controller'
 
 const dietRoutes = Router({mergeParams: true})
 

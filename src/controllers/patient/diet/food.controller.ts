@@ -1,6 +1,6 @@
 import { NextFunction, Response } from 'express'
-import { ContextRequest } from '../findContext.controller'
-import ShouldNeverHappen from '../../errors/ShouldNeverHappen.error'
+import { ContextRequest } from '../../findContext.controller'
+import ShouldNeverHappen from '../../../errors/ShouldNeverHappen.error'
 
 class FoodController {
 	async getAllFoods(req: ContextRequest, res: Response, next: NextFunction): Promise<void | any> {

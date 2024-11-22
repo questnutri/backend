@@ -68,7 +68,6 @@ class AuthController {
 		} catch (error) {
 			next(error)
 		}
-
 	}
 
 	async sendResetPasswordToken(req: Request, res: Response, next: NextFunction): Promise<void | any> {
