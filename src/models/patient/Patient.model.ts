@@ -3,6 +3,7 @@ import * as bcrypt from 'bcrypt'
 import { Diet, DietSchema } from './diet/Diet.interface'
 import { Weight, WeightSchema } from './weight/Weight.interface'
 import validateCPF from '../../middlewares/validate/validateCPF'
+import { AddressSchema } from './address/Address.interface'
 
 export interface IPatient extends Document {
 	firstName: string
@@ -12,6 +13,7 @@ export interface IPatient extends Document {
 	details?: {
 		rg?: string
 		cpf?: string
+		phone?: string
 		birth?: Date
 		height?: number
 		gender?: 'male' | 'female' | 'other'
@@ -83,6 +85,9 @@ export const PatientSchema = new Schema<IPatient>(
 					},
 					message: 'Invalid CPF'
 				}
+			},
+			phone: {
+				type: String,
 			},
 			birth: {
 				type: Date
@@ -211,6 +216,10 @@ export const PatientSchema = new Schema<IPatient>(
 				obs: {
 					type: String
 				}
+			},
+			address: {
+				type: AddressSchema,
+				default: {}
 			},
 		},
 		nutri: {

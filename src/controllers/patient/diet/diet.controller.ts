@@ -22,7 +22,8 @@ class DietController {
 	async createDiet(req: ContextRequest, res: Response, next: NextFunction): Promise<void | any> {
 		try {
 			req.patient?.diets?.push(req.body)
-			return res.status(201).json(await req.patient?.save())
+			await req.patient?.save()
+			return res.status(201).json(req.patient!.diets)
 		} catch (error) {
 			next(error)
 		}

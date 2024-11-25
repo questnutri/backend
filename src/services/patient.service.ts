@@ -7,7 +7,7 @@ class PatientService {
 	}
 
 	async findAllFromNutritionist(nutritionistId: string) {
-		return await patientRepository.findAllWhere({ nutri: nutritionistId }, '_id firstName lastName email createdAt updatedAt')
+		return await patientRepository.findAllWhere({ nutri: nutritionistId }, '_id firstName lastName email details.cpf details.phone details.birth createdAt updatedAt')
 	}
 
 	async findById(id: string) {
