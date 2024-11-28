@@ -45,7 +45,10 @@ export interface IPatient extends Document {
 	nutri: ObjectId
 	activeDiet?: ObjectId
 	diets?: Diet[]
-	dailyMealRecord?: any[]
+	dailyMealRecord?: {
+		completedToday: string[],
+		checkingDay: 0 | 1 | 2 | 3 | 4 | 5 | 6
+	}
 }
 
 export const PatientSchema = new Schema<IPatient>(
@@ -194,8 +197,8 @@ export const PatientSchema = new Schema<IPatient>(
 			default: []
 		},
 		dailyMealRecord: {
-			type: Array,
-			default: []
+			checkingDay: Number,
+			completedToday: [String], // Mudando para um array de strings
 		}
 	},
 	{

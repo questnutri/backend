@@ -17,6 +17,7 @@ class AlimentController {
     async getAllAliments(req: Request, res: Response, next: NextFunction): Promise<void | any> {
         try {
             const aliments = await alimentService.findAll()
+            
             return res.status(200).json(aliments)
         } catch (error) {
             next(error)

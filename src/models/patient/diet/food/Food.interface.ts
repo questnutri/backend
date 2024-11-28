@@ -10,7 +10,7 @@ export interface Food extends Document {
 
 export const FoodSchema = new Schema<Food>({
 	aliment: {
-		type: [Schema.Types.ObjectId],
+		type: Schema.Types.ObjectId,
 		ref: 'Aliment',
 		default: null
 	},

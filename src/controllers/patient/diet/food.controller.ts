@@ -35,6 +35,7 @@ class FoodController {
 		try {
 			if(!req.food) throw new ShouldNeverHappen('Food context not found')
 
+			req.food.aliment = req.body.aliment
 			req.food.quantity = req.body.quantity || req.food.quantity
 			req.food.unit = req.body.unit || req.food.unit
 			req.food.obs = req.body.obs || req.food.obs

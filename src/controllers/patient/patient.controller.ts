@@ -6,11 +6,19 @@ import { generatePasswordResetToken } from '../../utils/password.reset.util'
 import { ContextRequest } from '../findContext.controller'
 import ServerError from '../../errors/ServerError.error'
 import { ObjectId } from 'mongoose'
+import BadRequest from '../../errors/BadRequest.error'
 
 class PatientController {
 	async getPatient(req: ContextRequest, res: Response, next: NextFunction): Promise<void | any> {
 		try {
 			if (!req.patient) throw new ShouldNeverHappen('Finding a patient')
+
+			if(req.patient.dailyMealRecord?.checkingDay !== new Date().getDay()) {
+				req.patient.dailyMealRecord!.completedToday = []
+				req.patient.dailyMealRecord!.checkingDay = new Date().getDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6
+				await req.patient.save()
+			}
+
 			return res.status(200).json(req.patient)
 		} catch (error) {
 			next(error)
@@ -51,7 +59,7 @@ class PatientController {
 	async create(req: ContextRequest, res: Response, next: NextFunction): Promise<void | any> {
 		try {
 			if (!req.nutritionist) throw new ShouldNeverHappen('Creating a new patient to a nutritionist')
-			const newPatient = await patientService.create({ ...req.body, nutri: req.nutritionist._id })
+			const newPatient = await patientService.create({ ...req.body, nutri: req.nutritionist._id, password: req.body.details.cpf })
 			if (!newPatient) throw new ServerError('Impossible to create a new patient')
 			req.nutritionist.patients.push(newPatient._id as ObjectId)
 			await req.nutritionist.save()
@@ -77,7 +85,7 @@ class PatientController {
 		try {
 			if (!req.patient) throw new ShouldNeverHappen('Updating a patient')
 			let updateData = req.body
-			if(updateData.details) {
+			if (updateData.details) {
 				updateData = {
 					...updateData,
 					details: {
@@ -110,6 +118,39 @@ class PatientController {
 			next(error)
 		}
 	}
+
+	async checkDailyMeal(req: ContextRequest, res: Response, next: NextFunction): Promise<void | any> {
+		try {
+			const { mealId } = req.params
+			if (!mealId) {
+				throw new BadRequest('Meal ID is required!')
+			}
+			if (!req.patient) throw new ShouldNeverHappen('Checking a daily Meal')
+
+
+			const meal = req.patient.diets!.at(0)!.meals!.find(meal => meal?._id?.toString() == mealId)
+			if (!meal) {
+				throw new NotFound('Meal not found')
+			}
+
+			const today = new Date().getDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6
+
+			if (req.patient.dailyMealRecord?.checkingDay === today) {
+				if(!req.patient.dailyMealRecord.completedToday.includes(mealId)) req.patient.dailyMealRecord.completedToday.push(mealId)
+			} else {
+				req.patient.dailyMealRecord = {
+					checkingDay: today,
+					completedToday: [mealId],
+				}
+			}
+
+			await req.patient.save()
+
+		return res.status(200).json({ message: 'Meal record saved!' })
+	} catch(error) {
+		next(error)
+	}
+}
 
 }
 

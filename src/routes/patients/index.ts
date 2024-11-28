@@ -10,4 +10,7 @@ patientRoutes.route('/').all(fcx.findPatient)
 	.get(patientController.getPatient)
 	.patch(validateDto(UpdatePatientDto), patientController.updateById)
 
+patientRoutes.route('/meal/:mealId').all(fcx.findPatient)
+	.post(patientController.checkDailyMeal)
+
 export default patientRoutes

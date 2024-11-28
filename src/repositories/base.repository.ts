@@ -17,8 +17,8 @@ export abstract class BaseRepository<T extends Document> {
 		return await this.model.find(query).select(select)
 	}
 
-	async findById(id: string, select = ''): Promise<T | null> {
-		return await this.model.findById(id).select(select)
+	async findById(id: string, select = '', populate= ''): Promise<T | null> {
+		return await this.model.findById(id).select(select).populate(populate)
 	}
 
 	async findOneWhere(query: {}, select = '') {
