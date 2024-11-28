@@ -1,37 +1,98 @@
 import mongoose, { Document, ObjectId, Schema } from 'mongoose'
 import * as bcrypt from 'bcrypt'
+import validateCPF from '../../middlewares/validate/validateCPF'
 
 export interface INutritionist extends Document {
-	name: string,
+	firstName: string,
+	lastName?: string
 	email: string,
 	password: string,
 	patients: ObjectId[]
+	details?: {
+		rg?: string
+		cpf?: string
+		phone?: string
+		birth?: Date,
+		gender?: 'male' | 'female' | 'other',
+		cnpj?: string,
+		clinicName?: string,
+		crn?: string,
+		dateOfIssue?: Date
+	}
 }
 
 export const NutritionistSchema = new Schema<INutritionist>({
-	name: { 
-		type: String, 
-		required: true 
+	firstName: {
+		type: String,
+		required: true
 	},
-	email: { 
-		type: String, 
-		required: true 
+	lastName: {
+		type: String,
+		default: ''
 	},
-	password: { 
-		type: String, 
-		required: true 
+	email: {
+		type: String,
+		required: true
 	},
-	patients: { 
+	password: {
+		type: String,
+		required: true
+	},
+	patients: {
 		type: [Schema.Types.ObjectId],
-		ref: 'Patient'
+		ref: 'Patient',
+		default: []
+	},
+	details: {
+		rg: {
+			type: String,
+			default: ''
+		},
+		cpf: {
+			type: String,
+			validate: {
+				validator: function (cpf: string) {
+					return validateCPF(cpf)
+				},
+				message: 'Invalid CPF'
+			},
+			default: ''
+		},
+		phone: {
+			type: String,
+			default: ''
+		},
+		birth: {
+			type: Date,
+		},
+		gender: {
+			type: String,
+			enum: ['male', 'female', 'other'],
+			default: 'other'
+		},
+		cnpj: {
+			type: String,
+			default: ''
+		},
+		clinicName: {
+			type: String,
+			default: ''
+		},
+		crn: {
+			type: String,
+			default: ''
+		},
+		dateOfIssue: {
+			type: Date
+		}
 	}
 }, {
 	timestamps: true
 })
 
 NutritionistSchema.pre('save', async function (next) {
-	if(this.isModified('registeredAt')) this.invalidate('registeredAt', 'Cannot modify registeredAt')
-	if(this.isModified('password')) this.password = await bcrypt.hash(this.password, 12)
+	if (this.isModified('registeredAt')) this.invalidate('registeredAt', 'Cannot modify registeredAt')
+	if (this.isModified('password')) this.password = await bcrypt.hash(this.password, 12)
 	next()
 })
 

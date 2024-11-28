@@ -60,10 +60,11 @@ export const PatientSchema = new Schema<IPatient>(
 	{
 		firstName: {
 			type: String,
-			required: true
+			required: true,
 		},
 		lastName: {
-			type: String
+			type: String,
+			default: ''
 		},
 		email: {
 			type: String,
@@ -75,7 +76,8 @@ export const PatientSchema = new Schema<IPatient>(
 		},
 		details: {
 			rg: {
-				type: String
+				type: String,
+				default: ''
 			},
 			cpf: {
 				type: String,
@@ -84,17 +86,19 @@ export const PatientSchema = new Schema<IPatient>(
 						return validateCPF(cpf)
 					},
 					message: 'Invalid CPF'
-				}
+				},
+				default: ''
 			},
 			phone: {
 				type: String,
+				default: ''
 			},
 			birth: {
-				type: Date
+				type: Date,
 			},
 			height: {
 				type: Number,
-				default: 1.5
+				default: 0,
 			},
 			gender: {
 				type: String,
