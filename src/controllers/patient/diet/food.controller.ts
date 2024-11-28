@@ -38,7 +38,6 @@ class FoodController {
 			req.food.quantity = req.body.quantity || req.food.quantity
 			req.food.unit = req.body.unit || req.food.unit
 			req.food.obs = req.body.obs || req.food.obs
-			req.food.subFoods = req.body.subFoods || req.food.subFoods
 
 			await req.patient?.save()
 

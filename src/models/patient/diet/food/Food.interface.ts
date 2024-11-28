@@ -1,14 +1,19 @@
-import { Document, Schema } from 'mongoose'
-import { SubFood } from '../subfood/SubFood.interface'
+import { Document, ObjectId, Schema } from 'mongoose'
 
 export interface Food extends Document {
+	aliment?: ObjectId | null
     quantity: number
     unit: string
     obs?: string
-    subFoods?: SubFood[]
+    // subFoods?: SubFood[]
 }
 
 export const FoodSchema = new Schema<Food>({
+	aliment: {
+		type: [Schema.Types.ObjectId],
+		ref: 'Aliment',
+		default: null
+	},
 	quantity: {
 		type: Number,
 		required: true,

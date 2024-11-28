@@ -3,7 +3,10 @@ import * as bcrypt from 'bcrypt'
 import { Diet, DietSchema } from './diet/Diet.interface'
 import { Weight, WeightSchema } from './weight/Weight.interface'
 import validateCPF from '../../middlewares/validate/validateCPF'
-import { AddressSchema } from './address/Address.interface'
+import IAddress, { AddressSchema } from './address/Address.interface'
+import { IMedication, MedicationSchema } from './health/Medication.interface'
+import { DiseaseSchema, IDisease } from './health/Disease.interface'
+import { AllergySchema, IAllergy } from './health/Allergy.interface'
 
 export interface IPatient extends Document {
 	firstName: string
@@ -32,23 +35,12 @@ export interface IPatient extends Document {
 				complications?: string
 				obs?: string
 			}
-			allergies?: {
-				name: string
-				severity: 'mild' | 'moderate' | 'severe'
-				obs?: string
-			}[]
-			chronicDiseases?: {
-				name: string
-				diagnosedAt?: Date
-				treatment?: string
-			}[]
-			currentMedications?: {
-				name: string
-				dosage?: string
-				frequency?: string
-			}[]
+			allergies?: IAllergy[]
+			chronicDiseases?: IDisease[]
+			currentMedications?: IMedication[]
 			obs?: string
-		}
+		},
+		address?: IAddress,
 	}
 	nutri: ObjectId
 	activeDiet?: ObjectId
@@ -81,13 +73,13 @@ export const PatientSchema = new Schema<IPatient>(
 			},
 			cpf: {
 				type: String,
-				validate: {
-					validator: function (cpf: string) {
-						return validateCPF(cpf)
-					},
-					message: 'Invalid CPF'
-				},
 				default: ''
+				// validate: {
+				// 	validator: function (cpf: string) {
+				// 		return validateCPF(cpf)
+				// 	},
+				// 	message: 'Invalid CPF'
+				// },
 			},
 			phone: {
 				type: String,
@@ -135,15 +127,15 @@ export const PatientSchema = new Schema<IPatient>(
 					type: {
 						isPregnant: {
 							type: Boolean,
-							validate: {
-								validator: function (isPregnant: boolean) {
-									if (isPregnant && this.details.gender !== 'female') {
-										return false
-									}
-									return true
-								},
-								message: 'Pregnant can only be true if gender is female'
-							}
+							// validate: {
+							// 	validator: function (isPregnant: boolean) {
+							// 		if (isPregnant && this.details.gender !== 'female') {
+							// 			return false
+							// 		}
+							// 		return true
+							// 	},
+							// 	message: 'Pregnant can only be true if gender is female'
+							// }
 						},
 						dueDate: {
 							type: Date,
@@ -168,54 +160,16 @@ export const PatientSchema = new Schema<IPatient>(
 					}
 				},
 				allergies: {
-					type: [
-						{
-							name: {
-								type: String,
-								required: true
-							},
-							severity: {
-								type: String,
-								enum: ['mild', 'moderate', 'severe'],
-								required: true
-							},
-							obs: {
-								type: String
-							}
-						}
-					]
+					type: [AllergySchema],
+					default: []
 				},
 				chronicDiseases: {
-					type: [
-						{
-							name: {
-								type: String,
-								required: true
-							},
-							diagnosedAt: {
-								type: Date
-							},
-							treatment: {
-								type: String
-							}
-						}
-					]
+					type: [DiseaseSchema],
+					default: []
 				},
 				currentMedications: {
-					type: [
-						{
-							name: {
-								type: String,
-								required: true
-							},
-							dosage: {
-								type: String
-							},
-							frequency: {
-								type: String
-							},
-						}
-					]
+					type: [MedicationSchema],
+					default: []
 				},
 				obs: {
 					type: String
@@ -223,7 +177,6 @@ export const PatientSchema = new Schema<IPatient>(
 			},
 			address: {
 				type: AddressSchema,
-				default: {}
 			},
 		},
 		nutri: {

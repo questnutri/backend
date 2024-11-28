@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { ContextRequest } from '../../findContext.controller'
 import ShouldNeverHappen from '../../../errors/ShouldNeverHappen.error'
+import { Diet } from '../../../models/patient/diet/Diet.interface'
 
 class DietController {
 	async getAllDiets(req: ContextRequest, res: Response, next: NextFunction): Promise<void | any> {
@@ -24,6 +25,18 @@ class DietController {
 			req.patient?.diets?.push(req.body)
 			await req.patient?.save()
 			return res.status(201).json(req.patient!.diets)
+		} catch (error) {
+			next(error)
+		}
+	}
+
+	async createFirstDiet(req: ContextRequest, res: Response, next: NextFunction): Promise<void | any> {
+		try {
+			req.patient?.diets?.push({
+				name: 'Primeira Dieta'
+			} as Diet)
+			await req.patient?.save()
+			return res.status(201).json(req.patient)
 		} catch (error) {
 			next(error)
 		}

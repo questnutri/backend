@@ -55,7 +55,9 @@ class PatientController {
 			if (!newPatient) throw new ServerError('Impossible to create a new patient')
 			req.nutritionist.patients.push(newPatient._id as ObjectId)
 			await req.nutritionist.save()
-			return res.status(201).json({ patient: newPatient, activationToken: generatePasswordResetToken('Patient', newPatient!._id as string) })
+			req.headers.patientId = newPatient._id as string
+			next()
+			// return res.status(201).json({ patient: newPatient, activationToken: generatePasswordResetToken('Patient', newPatient!._id as string) })
 		} catch (error) {
 			next(error)
 		}
@@ -108,6 +110,7 @@ class PatientController {
 			next(error)
 		}
 	}
+
 }
 
 export default new PatientController()
