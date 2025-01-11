@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/server.js",
+    "start": "node dist/src/server.js",
     "build": "tsc",
     "dev": "ts-node-dev src/server.ts",
     "lint": "eslint . --fix",
-    "cycle:diet": "ts-node-dev src/scripts/resetPatientDailyDiet.ts",
-    "local-mongo": "docker-compose down -v && docker-compose up"
+    "cycle:diet": "ts-node-dev src/scripts/resetPatientDailyDiet.ts"
   },
   "keywords": [],
   "author": "",
