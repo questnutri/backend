@@ -3,7 +3,7 @@ import { IsEmail, IsNotEmpty, IsString } from 'class-validator'
 export default class CreateNutritionistDto {
     @IsNotEmpty()
     @IsString()
-    	name!: string
+    	firstName!: string
 
     @IsNotEmpty()
     @IsEmail()

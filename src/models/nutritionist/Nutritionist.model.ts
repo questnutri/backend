@@ -50,12 +50,6 @@ export const NutritionistSchema = new Schema<INutritionist>({
 		},
 		cpf: {
 			type: String,
-			validate: {
-				validator: function (cpf: string) {
-					return validateCPF(cpf)
-				},
-				message: 'Invalid CPF'
-			},
 			default: ''
 		},
 		phone: {

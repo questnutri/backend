@@ -24,7 +24,7 @@ export default async (): Promise<boolean> => {
 		return true
 	} catch (err) {
 		console.log(`Unable to connect to database`.red.bold)
-		console.log(err)
+		console.error(err)
 		return false
 	}
 }
@@ -32,6 +32,15 @@ export default async (): Promise<boolean> => {
 export async function checkConnection(): Promise<boolean> {
 	try {
 		await mongoose.connect(uri)
+		return true
+	} catch (error) {
+		return false
+	}
+}
+
+export async function mongoConnect(): Promise<boolean>{
+	try {
+		await mongoose.connect("mongodb://localhost:27017");
 		return true
 	} catch (error) {
 		return false

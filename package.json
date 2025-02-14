@@ -7,14 +7,14 @@
     "build": "tsc",
     "dev": "ts-node-dev src/server.ts",
     "lint": "eslint . --fix",
-    "cycle:diet": "ts-node-dev src/scripts/resetPatientDailyDiet.ts"
+    "cycle:diet": "ts-node-dev src/scripts/resetPatientDailyDiet.ts",
+    "start:container": "node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@types/swagger-ui-express": "^4.1.6",
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
@@ -28,6 +28,7 @@
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
+    "@types/swagger-ui-express": "^4.1.6",
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
