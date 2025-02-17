@@ -20,7 +20,7 @@ class AuthController {
 				throw new BadRequest('Email already in use')
 			}
 			const nutritionist = await nutritionistService.create(req.body)
-			return res.status(200).json(nutritionist)
+			return res.status(201).json(nutritionist)
 		} catch (error) {
 			next(error)
 		}

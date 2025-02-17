@@ -1,26 +1,29 @@
 services:
   database:
     image: mongo:latest
-    container_name: mongo-container
+    container_name: questnutri-db
     environment:
-      - DB_CONNECTION_URI=mongodb://mongo-container:27017/QuestNutriDB
-      - DB_USERNAME=${DB_USERNAME}
-      - DB_PASSWORD=${DB_PASSWORD}
-    volumes:
-      - questnutri-volume:/data/db
-      - questnutri-volume:/data/dump
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+      - MONGO_INITDB_DATABASE=QuestNutriDB
+      - DB_CONNECTION_URI=mongodb://root:root@localhost:27017/QuestNutriDB?authSource=admin
     ports:
       - "27017:27017"
-    command: >
-      bash -c "
-        mongod --bind_ip 0.0.0.0 --fork --logpath /var/log/mongod.log &&
-        sleep 5 &&
-        mongodump --uri='mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}${DB_CONNECTION_URI}' --out=/dump &&
-        mongorestore --uri='mongodb://localhost:27017' /dump &&
-        tail -f /dev/null
-      "
-    restart: always
 
-volumes:
-  questnutri-volume:
-    driver: local
+
+    # volumes:
+    #   - questnutri-volume:/data/db
+    #   - questnutri-volume:/data/dump
+    # command: >
+    #   bash -c "
+    #     mongod --bind_ip 0.0.0.0 --fork --logpath /var/log/mongod.log &&
+    #     sleep 5 &&
+    #     mongodump --uri='mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}${DB_CONNECTION_URI}' --out=/dump &&
+    #     mongorestore --uri='mongodb://localhost:27017' /dump &&
+    #     tail -f /dev/null
+    #   "
+    # restart: always
+
+# volumes:
+#   questnutri-volume:
+#     driver: local
