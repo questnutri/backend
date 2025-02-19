@@ -7,36 +7,36 @@ import { injectParameter } from '../../../../../../../../../utils/swapDetails.sw
 import FoodId from './{foodId}'
 
 export const root = {
-	'get': {
-		'summary': 'All food',
-		'description': 'This route returns all foods.',
-		'tags': ['Nutritionist'],
-		'security': [
+	get: {
+		summary: 'All food',
+		description: 'This route returns all foods.',
+		tags: ['Nutritionist'],
+		security: [
 			{
-				'bearerAuth': []
+				bearerAuth: []
 			}
 		],
-		'responses': {
+		responses: {
 			...loggedSessionRequiredSwaggerResponse,
 			...swaggerResponse(200, 'Ok', jsonContentSwagger(GetAllFoods_SchemaSwagger))
 		}
 
 	},
-	'post': {
-		'summary': 'Create a new food',
-		'description': 'This route create a new food.',
-		'tags': ['Nutritionist'],
-		'security': [
+	post: {
+		summary: 'Create a new food',
+		description: 'This route create a new food.',
+		tags: ['Nutritionist'],
+		security: [
 			{
 				'bearerAuth': []
 			}
 		],
-		'requestBody': {
-			'content': {
+		requestBody: {
+			content: {
 				...jsonContentSwagger(NewFood_SchemaSwagger)
 			}
 		},
-		'responses': {
+		responses: {
 			...loggedSessionRequiredSwaggerResponse,
 			...swaggerResponse(201, 'Successfully created food')
 		}

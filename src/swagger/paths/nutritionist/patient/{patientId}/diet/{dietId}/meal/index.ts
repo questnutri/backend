@@ -6,36 +6,36 @@ import swaggerResponse from '../../../../../../../utils/responses/status-code/re
 import { injectParameter } from '../../../../../../../utils/swapDetails.swagger'
 import MealId from './{mealId}'
 export const root = {
-	'get': {
-		'summary': 'Select all meals',
-		'description': 'This route returns information about all the meals',
-		'tags': ['Nutritionist'],
-		'security': [
+	get: {
+		summary: 'Select all meals',
+		description: 'This route returns information about all the meals',
+		tags: ['Nutritionist'],
+		security: [
 			{
-				'bearerAuth': []
+				bearerAuth: []
 			}
 		],
-		'responses': {
+		responses: {
 			...loggedSessionRequiredSwaggerResponse,
 			...swaggerResponse(200, 'Ok', jsonContentSwagger(GetMeal_SchemaSwagger))
 		}
 
 	},
-	'post': {
-		'summary': 'Create a new meal',
-		'description': 'This route creates a new meal',
-		'tags': ['Nutritionist'],
-		'security': [
+	post: {
+		summary: 'Create a new meal',
+		description: 'This route creates a new meal',
+		tags: ['Nutritionist'],
+		security: [
 			{
-				'bearerAuth': []
+				bearerAuth: []
 			}
 		],
-		'requestBody': {
-			'content': {
+		requestBody: {
+			content: {
 				...jsonContentSwagger(NewMeal_SchemaSwagger)
 			}
 		},
-		'responses': {
+		responses: {
 			...loggedSessionRequiredSwaggerResponse,
 			...swaggerResponse(201, 'Successfully created meal', jsonContentSwagger(GetMeal_SchemaSwagger))
 		}

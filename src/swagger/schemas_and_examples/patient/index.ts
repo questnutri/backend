@@ -1,68 +1,68 @@
 import { GetDiet_Schema } from '../diet'
 
 export const Patient_UpdateSwagger = {
-	'type': 'object',
-	'properties': {
-		'name': {
-			'type': 'string',
-			'description': 'Name to be updated',
+	type: 'object',
+	properties: {
+		name: {
+			type: 'string',
+			description: 'Name to be updated',
 		},
-		'email': {
-			'type': 'string',
-			'description': 'email to be updated',
+		email: {
+			type: 'string',
+			description: 'email to be updated',
 		},
-		'password': {
-			'type': 'string',
-			'description': 'password to be updated',
+		password: {
+			type: 'string',
+			description: 'password to be updated',
 		},
 	}
 }
 
 export const Patient_NewSwagger = {
-	'type': 'object',
-	'properties': {
-		'name': {
-			'type': 'string',
-			'description': 'Name to be created',
+	type: 'object',
+	properties: {
+		name: {
+			type: 'string',
+			description: 'Name to be created',
 		},
-		'email': {
-			'type': 'string',
-			'description': 'email to be created',
+		email: {
+			type: 'string',
+			description: 'email to be created',
 		},
-		'password': {
-			'type': 'string',
-			'description': 'password to be created',
+		password: {
+			type: 'string',
+			description: 'password to be created',
 		},
 	}
 }
 
 export const Patient_InfoSchema = {
-	'type': 'object',
-	'properties': {
+	type: 'object',
+	properties: {
 		'_id': {
-			'type': 'string'
+			type: 'string'
 		},
-		'name': {
-			'type': 'string'
+		name: {
+			type: 'string'
 		},
-		'email': {
-			'type': 'string'
+		email: {
+			type: 'string'
 		},
-		'nutri': {
-			'type': 'string'
+		nutri: {
+			type: 'string'
 		},
-		'diets': {
-			'type': 'array',
-			'items': GetDiet_Schema
+		diets: {
+			type: 'array',
+			items: GetDiet_Schema
 		},
-		'createdAt': {
-			'type': 'string'
+		createdAt: {
+			type: 'string'
 		},
-		'updatedAt': {
-			'type': 'string'
+		updatedAt: {
+			type: 'string'
 		},
-		'_v': {
-			'type': 'string'
+		_v: {
+			type: 'string'
 		}
 	}
 }

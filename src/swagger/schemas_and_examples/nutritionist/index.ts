@@ -2,14 +2,14 @@ import { Patient_InfoSchema } from '../patient'
 
 export const Nutritionist_SwaggerSchema = {
 	type: 'object',
-	'properties': {
-		'firstName': {
+	properties: {
+		firstName: {
 			type: 'string'
 		},
-		'email': {
+		email: {
 			type: 'string'
 		},
-		'patients': {
+		patients: {
 			type: 'string'
 		},
 	}
@@ -17,29 +17,29 @@ export const Nutritionist_SwaggerSchema = {
 
 export const NewNutritionist_SwaggerSchema = {
 	type: 'object',
-	'properties': {
-		'firstName': {
+	properties: {
+		firstName: {
 			type: 'string'
 		},
-		'lastName': {
+		lastName: {
 			type: 'string'
 		},
-		'email': {
+		email: {
 			type: 'string'
 		},
-		'password': {
+		password: {
 			type: 'string'
 		}
 	}
 }
 
 export const NewNutritionist_SwaggerExample = {
-	'nutritionist': {
-		'value': {
-			'firstName': 'John',
-			'lastName': 'Doe',
-			'email': 'john.doe@mail.com',
-			'password': 'hard-password'
+	nutritionist: {
+		value: {
+			firstName: 'John',
+			lastName: 'Doe',
+			email: 'john.doe@mail.com',
+			password: 'hard-password'
 		}
 	}
 }
@@ -48,75 +48,67 @@ export const Nutritionist_InfoSchema = {
 	type: 'object',
 	properties: {
 	  _id: {
-		type: 'string',
-		example: '60f5b4d7b9f5b65f8b1c9d9d'
+			type: 'string',
+			example: '60f5b4d7b9f5b65f8b1c9d9d'
 	  },
 	  firstName: {
-		type: 'string',
-		example: 'John'
+			type: 'string',
+			example: 'John'
 	  },
 	  lastName: {
-		type: 'string',
-		example: 'Doe'
+			type: 'string',
+			example: 'Doe'
 	  },
 	  email: {
-		type: 'string',
-		example: 'john.doe@mail.com'
+			type: 'string',
+			example: 'john.doe@mail.com'
 	  },
 	  patients: {
-		type: 'array',
-		items: {
+			type: 'array',
+			items: {
 		  type: 'string',
 		  example: '60f5b4d7b9f5b65f8b1c9d9e'
-		}
+			}
 	  },
 	  details: {
-		type: 'object',
-		properties: {
+			type: 'object',
+			properties: {
 		  rg: {
-			type: 'string',
-			example: '12.345.678-9'
+					type: 'string',
+					example: '12.345.678-9'
 		  },
 		  cpf: {
-			type: 'string',
-			example: '123.456.789-00'
+					type: 'string',
+					example: '123.456.789-00'
 		  },
 		  phone: {
-			type: 'string',
-			example: '(11) 98765-4321'
+					type: 'string',
+					example: '(11) 98765-4321'
 		  },
 		  birth: {
-			type: 'string',
-			format: 'date',
-			example: '1998-08-28'
+					type: 'string',
+					format: 'date',
+					example: '1998-08-28'
 		  },
-		  crn: {
-			type: 'string',
-			example: '12345'
-		  },
-		  dateOfIssue: {
-			type: 'string',
-			format: 'date',
-			example: '2020-05-15'
-		  }
-		}
+		  
+			}
 	  },
 	  createdAt: {
-		type: 'string',
-		format: 'date-time',
-		example: '2025-02-15T12:00:00Z'
+			type: 'string',
+			format: 'date-time',
+			example: '2025-02-15T12:00:00Z'
 	  },
 	  updatedAt: {
-		type: 'string',
-		format: 'date-time',
-		example: '2025-02-16T15:30:00Z'
+			type: 'string',
+			format: 'date-time',
+			example: '2025-02-16T15:30:00Z'
 	  },
 	  _v: {
-		type: 'number',
-		example: 1
+			type: 'number',
+			example: 1
 	  }
 	}
-  }
+}
   
 
 export const Nutritionist_AllPatientsSchema = {
@@ -126,11 +118,11 @@ export const Nutritionist_AllPatientsSchema = {
 
 export const Nutritionist_UpdatePatientSchema = {
 	type: 'object',
-	'properties': {
-		'name': {
+	properties: {
+		name: {
 			type: 'string',
 		},
-		'email': {
+		email: {
 			type: 'string',
 		},
 		'password': {

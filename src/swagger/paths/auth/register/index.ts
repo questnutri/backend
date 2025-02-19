@@ -1,28 +1,29 @@
+import { ValidationError_SwaggerExample, ValidationError_SwaggerSchema } from '../../../schemas_and_examples/errors'
 import { NewNutritionist_SwaggerExample, NewNutritionist_SwaggerSchema, Nutritionist_InfoSchema, Nutritionist_SwaggerSchema } from '../../../schemas_and_examples/nutritionist'
 import loggedSessionRequiredSwaggerResponse from '../../../utils/common/loggedSessionRequired.swagger-response'
 import jsonContentSwagger from '../../../utils/jsonContent.swagger'
 import swaggerResponse from '../../../utils/responses/status-code/response.swagger'
 
 export default {
-	'post': {
-		'summary': 'Creates a new nutritionist',
-		'description': 'This route registers a new Nutritionist',
-		'tags': ['Auth'],
-		'security': [
+	post: {
+		summary: 'Creates a new nutritionist',
+		description: 'This route registers a new Nutritionist',
+		tags: ['Auth'],
+		security: [
 			{
-				'bearerAuth': []
+				bearerAuth: []
 			}
 		],
-		'requestBody': {
-			'content': {
+		requestBody: {
+			content: {
 				...jsonContentSwagger(NewNutritionist_SwaggerSchema, {
 					...NewNutritionist_SwaggerExample
 				}),
 			}
 		},
-		'responses': {
+		responses: {
 			...swaggerResponse(201, 'Nutritionist created', jsonContentSwagger(Nutritionist_InfoSchema)),
-			...swaggerResponse(400, 'Bad request'),
+			...swaggerResponse(400, 'Bad request', jsonContentSwagger(ValidationError_SwaggerSchema, {...ValidationError_SwaggerExample})),
 		}
 	}
 }

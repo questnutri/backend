@@ -6,50 +6,50 @@ import swaggerResponse from '../../../../../../utils/responses/status-code/respo
 import meal from './meal'
 
 export const root = {
-	'get': {
-		'summary': 'Selectd diet',
-		'description': 'This route returns information about the selected diet',
-		'tags': ['Nutritionist'],
-		'security': [
+	get: {
+		summary: 'Selectd diet',
+		description: 'This route returns information about the selected diet',
+		tags: ['Nutritionist'],
+		security: [
 			{
-				'bearerAuth': []
+				bearerAuth: []
 			}
 		],
-		'responses': {
+		responses: {
 			...loggedSessionRequiredSwaggerResponse,
 			...swaggerResponse(200, 'Ok', jsonContentSwagger(GetDiet_Schema))
 		}
 
 	}, 
-	'patch':{
-		'summary': 'Updates the selected diet',
-		'description': 'This route updates the selected diet',
-		'tags': ['Nutritionist'],
-		'security': [
+	patch:{
+		summary: 'Updates the selected diet',
+		description: 'This route updates the selected diet',
+		tags: ['Nutritionist'],
+		security: [
 			{
-				'bearerAuth': []
+				bearerAuth: []
 			}
 		],
-		'requestBody':{
-			'content': {
+		requestBody:{
+			content: {
 				...jsonContentSwagger(Diet_SchemaSwagger)
 			}
 		},
-		'responses': {
+		responses: {
 			...loggedSessionRequiredSwaggerResponse,
 			...swaggerResponse(201, 'New diet successfully created', jsonContentSwagger(GetDiet_Schema))
 		}
 	},
-	'delete':{
-		'summary': 'Delete the selected diet',
-		'description': 'This route deletes the diet information',
-		'tags': ['Nutritionist'],
-		'security': [
+	delete:{
+		summary: 'Delete the selected diet',
+		description: 'This route deletes the diet information',
+		tags: ['Nutritionist'],
+		security: [
 			{
-				'bearerAuth': []
+				bearerAuth: []
 			}
 		],
-		'responses': {
+		responses: {
 			...loggedSessionRequiredSwaggerResponse,
 			...swaggerResponse(200, 'Diet deleted successfully')
 		}

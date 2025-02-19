@@ -6,51 +6,51 @@ import swaggerResponse from '../../../../../../../../utils/responses/status-code
 import food from './food'
 
 export const root = {
-	'get': {
-		'summary': 'Meal by Id',
-		'description': 'This route returns information about a meal by id.',
-		'tags': ['Nutritionist'],
-		'security': [
+	get: {
+		summary: 'Meal by Id',
+		description: 'This route returns information about a meal by id.',
+		tags: ['Nutritionist'],
+		security: [
 			{
-				'bearerAuth': []
+				bearerAuth: []
 			}
 		],
-		'responses': {
+		responses: {
 			...loggedSessionRequiredSwaggerResponse,
 			...swaggerResponse(200, 'Ok', jsonContentSwagger(GetMeal_SchemaSwagger)) // retorna as mesma informações que se faz necessario para criar uma meal
 		}
 
 	},
-	'patch': {
-		'summary': 'Update meal',
-		'description': 'This route updates information about a meal by id.',
-		'tags': ['Nutritionist'],
-		'security': [
+	patch: {
+		summary: 'Update meal',
+		description: 'This route updates information about a meal by id.',
+		tags: ['Nutritionist'],
+		security: [
 			{
-				'bearerAuth': []
+				bearerAuth: []
 			}
 		],
-		'requestBody': {
-			'content': {
+		requestBody: {
+			content: {
 				...jsonContentSwagger(NewMeal_SchemaSwagger) // utiliza o mesmo schema para criar uma meal
 			}
 		},
-		'responses': {
+		responses: {
 			...loggedSessionRequiredSwaggerResponse,
 			...swaggerResponse(200, 'Meal updated successfully.', jsonContentSwagger(GetMeal_SchemaSwagger))
 		}
 
 	},
-	'delete': {
-		'summary': 'Delete meal',
-		'description': 'This route deletes a meal by id.',
-		'tags': ['Nutritionist'],
-		'security': [
+	delete: {
+		summary: 'Delete meal',
+		description: 'This route deletes a meal by id.',
+		tags: ['Nutritionist'],
+		security: [
 			{
-				'bearerAuth': []
+				bearerAuth: []
 			}
 		],
-		'responses': {
+		responses: {
 			...loggedSessionRequiredSwaggerResponse,
 			...swaggerResponse(200, 'Meal deleted successfully')
 		}

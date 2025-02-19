@@ -4,13 +4,13 @@ import nutritionist from './nutritionist'
 import patient from './patient'
 
 export default {
-	'admin': {
+	admin: {
 		...admin,
 	},
-	'nutritionist': {
+	nutritionist: {
 		...nutritionist,
 	},
-	'patient': {
+	patient: {
 		...patient
 	}
 }

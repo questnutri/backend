@@ -9,36 +9,36 @@ import { injectParameter } from '../../../../../utils/swapDetails.swagger'
 import DietId from './{dietId}'
 
 export const root = {
-	'get': {
-		'summary': 'Diets of a Patient',
-		'description': 'This route gets all the diets related to a especific patient',
-		'tags': ['Nutritionist'],
-		'security': [
+	get: {
+		summary: 'Diets of a Patient',
+		description: 'This route gets all the diets related to a especific patient',
+		tags: ['Nutritionist'],
+		security: [
 			{
-				'bearerAuth': []
+				bearerAuth: []
 			}
 		],
-		'responses': {
+		responses: {
 			...loggedSessionRequiredSwaggerResponse,
 			...swaggerResponse(200, 'All diets', jsonContentSwagger(GetDiet_Schema))
 		}
 
 	},
-	'post': {
-		'summary': 'Create a new diet',
-		'description': 'This route creates a new diet',
-		'tags': ['Nutritionist'],
-		'security': [
+	post: {
+		summary: 'Create a new diet',
+		description: 'This route creates a new diet',
+		tags: ['Nutritionist'],
+		security: [
 			{
-				'bearerAuth': []
+				bearerAuth: []
 			}
 		],
-		'requestBody': {
-			'content': {
+		requestBody: {
+			content: {
 				...jsonContentSwagger(Diet_SchemaSwagger)
 			}
 		},
-		'responses': {
+		responses: {
 			...loggedSessionRequiredSwaggerResponse,
 			...swaggerResponse(201, 'New diet successfully created', jsonContentSwagger(Patient_InfoSchema))
 		}
