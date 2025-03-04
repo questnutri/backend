@@ -47,69 +47,69 @@ export const NewNutritionist_SwaggerExample = {
 export const Nutritionist_InfoSchema = {
 	type: 'object',
 	properties: {
-	  _id: {
+		_id: {
 			type: 'string',
 			example: '60f5b4d7b9f5b65f8b1c9d9d'
-	  },
-	  firstName: {
+		},
+		firstName: {
 			type: 'string',
 			example: 'John'
-	  },
-	  lastName: {
+		},
+		lastName: {
 			type: 'string',
 			example: 'Doe'
-	  },
-	  email: {
+		},
+		email: {
 			type: 'string',
 			example: 'john.doe@mail.com'
-	  },
-	  patients: {
+		},
+		patients: {
 			type: 'array',
 			items: {
-		  type: 'string',
-		  example: '60f5b4d7b9f5b65f8b1c9d9e'
+				type: 'string',
+				example: '60f5b4d7b9f5b65f8b1c9d9e'
 			}
-	  },
-	  details: {
+		},
+		details: {
 			type: 'object',
 			properties: {
-		  rg: {
+				rg: {
 					type: 'string',
 					example: '12.345.678-9'
-		  },
-		  cpf: {
+				},
+				cpf: {
 					type: 'string',
 					example: '123.456.789-00'
-		  },
-		  phone: {
+				},
+				phone: {
 					type: 'string',
 					example: '(11) 98765-4321'
-		  },
-		  birth: {
+				},
+				birth: {
 					type: 'string',
 					format: 'date',
 					example: '1998-08-28'
-		  },
-		  
+				},
+
 			}
-	  },
-	  createdAt: {
+		},
+		createdAt: {
 			type: 'string',
 			format: 'date-time',
 			example: '2025-02-15T12:00:00Z'
-	  },
-	  updatedAt: {
+		},
+		updatedAt: {
 			type: 'string',
 			format: 'date-time',
 			example: '2025-02-16T15:30:00Z'
-	  },
-	  _v: {
+		},
+		_v: {
 			type: 'number',
 			example: 1
-	  }
+		}
 	}
 }
-  
+
 
 export const Nutritionist_AllPatientsSchema = {
 	type: 'array',
@@ -121,12 +121,16 @@ export const Nutritionist_UpdatePatientSchema = {
 	properties: {
 		name: {
 			type: 'string',
+			example: 'João Silva Rosa'
 		},
 		email: {
 			type: 'string',
+			example: 'joão-Silva-Rosa@gmail.com'
+
 		},
 		'password': {
 			type: 'string',
+			example: 'joaoSilvaRosa123',
 		},
 	}
 }

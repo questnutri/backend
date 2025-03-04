@@ -4,12 +4,13 @@ import jsonContentSwagger from '../../../../../../../utils/jsonContent.swagger'
 import rebasePathSwagger from '../../../../../../../utils/rebasePath.swagger'
 import swaggerResponse from '../../../../../../../utils/responses/status-code/response.swagger'
 import { injectParameter } from '../../../../../../../utils/swapDetails.swagger'
+import { Nutritionist_PatientMeal_SwaggerTag } from '../../../../../../../utils/tags'
 import MealId from './{mealId}'
 export const root = {
 	get: {
 		summary: 'Select all meals',
 		description: 'This route returns information about all the meals',
-		tags: ['Nutritionist'],
+		tags: [...Nutritionist_PatientMeal_SwaggerTag],
 		security: [
 			{
 				bearerAuth: []
@@ -24,7 +25,7 @@ export const root = {
 	post: {
 		summary: 'Create a new meal',
 		description: 'This route creates a new meal',
-		tags: ['Nutritionist'],
+		tags: [...Nutritionist_PatientMeal_SwaggerTag],
 		security: [
 			{
 				bearerAuth: []

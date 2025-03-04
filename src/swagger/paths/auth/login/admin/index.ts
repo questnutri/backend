@@ -9,7 +9,7 @@ export default {
 	post: {
 		summary: 'Admin login',
 		description: 'This route tries to log in an admin user',
-		tags: ['Auth', 'Admin'],
+		tags: ['Auth'],
 		security: [
 			{
 				bearerAuth: []

@@ -6,13 +6,14 @@ import jsonContentSwagger from '../../../../../utils/jsonContent.swagger'
 import rebasePathSwagger from '../../../../../utils/rebasePath.swagger'
 import swaggerResponse from '../../../../../utils/responses/status-code/response.swagger'
 import { injectParameter } from '../../../../../utils/swapDetails.swagger'
+import { Nutritionist_PatientDiet_SwaggerTag } from '../../../../../utils/tags'
 import DietId from './{dietId}'
 
 export const root = {
 	get: {
 		summary: 'Diets of a Patient',
 		description: 'This route gets all the diets related to a especific patient',
-		tags: ['Nutritionist'],
+		tags: [...Nutritionist_PatientDiet_SwaggerTag],
 		security: [
 			{
 				bearerAuth: []
@@ -27,7 +28,7 @@ export const root = {
 	post: {
 		summary: 'Create a new diet',
 		description: 'This route creates a new diet',
-		tags: ['Nutritionist'],
+		tags: [...Nutritionist_PatientDiet_SwaggerTag],
 		security: [
 			{
 				bearerAuth: []
@@ -40,7 +41,7 @@ export const root = {
 		},
 		responses: {
 			...loggedSessionRequiredSwaggerResponse,
-			...swaggerResponse(201, 'New diet successfully created', jsonContentSwagger(Patient_InfoSchema))
+			...swaggerResponse(201, 'New diet successfully created', jsonContentSwagger(GetDiet_Schema))
 		}
 	}
 }

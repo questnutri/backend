@@ -3,13 +3,14 @@ import loggedSessionRequiredSwaggerResponse from '../../../../../../../../utils/
 import jsonContentSwagger from '../../../../../../../../utils/jsonContent.swagger'
 import rebasePathSwagger from '../../../../../../../../utils/rebasePath.swagger'
 import swaggerResponse from '../../../../../../../../utils/responses/status-code/response.swagger'
+import { Nutritionist_PatientMeal_SwaggerTag } from '../../../../../../../../utils/tags'
 import food from './food'
 
 export const root = {
 	get: {
 		summary: 'Meal by Id',
 		description: 'This route returns information about a meal by id.',
-		tags: ['Nutritionist'],
+		tags: [...Nutritionist_PatientMeal_SwaggerTag],
 		security: [
 			{
 				bearerAuth: []
@@ -24,7 +25,7 @@ export const root = {
 	patch: {
 		summary: 'Update meal',
 		description: 'This route updates information about a meal by id.',
-		tags: ['Nutritionist'],
+		tags: [...Nutritionist_PatientMeal_SwaggerTag],
 		security: [
 			{
 				bearerAuth: []
@@ -44,7 +45,7 @@ export const root = {
 	delete: {
 		summary: 'Delete meal',
 		description: 'This route deletes a meal by id.',
-		tags: ['Nutritionist'],
+		tags: [...Nutritionist_PatientMeal_SwaggerTag],
 		security: [
 			{
 				bearerAuth: []

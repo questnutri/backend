@@ -9,7 +9,7 @@ export default {
 	post: {
 		summary: 'Nutritionist login',
 		description: 'This route tries to log in a nutritionist user',
-		tags: ['Auth', 'Nutritionist'],
+		tags: ['Auth'],
 		security: [
 			{
 				bearerAuth: []

@@ -39,7 +39,7 @@ nutritionistRoutes.route('/patient/:patientId/disease/:diseaseId').all(fctx.find
 	.patch(patientHealthController.updateDisease)
 	.delete(patientHealthController.deleteDisease)
 
-	nutritionistRoutes.route('/patient/:patientId/allergy').all(fctx.findNutritionist, fctx.injectPatient, fctx.findPatient)
+nutritionistRoutes.route('/patient/:patientId/allergy').all(fctx.findNutritionist, fctx.injectPatient, fctx.findPatient)
 	.post(patientHealthController.createNewAllergy)
 
 nutritionistRoutes.route('/patient/:patientId/allergy/:allergyId').all(fctx.findNutritionist, fctx.injectPatient, fctx.findPatient)

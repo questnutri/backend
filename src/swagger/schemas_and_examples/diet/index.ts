@@ -4,7 +4,8 @@ export const Diet_SchemaSwagger = {
 	type: 'object',
 	properties: {
 		name: {
-			type: 'string'
+			type: 'string',
+			example: 'Segunda dieta'
 		}
 	}
 }
@@ -16,51 +17,56 @@ export const Diet_SwaggerExample = {
 }
 
 export const GetDiet_Schema = {
-	type:'array',
+	type: 'array',
 	items: {
 		type: 'object',
 		properties: {
 			name: {
-				type: 'string'
+				type: 'string',
+				example: 'Primeira dieta',
 			},
 			_id: {
-				type: 'string'
+				type: 'string',
+				example: '65f8a2b7c4d5e6f7890ab456',
 			},
-			meals:{
+			meals: {
 				type: 'array',
-				items: GetMeal_SchemaSwagger
+				items: GetMeal_SchemaSwagger,
 			},
 			createdAt: {
-				type: 'string'
+				type: 'string',
+				example: '2025-02-27T10:00:00Z',
 			},
 			updatedAt: {
-				type: 'string'
-			}
-		}
-	}
+				type: 'string',
+				example: '2025-02-27T12:30:00Z',
+			},
+		},
+	},
 }
+
 
 export const NewDietResponse_Schema = {
 
 	type: 'object',
 	properties: {
-		  _id: {
+		_id: {
 			type: 'string',
 			description: 'Unique identifier for the patient',
-		  },
-		  name: {
+		},
+		name: {
 			type: 'string',
 			description: 'Name of the patient',
-		  },
-		  email: {
+		},
+		email: {
 			type: 'string',
 			description: 'Email of the patient',
-		  },
-		  nutri: {
+		},
+		nutri: {
 			type: 'string',
 			description: 'Unique identifier for the nutritionist assigned to the patient',
-		  },
-		  diets: {
+		},
+		diets: {
 			type: 'array',
 			description: 'List of diets assigned to the patient',
 			items: {
@@ -91,21 +97,31 @@ export const NewDietResponse_Schema = {
 					}
 				}
 			}
-		  },
-		  createdAt: {
+		},
+		createdAt: {
 			type: 'string',
 			description: 'Date when the patient was created',
-		  },
-		  updatedAt: {
+		},
+		updatedAt: {
 			type: 'string',
 			description: 'Date when the patient information was last updated',
-		  },
-		  __v: {
+		},
+		__v: {
 			type: 'integer',
 			description: 'Version key for the patient data',
-		  }
+		}
 	},
 	required: ['_id', 'name', 'email', 'nutri', 'diets', 'createdAt', 'updatedAt']
 
-	  
+
+}
+
+export const DeleteDiet_Schema = {
+	type: 'object',
+	properties: {
+		message: {
+			type: 'string',
+			example: 'Diet deleted successfully'
+		}
+	}
 }

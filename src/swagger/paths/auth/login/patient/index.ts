@@ -9,7 +9,7 @@ export default {
 	post: {
 		summary: 'Patient login',
 		description: 'This route tries to log in a patient user',
-		tags: ['Auth', 'Patient'],
+		tags: ['Auth'],
 		security: [
 			{
 				bearerAuth: []

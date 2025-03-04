@@ -5,6 +5,7 @@ import jsonContentSwagger from '../../../utils/jsonContent.swagger'
 import rebasePathSwagger from '../../../utils/rebasePath.swagger'
 import swaggerResponse from '../../../utils/responses/status-code/response.swagger'
 import { injectParameter } from '../../../utils/swapDetails.swagger'
+import { Nutritionist_Patient_SwaggerTag } from '../../../utils/tags'
 import PatientId from './{patientId}'
 
 const root = {
@@ -12,7 +13,7 @@ const root = {
 		summary: "Nutritionist's Patients",
 		description:
 			'This route retrieves all the patients related to a nutritionist',
-		tags: ['Nutritionist'],
+		tags: [...Nutritionist_Patient_SwaggerTag],
 		security: [
 			{
 				bearerAuth: [],
@@ -27,7 +28,7 @@ const root = {
 		summary: 'Create a new patient',
 		description:
 			'This route create a new patient',
-		tags: ['Nutritionist'],
+		tags: [...Nutritionist_Patient_SwaggerTag],
 		security: [
 			{
 				bearerAuth: [],

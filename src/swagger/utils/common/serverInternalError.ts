@@ -2,13 +2,13 @@ import { Erro_SwaggerSchema } from '../../schemas_and_examples/errors'
 import jsonContentSwagger from '../jsonContent.swagger'
 import swaggerResponse from '../responses/status-code/response.swagger'
 
-export default swaggerResponse(401, `Token not provided`,jsonContentSwagger(Erro_SwaggerSchema, 
+export default swaggerResponse(500, 'Server Internal Error', jsonContentSwagger(Erro_SwaggerSchema,
 	{
-		tokenNotProvided: {
+		serverInternalError: {
 			value: {
-				error: 'Token not provided',
-				status: 401,
+				error: 'Server Internal Error',
+				status: 500,
 			},
-	    }
+		}
 	}
 ))

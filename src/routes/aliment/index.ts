@@ -6,9 +6,9 @@ import fctx from '../../controllers/findContext.controller'
 const alimentRoutes = Router()
 
 alimentRoutes.route('/')
-    .get(alimentController.getAllAliments)
+	.get(alimentController.getAllAliments)
 
 alimentRoutes.route('/:alimentId')
-    .get(alimentController.getAlimentById)
+	.get(alimentController.getAlimentById)
 
 export default alimentRoutes
