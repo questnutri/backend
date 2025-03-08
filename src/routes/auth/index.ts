@@ -13,10 +13,10 @@ authRoutes.route('/')
 authRoutes.route('/register')
 	.post(validateDto(CreateNutritionistDto), authController.register)
 
-authRoutes.route('/login/:role')
+authRoutes.route('/:role/login')
 	.post(validateDto(LoginDto), authController.login)
 
-authRoutes.route('/logout/:role')
+authRoutes.route('/:role/logout')
 	.post(authController.logout)
 
 authRoutes.route('/password/reset/patient/send')
