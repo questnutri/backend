@@ -1,13 +1,14 @@
 import { HttpStatus } from "../shared/utils/HttpStatus.enum";
+import SwaggerContent from "./SwaggerContent";
 
 /**
  * Class for building Swagger response definitions.
  */
 export default class SwaggerResponse {
-    private constructor() {}
+    private constructor() { }
     private code: HttpStatus = HttpStatus.OK;
     private description: string = "Description not set"
-    private contents: any[] = []
+    private content: SwaggerContent | null = null;
 
     /**
      * Creates a new instance of SwaggerResponse using the builder pattern.
@@ -37,13 +38,8 @@ export default class SwaggerResponse {
         return this;
     }
 
-    /**
-     * Adds content to the response.
-     * @param {any} content - The content schema for the response.
-     * @returns {SwaggerResponse} The updated instance.
-     */
-    public setContent(content: any) {
-        this.contents.push(content);
+    public setContent(content: SwaggerContent) {
+        this.content = content;
         return this;
     }
 
@@ -52,15 +48,16 @@ export default class SwaggerResponse {
      * @returns {object} The JSON object for Swagger documentation.
      */
     public toJson() {
-        const contents = this.contents.reduce((acc, content) => {
-            return { ...acc, ...content };
-        }, {});
 
-        return {
+        let json: any = {
             [this.code]: {
-                description: this.description,
-                content: contents
+                description: this.description
             }
         }
+
+        if (this.content) {
+            json[this.code].content = this.content.toJson();
+        }
+        return json;
     }
 }

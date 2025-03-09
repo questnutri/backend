@@ -1,3 +1,4 @@
+import SwaggerContent from "../../../class/SwaggerContent";
 import SwaggerResponse from "../../../class/SwaggerResponse";
 import SwaggerUtil from "../../../class/SwaggerUtil";
 import SwaggerSchema from "../../../schemas/SwaggerSchema";
@@ -9,28 +10,24 @@ export default class SharedSwagger_Responses {
             .setCode(HttpStatus.OK)
             .setDescription('Valid login')
             .setContent(
-                SwaggerUtil.Response.application_json(
-                    SwaggerSchema.Token.schema,
-                    SwaggerSchema.Token.example
-                )
+                SwaggerContent.builder()
+                    .setSchemaAndExample(SwaggerSchema.Token)
             ),
         SwaggerResponse.builder()
             .setCode(HttpStatus.UNAUTHORIZED)
             .setDescription('Invalid password')
             .setContent(
-                SwaggerUtil.Response.application_json(
-                    SwaggerSchema.Error.schema,
-                    SwaggerSchema.Error.Login.invalidPassword
-                )
+                SwaggerContent.builder()
+                    .setSchema(SwaggerSchema.Error.schema)
+                    .addExample(SwaggerSchema.Error.Login.invalidPassword)
             ),
         SwaggerResponse.builder()
             .setCode(HttpStatus.NOT_FOUND)
             .setDescription('Email not found')
             .setContent(
-                SwaggerUtil.Response.application_json(
-                    SwaggerSchema.Error.schema,
-                    SwaggerSchema.Error.Login.emailNotFound
-                )
+                SwaggerContent.builder()
+                    .setSchema(SwaggerSchema.Error.schema)
+                    .addExample(SwaggerSchema.Error.Login.emailNotFound)
             )
     ];
 
@@ -39,10 +36,9 @@ export default class SharedSwagger_Responses {
             .setCode(HttpStatus.UNAUTHORIZED)
             .setDescription('Token not provided')
             .setContent(
-                SwaggerUtil.Response.application_json(
-                    SwaggerSchema.Error.schema,
-                    SwaggerSchema.Error.Login.Authentication.tokenNotProvided
-                )
+                SwaggerContent.builder()
+                    .setSchema(SwaggerSchema.Error.schema)
+                    .addExample(SwaggerSchema.Error.Login.Authentication.tokenNotProvided)
             )
 
     public static internalServerError =
@@ -50,9 +46,8 @@ export default class SharedSwagger_Responses {
             .setCode(HttpStatus.INTERNAL_SERVER_ERROR)
             .setDescription('Internal server error')
             .setContent(
-                SwaggerUtil.Response.application_json(
-                    SwaggerSchema.Error.schema,
-                    SwaggerSchema.Error.Server.internalServerError
-                )
+                SwaggerContent.builder()
+                    .setSchema(SwaggerSchema.Error.schema)
+                    .addExample(SwaggerSchema.Error.Server.internalServerError)
             )
 }

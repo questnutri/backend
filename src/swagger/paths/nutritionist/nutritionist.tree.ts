@@ -1,4 +1,5 @@
 import SwaggerMethod from "../../v2.0/class/SwaggerMethod";
+import SwaggerContent from "../../v2.0/class/SwaggerContent";
 import SwaggerResponse from "../../v2.0/class/SwaggerResponse";
 import SwaggerUrlLeaf from "../../v2.0/class/SwaggerUrlLeaf";
 import SwaggerUrlTree from "../../v2.0/class/SwaggerUrlTree";
@@ -13,7 +14,7 @@ export default SwaggerUrlTree.builder()
         SwaggerUrlLeaf.builder()
             .addTags(['Nutritionist'])
             .addMethods([
-                SwaggerMethod
+                SwaggerMethod.builder()
                     .get()
                     .setSummary('Retrieve Nutritionist info')
                     .setDescription('This route retrieves general information about a logged nutritionist')
@@ -22,20 +23,17 @@ export default SwaggerUrlTree.builder()
                             .setCode(HttpStatus.OK)
                             .setDescription('Ok')
                             .setContent(
-                                SwaggerUtil.Response.application_json(
-                                    SwaggerSchema.Nutritionist.schema
-                                )
+                                SwaggerContent.builder()
+                                    .setSchema(SwaggerSchema.Nutritionist.schema)
                             )
                     ),
-                SwaggerMethod
+                SwaggerMethod.builder()
                     .patch()
                     .setSummary('Update Nutritionist info')
                     .setDescription('This route updates general information about a logged nutritionist')
                     .setRequestBody(
-                        SwaggerUtil.Response.application_json(
-                            SwaggerSchema.Nutritionist.Update.schema,
-                            SwaggerSchema.Nutritionist.Update.example,
-                        )
+                        SwaggerContent.builder()
+                            .setSchemaAndExample(SwaggerSchema.Nutritionist)
                     )
                     .addResponses(
                         [
@@ -43,9 +41,8 @@ export default SwaggerUrlTree.builder()
                                 .setCode(HttpStatus.OK)
                                 .setDescription('Ok')
                                 .setContent(
-                                    SwaggerUtil.Response.application_json(
-                                        SwaggerSchema.Nutritionist.schema
-                                    )
+                                    SwaggerContent.builder()
+                                        .setSchema(SwaggerSchema.Nutritionist.schema)
                                 ),
                             SwaggerShared.Responses.tokenNotProvided,
                             SwaggerShared.Responses.internalServerError

@@ -1,8 +1,8 @@
 import SwaggerMethod from "../../v2.0/class/SwaggerMethod";
+import SwaggerContent from "../../v2.0/class/SwaggerContent";
 import SwaggerResponse from "../../v2.0/class/SwaggerResponse";
 import SwaggerUrlLeaf from "../../v2.0/class/SwaggerUrlLeaf";
 import SwaggerUrlTree from "../../v2.0/class/SwaggerUrlTree";
-import SwaggerUtil from "../../v2.0/class/SwaggerUtil";
 import SwaggerSchema from "../../v2.0/schemas/SwaggerSchema";
 import SwaggerShared from "../../v2.0/shared/SwaggerShared/SwaggerShared";
 import { HttpStatus } from "../../v2.0/shared/utils/HttpStatus.enum";
@@ -18,7 +18,7 @@ export default SwaggerUrlTree.builder()
 				SwaggerUrlLeaf.builder()
 					.setPath('/login')
 					.addMethods(
-						SwaggerMethod
+						SwaggerMethod.builder()
 							.post()
 							.setSummary('Admin login')
 							.setDescription('This route tries to log in an admin user')
@@ -39,7 +39,7 @@ export default SwaggerUrlTree.builder()
 					SwaggerUrlLeaf.builder()
 						.setPath('/login')
 						.addMethods(
-							SwaggerMethod
+							SwaggerMethod.builder()
 								.post()
 								.setSummary('Nutritionist login')
 								.setDescription('This route tries to log in a nutritionist')
@@ -54,15 +54,15 @@ export default SwaggerUrlTree.builder()
 					SwaggerUrlLeaf.builder()
 						.setPath('/register')
 						.addMethods(
-							SwaggerMethod
+							SwaggerMethod.builder()
 								.post()
 								.setSummary('Creates a new nutritionist')
 								.setDescription('This route registers a new Nutritionist')
 								.setRequestBody(
-									SwaggerUtil.Response.application_json(
-										SwaggerSchema.Nutritionist.Register.schema,
-										SwaggerSchema.Nutritionist.Register.example
-									)
+									SwaggerContent.builder()
+										.setSchemaAndExample(SwaggerSchema.Nutritionist.Register) //<< It access schema and example if exist in class
+									// .setSchema(SwaggerSchema.Nutritionist.Register.schema) << Equivalent
+									// .addExample(SwaggerSchema.Nutritionist.Register.example) << Equivalent
 								)
 								.addResponses(
 									[
@@ -70,18 +70,16 @@ export default SwaggerUrlTree.builder()
 											.setCode(HttpStatus.CREATED)
 											.setDescription('Nutritionist created')
 											.setContent(
-												SwaggerUtil.Response.application_json(
-													SwaggerSchema.Nutritionist.schema
-												)
+												SwaggerContent.builder()
+													.setSchema(SwaggerSchema.Nutritionist.schema)
 											),
 										SwaggerResponse.builder()
 											.setCode(HttpStatus.BAD_REQUEST)
 											.setDescription('Bad request')
 											.setContent(
-												SwaggerUtil.Response.application_json(
-													SwaggerSchema.Error.schema,
-													SwaggerSchema.Error.Registration.validationErrors
-												)
+												SwaggerContent.builder()
+													.setSchema(SwaggerSchema.Error.schema)
+													.addExample(SwaggerSchema.Error.Registration.validationErrors)
 											)
 									]
 								)
@@ -96,7 +94,7 @@ export default SwaggerUrlTree.builder()
 				SwaggerUrlLeaf.builder()
 					.setPath('/login')
 					.addMethods(
-						SwaggerMethod
+						SwaggerMethod.builder()
 							.post()
 							.setSummary('Patient login')
 							.setDescription('This route tries to log in a patient')

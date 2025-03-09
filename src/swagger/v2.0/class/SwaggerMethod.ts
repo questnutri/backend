@@ -1,3 +1,4 @@
+import SwaggerContent from "./SwaggerContent";
 import SwaggerResponse from "./SwaggerResponse";
 
 enum SMethod {
@@ -15,7 +16,7 @@ enum SMethod {
 export default class SwaggerMethod {
     private summary: string = "";
     private description: string = "";
-    private requestBody: any = {}
+    private requestBody: SwaggerContent | null = null;
     private responses: SwaggerResponse[] = [];
     private method: SMethod = SMethod.GET;
     private security: boolean = false;
@@ -23,54 +24,53 @@ export default class SwaggerMethod {
 
     private constructor() { }
 
+    public static builder() {
+        return new SwaggerMethod();
+    }
+
     /**
      * Creates a new SwaggerMethod instance with the GET method.
      * @returns {SwaggerMethod} A new instance of SwaggerMethod.
      */
-    public static get() {
-        let object = new SwaggerMethod();
-        object.method = SMethod.GET;
-        return object;
+    public get() {
+        this.method = SMethod.GET;
+        return this;
     }
 
     /**
      * Creates a new SwaggerMethod instance with the POST method.
      * @returns {SwaggerMethod} A new instance of SwaggerMethod.
      */
-    public static post() {
-        let object = new SwaggerMethod();
-        object.method = SMethod.POST;
-        return object;
+    public post() {
+        this.method = SMethod.POST;
+        return this;
     }
 
     /**
      * Creates a new SwaggerMethod instance with the PUT method.
      * @returns {SwaggerMethod} A new instance of SwaggerMethod.
      */
-    public static put() {
-        let object = new SwaggerMethod();
-        object.method = SMethod.PUT;
-        return object;
+    public put() {
+        this.method = SMethod.PUT;
+        return this;
     }
 
     /**
     * Creates a new SwaggerMethod instance with the PATCH method.
     * @returns {SwaggerMethod} A new instance of SwaggerMethod.
     */
-    public static patch() {
-        let object = new SwaggerMethod();
-        object.method = SMethod.PATCH;
-        return object;
+    public patch() {
+        this.method = SMethod.PATCH;
+        return this;
     }
 
     /**
      * Creates a new SwaggerMethod instance with the DELETE method.
      * @returns {SwaggerMethod} A new instance of SwaggerMethod.
      */
-    public static delete() {
-        let object = new SwaggerMethod();
-        object.method = SMethod.DELETE;
-        return object;
+    public delete() {
+        this.method = SMethod.DELETE;
+        return this;
     }
 
     /**
@@ -93,15 +93,9 @@ export default class SwaggerMethod {
         return this;
     }
 
-    /**
-     * Sets the request body content for the method.
-     * @param {any} content - The request body schema.
-     * @returns {SwaggerMethod} The updated instance.
-     */
-    public setRequestBody(content: any) {
-        this.requestBody = {
-            ...content
-        };
+
+    public setRequestBody(request: SwaggerContent) {
+        this.requestBody = request;
         return this;
     }
 
@@ -147,15 +141,11 @@ export default class SwaggerMethod {
             return { ...acc, ...response.toJson() };
         }, {});
 
-        const json = {
+        const json: any = {
             [this.method]: {
                 summary: this.summary,
                 description: this.description,
-                requestBody: {
-                    content: {
-                        ...this.requestBody,
-                    }
-                },
+
                 tags: this.tags,
                 security: this.security ? [
                     {
@@ -164,6 +154,12 @@ export default class SwaggerMethod {
                 ] : [],
                 responses: responses,
             }
+        }
+        if (this.requestBody) {
+            json[this.method].requestBody = {
+                content: {}
+            };
+            json[this.method].requestBody.content = this.requestBody.toJson();
         }
         return json;
     }
