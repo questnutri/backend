@@ -4,6 +4,7 @@ enum SMethod {
     GET = "get",
     POST = "post",
     PUT = "put",
+    PATCH = "patch",
     DELETE = "delete"
 }
 
@@ -19,9 +20,9 @@ export default class SwaggerMethod {
     private method: SMethod = SMethod.GET;
     private security: boolean = false;
     private tags: string[] = [];
-    
+
     private constructor() { }
-    
+
     /**
      * Creates a new SwaggerMethod instance with the GET method.
      * @returns {SwaggerMethod} A new instance of SwaggerMethod.
@@ -49,6 +50,16 @@ export default class SwaggerMethod {
     public static put() {
         let object = new SwaggerMethod();
         object.method = SMethod.PUT;
+        return object;
+    }
+
+    /**
+    * Creates a new SwaggerMethod instance with the PATCH method.
+    * @returns {SwaggerMethod} A new instance of SwaggerMethod.
+    */
+    public static patch() {
+        let object = new SwaggerMethod();
+        object.method = SMethod.PATCH;
         return object;
     }
 

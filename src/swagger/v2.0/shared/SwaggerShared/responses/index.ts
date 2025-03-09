@@ -33,4 +33,26 @@ export default class SharedSwagger_Responses {
                 )
             )
     ];
+
+    public static tokenNotProvided =
+        SwaggerResponse.builder()
+            .setCode(HttpStatus.UNAUTHORIZED)
+            .setDescription('Token not provided')
+            .setContent(
+                SwaggerUtil.Response.application_json(
+                    SwaggerSchema.Error.schema,
+                    SwaggerSchema.Error.Login.Authentication.tokenNotProvided
+                )
+            )
+
+    public static internalServerError =
+        SwaggerResponse.builder()
+            .setCode(HttpStatus.INTERNAL_SERVER_ERROR)
+            .setDescription('Internal server error')
+            .setContent(
+                SwaggerUtil.Response.application_json(
+                    SwaggerSchema.Error.schema,
+                    SwaggerSchema.Error.Server.internalServerError
+                )
+            )
 }

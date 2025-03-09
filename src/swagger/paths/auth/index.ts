@@ -67,11 +67,11 @@ export default SwaggerUrlTree.builder()
 								.addResponses(
 									[
 										SwaggerResponse.builder()
-											.setCode(HttpStatus.OK)
+											.setCode(HttpStatus.CREATED)
 											.setDescription('Nutritionist created')
 											.setContent(
 												SwaggerUtil.Response.application_json(
-													SwaggerSchema.Nutritionist.schema.schema
+													SwaggerSchema.Nutritionist.schema
 												)
 											),
 										SwaggerResponse.builder()

@@ -1,4 +1,4 @@
-export default abstract class SwaggerSchema_Nutritionist_Register {
+export default abstract class SwaggerSchema_Nutritionist_Update {
     public static schema = {
         type: 'object',
         properties: {
@@ -10,9 +10,6 @@ export default abstract class SwaggerSchema_Nutritionist_Register {
             },
             email: {
                 type: 'string'
-            },
-            password: {
-                type: 'string'
             }
         }
     }
@@ -23,7 +20,6 @@ export default abstract class SwaggerSchema_Nutritionist_Register {
                 firstName: 'John',
                 lastName: 'Doe',
                 email: 'john.doe@mail.com',
-                password: 'hard-password'
             }
         }
     }

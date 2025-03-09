@@ -1,6 +1,8 @@
+import SwaggerSchema_Error_Login_Authentication from "./authentication"
+
 export default class SwaggerSchema_Error_Login {
     public static invalidPassword = {
-		invalidPassword: {
+        invalidPassword: {
             summary: "Invalid password",
             value: {
                 error: 'Invalid password',
@@ -12,10 +14,12 @@ export default class SwaggerSchema_Error_Login {
     public static emailNotFound = {
         emailNotFound: {
             summary: "E-mail not found",
-            value:{
+            value: {
                 error: 'E-mail not found',
-                status : 404
+                status: 404
             }
         }
     }
+
+    public static Authentication = class extends SwaggerSchema_Error_Login_Authentication { }
 }

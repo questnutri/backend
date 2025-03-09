@@ -8,14 +8,14 @@ import SwaggerSchema_Patient from "./extends/patient";
 import SwaggerSchema_Token from "./extends/token";
 
 export default abstract class SwaggerSchema {
-    public static Nutritionist = class extends SwaggerSchema_Nutritionist {}
-    public static Patient = class extends SwaggerSchema_Patient {}
+    public static Nutritionist = class extends SwaggerSchema_Nutritionist { }
+    public static Patient = class extends SwaggerSchema_Patient { }
 
-    public static Diet = class extends SwaggerSchema_Diet {}
-    public static Meal = class extends SwaggerSchema_Meal {}
-    public static Food = class extends SwaggerSchema_Food {}
-    
-    public static Error = class extends SwaggerSchema_Error {}
-    public static Token = class extends SwaggerSchema_Token {}
-    public static Login = class extends SwaggerSchema_Login {}
+    public static Diet = class extends SwaggerSchema_Diet { }
+    public static Meal = class extends SwaggerSchema_Meal { }
+    public static Food = class extends SwaggerSchema_Food { }
+
+    public static Error = class extends SwaggerSchema_Error { }
+    public static Token = class extends SwaggerSchema_Token { }
+    public static Login = class extends SwaggerSchema_Login { }
 }
