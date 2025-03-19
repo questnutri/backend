@@ -1,10 +1,10 @@
-export default abstract class SwaggerSchema_Diet_Create {
+export default abstract class SwaggerSchema_Food_Delete {
     public static schema = {
         type: 'object',
         properties: {
-            name: {
+            message: {
                 type: 'string',
-                example: 'Segunda dieta'
+                example: 'Food deleted successfully.'
             }
         }
     }

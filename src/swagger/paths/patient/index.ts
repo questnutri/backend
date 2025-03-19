@@ -1,46 +1,47 @@
-import { Nutritionist_UpdatePatientSchema } from '../../schemas_and_examples/nutritionist'
-import { Patient_InfoSchema } from '../../schemas_and_examples/patient'
-import loggedSessionRequiredSwaggerResponse from '../../utils/common/loggedSessionRequired.swagger-response'
-import jsonContentSwagger from '../../utils/jsonContent.swagger'
-import swaggerResponse from '../../utils/responses/status-code/response.swagger'
+import SwaggerContent from "../../v2.0/class/SwaggerContent";
+import SwaggerMethod from "../../v2.0/class/SwaggerMethod";
+import SwaggerResponse from "../../v2.0/class/SwaggerResponse";
+import SwaggerUrlLeaf from "../../v2.0/class/SwaggerUrlLeaf";
+import SwaggerUrlTree from "../../v2.0/class/SwaggerUrlTree";
+import SwaggerSchema from "../../v2.0/schemas/SwaggerSchema";
+import SwaggerShared from "../../v2.0/shared/SwaggerShared/SwaggerShared";
+import { HttpStatus } from "../../v2.0/shared/utils/HttpStatus.enum";
+import dietPatientTree from "./dietPatient.tree";
 
-export const patientRoot = {
-	get: {
-		summary: 'Patient info',
-		description: 'This route retrieves basic information related to a patient',
-		tags: ['Patient'],
-		security: [
-			{
-				bearerAuth: []
-			}
-		],
-		responses: {
-			...loggedSessionRequiredSwaggerResponse,
-			...swaggerResponse(200, 'Ok', jsonContentSwagger(Patient_InfoSchema))
-		}
-
-	},
-	patch: {
-		summary: 'Update patient info',
-		description: 'This route updates basic information related to a patient.',
-		tags: ['Patient'],
-		security: [
-			{
-				bearerAuth: []
-			}
-		],
-		requestBody: {
-			content: {
-				...jsonContentSwagger(Nutritionist_UpdatePatientSchema)
-			}
-		},
-		responses: {
-			...loggedSessionRequiredSwaggerResponse,
-			...swaggerResponse(200, 'Ok', jsonContentSwagger(Patient_InfoSchema))
-		}
-	}
-}
-
-export default {
-	'': patientRoot,
-}
+export default SwaggerUrlTree.builder()
+    .setPath("/patient")
+    .addLeaf(
+        SwaggerUrlLeaf.builder()
+            .addTags(["Patient"])
+            .addMethods(
+                [
+                    SwaggerShared.Methods.Patient.patientInfo,
+                    SwaggerMethod.builder()
+                        .patch()
+                        .setSummary("Update patient info.")
+                        .setDescription("This route updates basic information related to a patient.")
+                        .setRequestBody(
+                            SwaggerContent.builder()
+                                .setSchemaAndExample(
+                                    SwaggerSchema.Patient.Update
+                                )
+                        )
+                        .addResponses(
+                            [SwaggerResponse.builder()
+                                .setCode(HttpStatus.OK)
+                                .setDescription("Ok")
+                                .setContent(
+                                    SwaggerContent.builder()
+                                        .setSchemaAndExample(
+                                            SwaggerSchema.Patient
+                                        )
+                                ),
+                            SwaggerShared.Responses.internalServerError,
+                            SwaggerShared.Responses.tokenNotProvided
+                            ]
+                        )
+                ]
+            )
+    )
+    .addBranch(dietPatientTree)
+    .toJson()

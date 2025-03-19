@@ -3,10 +3,10 @@ import SwaggerContent from "../../v2.0/class/SwaggerContent";
 import SwaggerResponse from "../../v2.0/class/SwaggerResponse";
 import SwaggerUrlLeaf from "../../v2.0/class/SwaggerUrlLeaf";
 import SwaggerUrlTree from "../../v2.0/class/SwaggerUrlTree";
-import SwaggerUtil from "../../v2.0/class/SwaggerUtil";
 import SwaggerSchema from "../../v2.0/schemas/SwaggerSchema";
 import SwaggerShared from "../../v2.0/shared/SwaggerShared/SwaggerShared";
 import { HttpStatus } from "../../v2.0/shared/utils/HttpStatus.enum";
+import patientTree from "./patient.tree";
 
 export default SwaggerUrlTree.builder()
     .setPath("/nutritionist")
@@ -50,4 +50,5 @@ export default SwaggerUrlTree.builder()
                     )
             ])
     )
+    .addBranch(patientTree)
     .toJson()

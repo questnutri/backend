@@ -4,9 +4,11 @@ import nutritionist from './nutritionist'
 import nutritionistTree from './nutritionist/nutritionist.tree'
 import patient from './patient'
 
+
 export default {
     ...auth,
-    ...nutritionistTree
+    ...nutritionistTree,
+    ...patient
     // ...rebasePathSwagger('/nutritionist', nutritionist),
     // ...rebasePathSwagger('/patient', patient),
 

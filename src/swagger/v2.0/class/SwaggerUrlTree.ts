@@ -66,9 +66,6 @@ export default class SwaggerUrlTree {
      * @returns {SwaggerUrlTree} The updated instance.
      */
     public addBranches(trees: SwaggerUrlTree[]) {
-        trees.forEach(tree => {
-            tree.addFatherPath(this.pathName);
-        })
         this.branches.push(...trees);
         return this;
     }
@@ -79,7 +76,6 @@ export default class SwaggerUrlTree {
      * @returns {SwaggerUrlTree} The updated instance.
      */
     public addBranch(tree: SwaggerUrlTree) {
-        tree.addFatherPath(this.pathName);
         this.branches.push(tree)
         return this;
     }
@@ -103,6 +99,7 @@ export default class SwaggerUrlTree {
      */
     public toJson() {
         const branches: any = this.branches.reduce((acc, branch) => {
+            branch.addFatherPath(this.pathName)
             branch.addTags(this.tags);
             return { ...acc, ...branch.toJson() };
         }, {});

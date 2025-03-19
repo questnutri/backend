@@ -1,3 +1,4 @@
+import SwaggerSchema_Patient_Delete from "./delete"
 import SwaggerSchema_Patient_Register from "./register"
 import SwaggerSchema_Patient_Update from "./update"
 
@@ -61,6 +62,7 @@ export default abstract class SwaggerSchema_Patient {
         },
     }
 
-    public static Register = class extends SwaggerSchema_Patient_Register {}
-    public static Update = class extends SwaggerSchema_Patient_Update {}
+    public static Register = class extends SwaggerSchema_Patient_Register { }
+    public static Update = class extends SwaggerSchema_Patient_Update { }
+    public static Delete = class extends SwaggerSchema_Patient_Delete { }
 }

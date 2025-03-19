@@ -7,58 +7,58 @@ import { Nutritionist_PatientMeal_SwaggerTag } from '../../../../../../../../uti
 import food from './food'
 
 export const root = {
-	get: {
-		summary: 'Meal by Id',
-		description: 'This route returns information about a meal by id.',
-		tags: [...Nutritionist_PatientMeal_SwaggerTag],
-		security: [
-			{
-				bearerAuth: []
-			}
-		],
-		responses: {
-			...loggedSessionRequiredSwaggerResponse,
-			...swaggerResponse(200, 'Ok', jsonContentSwagger(GetMeal_SchemaSwagger)) // retorna as mesma informações que se faz necessario para criar uma meal
-		}
+    get: {
+        summary: 'Retrieve a meal by Id',
+        description: 'This route retrieves information about a meal by Id.',
+        tags: [...Nutritionist_PatientMeal_SwaggerTag],
+        security: [
+            {
+                bearerAuth: []
+            }
+        ],
+        responses: {
+            ...loggedSessionRequiredSwaggerResponse,
+            ...swaggerResponse(200, 'Ok', jsonContentSwagger(GetMeal_SchemaSwagger)) // retorna as mesma informações que se faz necessario para criar uma meal
+        }
 
-	},
-	patch: {
-		summary: 'Update meal',
-		description: 'This route updates information about a meal by id.',
-		tags: [...Nutritionist_PatientMeal_SwaggerTag],
-		security: [
-			{
-				bearerAuth: []
-			}
-		],
-		requestBody: {
-			content: {
-				...jsonContentSwagger(NewMeal_SchemaSwagger) // utiliza o mesmo schema para criar uma meal
-			}
-		},
-		responses: {
-			...loggedSessionRequiredSwaggerResponse,
-			...swaggerResponse(200, 'Meal updated successfully.', jsonContentSwagger(GetMeal_SchemaSwagger))
-		}
+    },
+    patch: {
+        summary: 'Update meal',
+        description: 'This route updates information about a meal by id.',
+        tags: [...Nutritionist_PatientMeal_SwaggerTag],
+        security: [
+            {
+                bearerAuth: []
+            }
+        ],
+        requestBody: {
+            content: {
+                ...jsonContentSwagger(NewMeal_SchemaSwagger) // utiliza o mesmo schema para criar uma meal
+            }
+        },
+        responses: {
+            ...loggedSessionRequiredSwaggerResponse,
+            ...swaggerResponse(200, 'Meal updated successfully.', jsonContentSwagger(GetMeal_SchemaSwagger))
+        }
 
-	},
-	delete: {
-		summary: 'Delete meal',
-		description: 'This route deletes a meal by id.',
-		tags: [...Nutritionist_PatientMeal_SwaggerTag],
-		security: [
-			{
-				bearerAuth: []
-			}
-		],
-		responses: {
-			...loggedSessionRequiredSwaggerResponse,
-			...swaggerResponse(200, 'Meal deleted successfully')
-		}
-	}
+    },
+    delete: {
+        summary: 'Delete meal',
+        description: 'This route deletes a meal by id.',
+        tags: [...Nutritionist_PatientMeal_SwaggerTag],
+        security: [
+            {
+                bearerAuth: []
+            }
+        ],
+        responses: {
+            ...loggedSessionRequiredSwaggerResponse,
+            ...swaggerResponse(200, 'Meal deleted successfully')
+        }
+    }
 }
 
 export default {
-	'': root,
-	...rebasePathSwagger('food', food)
+    '': root,
+    ...rebasePathSwagger('food', food)
 }
