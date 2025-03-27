@@ -11,6 +11,7 @@ import { HttpStatus } from "../../v2.0/shared/utils/HttpStatus.enum";
 export default SwaggerUrlTree.builder()
     .setPath('/auth')
     .addTags(["Auth"])
+    .enableTagSeed()
     .addBranch(
         SwaggerUrlTree.builder()
             .setPath('/admin')

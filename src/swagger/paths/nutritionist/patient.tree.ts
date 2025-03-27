@@ -12,6 +12,7 @@ export default SwaggerUrlTree.builder()
     .setPath("/patient")
     .addLeaf(
         SwaggerUrlLeaf.builder()
+            .addTags(["Nutritionist"])
             .addMethods([
                 SwaggerMethod.builder()
                     .get()
@@ -62,6 +63,7 @@ export default SwaggerUrlTree.builder()
             .setPath("/{patientId}")
             .addLeaf(
                 SwaggerUrlLeaf.builder()
+                    .addTags(["Patient control by Nutritionist"])
                     .addMethods(
                         [
                             SwaggerShared.Methods.Patient.patientInfo,

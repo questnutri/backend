@@ -9,9 +9,9 @@ import { HttpStatus } from "../../v2.0/shared/utils/HttpStatus.enum";
 
 export default SwaggerUrlTree.builder()
     .setPath("/food")
+    .addTags(["Patient`s food control by nutritionist"])
     .addLeaf(
         SwaggerUrlLeaf.builder()
-            .addTags(["Patient`s food control by nutritionist"])
             .addMethods(
                 [
                     SwaggerShared.Methods.Food.getAllFoods,

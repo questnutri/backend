@@ -10,9 +10,9 @@ import foodTree from "./food.tree";
 
 export default SwaggerUrlTree.builder()
     .setPath("/meal")
+    .addTags(["Patient`s meal control by nutritionist"])
     .addLeaf(
         SwaggerUrlLeaf.builder()
-            .addTags(["Patient`s meal control by nutritionist"])
             .addMethods(
                 [
                     SwaggerShared.Methods.Meal.getAllMeals,
@@ -47,9 +47,9 @@ export default SwaggerUrlTree.builder()
     .addBranch(
         SwaggerUrlTree.builder()
             .setPath("/{mealId}")
+            .addTags(["Patient`s meal control by nutritionist"])
             .addLeaf(
                 SwaggerUrlLeaf.builder()
-                    .addTags(["Patient`s meal control by nutritionist"])
                     .addMethods(
                         [
                             SwaggerShared.Methods.Meal.getMealById,

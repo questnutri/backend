@@ -94,6 +94,7 @@ export default class SwaggerUrlLeaf {
                 SwaggerMethod.copy(m)
             );
         })
+        copied.tags = ref.tags;
 
         return copied;
     }

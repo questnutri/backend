@@ -20,6 +20,12 @@ export default class SwaggerUrlTree {
         return new SwaggerUrlTree();
     }
 
+    private tagSeed: boolean = false;
+    public enableTagSeed() {
+        this.tagSeed = true;
+        return this;
+    }
+
     /**
      * Sets the base path for the URL tree.
      * @param {string} path - The base path of the API.
@@ -103,8 +109,10 @@ export default class SwaggerUrlTree {
      */
     public toJson() {
         const branches: any = this.branches.reduce((acc, branch) => {
-            branch.addFatherPath(this.pathName)
-            branch.addTags(this.tags);
+            branch.addFatherPath(this.pathName);
+            if(this.tagSeed) {
+                branch.addTags(this.tags);
+            }
             return { ...acc, ...branch.toJson() };
         }, {});
 
@@ -141,6 +149,7 @@ export default class SwaggerUrlTree {
                 SwaggerUrlLeaf.copy(l)
             );
         });
+        copied.tags = [...ref.tags];
 
         return copied;
     }
