@@ -14,25 +14,7 @@ export default SwaggerUrlTree.builder()
             .addTags(["Patient`s food control by nutritionist"])
             .addMethods(
                 [
-                    SwaggerMethod.builder()
-                        .get()
-                        .setSummary("Retrieves all foods.")
-                        .setDescription("This route retrieves all foods.")
-                        .addResponses(
-                            [
-                                SwaggerResponse.builder()
-                                    .setCode(HttpStatus.OK)
-                                    .setDescription("Ok")
-                                    .setContent(
-                                        SwaggerContent.builder()
-                                            .setSchemaAndExample(
-                                                SwaggerSchema.Food
-                                            )
-                                    ),
-                                SwaggerShared.Responses.internalServerError,
-                                SwaggerShared.Responses.tokenNotProvided
-                            ]
-                        ),
+                    SwaggerShared.Methods.Food.getAllFoods,
                     SwaggerMethod.builder()
                         .post()
                         .setSummary("Create a new food.")
@@ -69,25 +51,7 @@ export default SwaggerUrlTree.builder()
                 SwaggerUrlLeaf.builder()
                     .addMethods(
                         [
-                            SwaggerMethod.builder()
-                                .get()
-                                .setSummary("Retrieve a food by Id.")
-                                .setDescription("This route retrieve a food by Id.")
-                                .addResponses(
-                                    [
-                                        SwaggerResponse.builder()
-                                            .setCode(HttpStatus.OK)
-                                            .setDescription("Ok")
-                                            .setContent(
-                                                SwaggerContent.builder()
-                                                    .setSchemaAndExample(
-                                                        SwaggerSchema.Food
-                                                    )
-                                            ),
-                                        SwaggerShared.Responses.internalServerError,
-                                        SwaggerShared.Responses.tokenNotProvided
-                                    ]
-                                ),
+                            SwaggerShared.Methods.Food.getFoodById,
                             SwaggerMethod.builder()
                                 .patch()
                                 .setSummary("Update a food by Id.")

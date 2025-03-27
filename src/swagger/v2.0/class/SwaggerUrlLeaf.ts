@@ -1,4 +1,5 @@
 import SwaggerMethod from "./SwaggerMethod";
+import SwaggerUtil from "./SwaggerUtil";
 
 /**
  * Class representing a Swagger URL leaf, used to build API endpoint documentation.
@@ -46,9 +47,11 @@ export default class SwaggerUrlLeaf {
      */
     public addMethods(method: SwaggerMethod | SwaggerMethod[]) {
         if (method instanceof SwaggerMethod) {
-            this.methods.push(method);
+            this.methods.push(SwaggerMethod.copy(method));
         } else {
-            this.methods.push(...method);
+            method.forEach(m => {
+                this.methods.push(SwaggerMethod.copy(m))
+            });
         }
         return this;
     }
@@ -80,6 +83,19 @@ export default class SwaggerUrlLeaf {
         };
 
         return res;
+    }
+
+    public static copy(ref: SwaggerUrlLeaf) {
+        let copied = new SwaggerUrlLeaf();
+
+        copied.pathName = ref.pathName;
+        ref.methods.forEach(m => {
+            copied.methods.push(
+                SwaggerMethod.copy(m)
+            );
+        })
+
+        return copied;
     }
 
 }

@@ -4,14 +4,13 @@ import SwaggerResponse from "../../../../class/SwaggerResponse";
 import SwaggerSchema from "../../../../schemas/SwaggerSchema";
 import { HttpStatus } from "../../../utils/HttpStatus.enum";
 import SharedSwagger_Responses from "../../responses";
-import SwaggerShared from "../../SwaggerShared";
 
-export default abstract class SharedSwagger_Methods_Patient {
-    public static patientInfo =
+export default class SharedSwagger_Methods_Food {
+    public static getAllFoods =
         SwaggerMethod.builder()
             .get()
-            .setSummary("Patient info")
-            .setDescription("This route retrieves basic information related to a patient")
+            .setSummary("Retrieves all foods.")
+            .setDescription("This route retrieves all foods.")
             .addResponses(
                 [
                     SwaggerResponse.builder()
@@ -20,38 +19,31 @@ export default abstract class SharedSwagger_Methods_Patient {
                         .setContent(
                             SwaggerContent.builder()
                                 .setSchemaAndExample(
-                                    SwaggerSchema.Patient
+                                    SwaggerSchema.Food
                                 )
                         ),
                     SharedSwagger_Responses.internalServerError,
                     SharedSwagger_Responses.tokenNotProvided
                 ]
             )
-
-    public static patientUpdate =
+    public static getFoodById =
         SwaggerMethod.builder()
-            .patch()
-            .setSummary("Update patient info")
-            .setDescription("This route updates basic information related to a patient.")
-            .setRequestBody(
-                SwaggerContent.builder()
-                    .setSchemaAndExample(SwaggerSchema.Patient.Update)
-            )
+            .get()
+            .setSummary("Retrieve a food by Id.")
+            .setDescription("This route retrieve a food by Id.")
             .addResponses(
                 [
                     SwaggerResponse.builder()
                         .setCode(HttpStatus.OK)
-                        .setDescription('Ok')
+                        .setDescription("Ok")
                         .setContent(
                             SwaggerContent.builder()
                                 .setSchemaAndExample(
-                                    SwaggerSchema.Patient.Update
+                                    SwaggerSchema.Food
                                 )
                         ),
-                    SharedSwagger_Responses.tokenNotProvided,
-                    SharedSwagger_Responses.internalServerError
+                    SharedSwagger_Responses.internalServerError,
+                    SharedSwagger_Responses.tokenNotProvided
                 ]
-            );
-
-
+            )
 }

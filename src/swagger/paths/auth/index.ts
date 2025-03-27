@@ -33,7 +33,6 @@ export default SwaggerUrlTree.builder()
     .addBranch(
         SwaggerUrlTree.builder()
             .setPath('/nutritionist')
-            .addTags(["Nutritionist"])
             .addLeaves(
                 [
                     SwaggerUrlLeaf.builder()

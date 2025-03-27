@@ -164,5 +164,20 @@ export default class SwaggerMethod {
         return json;
     }
 
+    public static copy(ref: SwaggerMethod) {
+
+        let copied = new SwaggerMethod();
+        copied.summary = ref.summary;
+        copied.description = ref.description;
+        copied.requestBody = ref.requestBody;
+        copied.responses = [...ref.responses];
+        copied.method = ref.method;
+        copied.security = ref.security;
+        copied.tags = [...ref.tags];
+
+        return copied;
+
+    }
+
 }
 

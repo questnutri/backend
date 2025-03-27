@@ -15,25 +15,7 @@ export default SwaggerUrlTree.builder()
             .addTags(["Patient`s meal control by nutritionist"])
             .addMethods(
                 [
-                    SwaggerMethod.builder()
-                        .get()
-                        .setSummary("Retrieves all meals")
-                        .setDescription("This route retrievies information about all meals")
-                        .addResponses(
-                            [
-                                SwaggerResponse.builder()
-                                    .setCode(HttpStatus.OK)
-                                    .setDescription("Ok")
-                                    .setContent(
-                                        SwaggerContent.builder()
-                                            .setSchemaAndExample(
-                                                SwaggerSchema.Meal
-                                            )
-                                    ),
-                                SwaggerShared.Responses.internalServerError,
-                                SwaggerShared.Responses.tokenNotProvided
-                            ]
-                        ),
+                    SwaggerShared.Methods.Meal.getAllMeals,
                     SwaggerMethod.builder()
                         .post()
                         .setSummary("Create a new meal")
@@ -70,25 +52,7 @@ export default SwaggerUrlTree.builder()
                     .addTags(["Patient`s meal control by nutritionist"])
                     .addMethods(
                         [
-                            SwaggerMethod.builder()
-                                .get()
-                                .setSummary("Retrieve a meal by Id")
-                                .setDescription("This route retrieves information about a meal by Id.")
-                                .addResponses(
-                                    [
-                                        SwaggerResponse.builder()
-                                            .setCode(HttpStatus.OK)
-                                            .setDescription("Ok")
-                                            .setContent(
-                                                SwaggerContent.builder()
-                                                    .setSchemaAndExample(
-                                                        SwaggerSchema.Meal
-                                                    )
-                                            ),
-                                        SwaggerShared.Responses.internalServerError,
-                                        SwaggerShared.Responses.tokenNotProvided
-                                    ]
-                                ),
+                            SwaggerShared.Methods.Meal.getMealById,
                             SwaggerMethod.builder()
                                 .patch()
                                 .setSummary("Update a meal by Id.")

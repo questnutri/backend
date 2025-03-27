@@ -12,7 +12,6 @@ export default SwaggerUrlTree.builder()
     .setPath("/patient")
     .addLeaf(
         SwaggerUrlLeaf.builder()
-            .addTags(["Patient control by nutritionist"])
             .addMethods([
                 SwaggerMethod.builder()
                     .get()
@@ -61,54 +60,12 @@ export default SwaggerUrlTree.builder()
     .addBranch(
         SwaggerUrlTree.builder()
             .setPath("/{patientId}")
-            .addBranch(dietTree)
             .addLeaf(
                 SwaggerUrlLeaf.builder()
-                    .addTags(["Patient control by nutritionist"])
                     .addMethods(
                         [
-                            SwaggerMethod.builder()
-                                .get()
-                                .setSummary("Patient info")
-                                .setDescription("This route retrieves basic information related to a patient")
-                                .addResponses(
-                                    [
-                                        SwaggerResponse.builder()
-                                            .setCode(HttpStatus.OK)
-                                            .setDescription('Ok')
-                                            .setContent(
-                                                SwaggerContent.builder()
-                                                    .setSchema(
-                                                        SwaggerSchema.Patient.schema
-                                                    )
-                                            ),
-                                        SwaggerShared.Responses.tokenNotProvided,
-                                        SwaggerShared.Responses.internalServerError
-                                    ]
-                                ),
-                            SwaggerMethod.builder()
-                                .patch()
-                                .setSummary("Update patient info")
-                                .setDescription("This route updates basic information related to a patient.")
-                                .setRequestBody(
-                                    SwaggerContent.builder()
-                                        .setSchemaAndExample(SwaggerSchema.Patient.Update)
-                                )
-                                .addResponses(
-                                    [
-                                        SwaggerResponse.builder()
-                                            .setCode(HttpStatus.OK)
-                                            .setDescription('Ok')
-                                            .setContent(
-                                                SwaggerContent.builder()
-                                                    .setSchemaAndExample(
-                                                        SwaggerSchema.Patient.Update
-                                                    )
-                                            ),
-                                        SwaggerShared.Responses.tokenNotProvided,
-                                        SwaggerShared.Responses.internalServerError
-                                    ]
-                                ),
+                            SwaggerShared.Methods.Patient.patientInfo,
+                            SwaggerShared.Methods.Patient.patientUpdate,
                             SwaggerMethod.builder()
                                 .delete()
                                 .setSummary("Delete patient")
@@ -131,4 +88,5 @@ export default SwaggerUrlTree.builder()
                         ]
                     )
             )
+            .addBranch(dietTree)
     )

@@ -1,4 +1,5 @@
 import SwaggerSchema_Food from "../food"
+import SwaggerSchema_Meal_CheckDailyMeal from "./checkDailyMeal"
 import SwaggerSchema_Meal_Create from "./create"
 import SwaggerSchema_Meal_Delete from "./delete"
 import SwaggerSchema_Meal_Update from "./update"
@@ -47,4 +48,5 @@ export default abstract class SwaggerSchema_Meal {
     public static Create = class extends SwaggerSchema_Meal_Create { }
     public static Update = class extends SwaggerSchema_Meal_Update { }
     public static Delete = class extends SwaggerSchema_Meal_Delete { }
+    public static CheckDailyMeal = class extends SwaggerSchema_Meal_CheckDailyMeal { }
 }

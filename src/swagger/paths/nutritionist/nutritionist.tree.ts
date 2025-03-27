@@ -8,11 +8,56 @@ import SwaggerShared from "../../v2.0/shared/SwaggerShared/SwaggerShared";
 import { HttpStatus } from "../../v2.0/shared/utils/HttpStatus.enum";
 import patientTree from "./patient.tree";
 
+// export default SwaggerUrlTree.builder()
+//     .setPath("/nutritionist")
+//     .addTags(["Nutritionist"])
+//     .addLeaf(
+//         SwaggerUrlLeaf.builder()
+//             .addTags(['Nutritionist'])
+//             .addMethods([
+//                 SwaggerMethod.builder()
+//                     .get()
+//                     .setSummary('Retrieve Nutritionist info')
+//                     .setDescription('This route retrieves general information about a logged nutritionist')
+//                     .addResponses(
+//                         SwaggerResponse.builder()
+//                             .setCode(HttpStatus.OK)
+//                             .setDescription('Ok')
+//                             .setContent(
+//                                 SwaggerContent.builder()
+//                                     .setSchema(SwaggerSchema.Nutritionist.schema)
+//                             )
+//                     ),
+//                 SwaggerMethod.builder()
+//                     .patch()
+//                     .setSummary('Update Nutritionist info')
+//                     .setDescription('This route updates general information about a logged nutritionist')
+//                     .setRequestBody(
+//                         SwaggerContent.builder()
+//                             .setSchemaAndExample(SwaggerSchema.Nutritionist)
+//                     )
+//                     .addResponses(
+//                         [
+//                             SwaggerResponse.builder()
+//                                 .setCode(HttpStatus.OK)
+//                                 .setDescription('Ok')
+//                                 .setContent(
+//                                     SwaggerContent.builder()
+//                                         .setSchema(SwaggerSchema.Nutritionist.schema)
+//                                 ),
+//                             SwaggerShared.Responses.tokenNotProvided,
+//                             SwaggerShared.Responses.internalServerError
+//                         ]
+//                     )
+//             ])
+//     )
+//     .toJson()
+
 export default SwaggerUrlTree.builder()
-    .setPath("/nutritionist")
+    .setPath('/nutritionists')
+    .addTags(["Nutritionist"])
     .addLeaf(
         SwaggerUrlLeaf.builder()
-            .addTags(['Nutritionist'])
             .addMethods([
                 SwaggerMethod.builder()
                     .get()

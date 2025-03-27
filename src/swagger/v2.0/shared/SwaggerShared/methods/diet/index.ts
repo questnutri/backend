@@ -1,9 +1,11 @@
-import SwaggerContent from "../../../class/SwaggerContent";
-import SwaggerMethod from "../../../class/SwaggerMethod";
-import SwaggerResponse from "../../../class/SwaggerResponse";
-import SwaggerSchema from "../../../schemas/SwaggerSchema";
-import { HttpStatus } from "../../utils/HttpStatus.enum";
-import SwaggerShared from "../SwaggerShared";
+import SwaggerContent from "../../../../class/SwaggerContent";
+import SwaggerMethod from "../../../../class/SwaggerMethod";
+import SwaggerResponse from "../../../../class/SwaggerResponse";
+import SwaggerSchema from "../../../../schemas/SwaggerSchema";
+import { HttpStatus } from "../../../utils/HttpStatus.enum";
+import SwaggerShared from "../../SwaggerShared";
+import SharedSwagger_Responses from "../../responses"
+
 
 export default class SharedSwagger_Methods_Diet {
     public static getAllDiets =
@@ -22,8 +24,8 @@ export default class SharedSwagger_Methods_Diet {
                                     SwaggerSchema.Diet
                                 )
                         ),
-                    // SwaggerShared.Responses.internalServerError,
-                    // SwaggerShared.Responses.tokenNotProvided
+                    SharedSwagger_Responses.internalServerError,
+                    SharedSwagger_Responses.tokenNotProvided
                 ]
             )
     public static getDietById =
@@ -42,8 +44,8 @@ export default class SharedSwagger_Methods_Diet {
                                     SwaggerSchema.Diet
                                 )
                         ),
-                    // SwaggerShared.Responses.internalServerError,
-                    // SwaggerShared.Responses.tokenNotProvided
+                    SharedSwagger_Responses.internalServerError,
+                    SharedSwagger_Responses.tokenNotProvided
                 ]
             )
 }

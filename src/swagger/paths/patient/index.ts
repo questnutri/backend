@@ -10,38 +10,13 @@ import dietPatientTree from "./dietPatient.tree";
 
 export default SwaggerUrlTree.builder()
     .setPath("/patient")
+    .addTags(["Patient"])
     .addLeaf(
         SwaggerUrlLeaf.builder()
-            .addTags(["Patient"])
-            .addMethods(
-                [
-                    SwaggerShared.Methods.Patient.patientInfo,
-                    SwaggerMethod.builder()
-                        .patch()
-                        .setSummary("Update patient info.")
-                        .setDescription("This route updates basic information related to a patient.")
-                        .setRequestBody(
-                            SwaggerContent.builder()
-                                .setSchemaAndExample(
-                                    SwaggerSchema.Patient.Update
-                                )
-                        )
-                        .addResponses(
-                            [SwaggerResponse.builder()
-                                .setCode(HttpStatus.OK)
-                                .setDescription("Ok")
-                                .setContent(
-                                    SwaggerContent.builder()
-                                        .setSchemaAndExample(
-                                            SwaggerSchema.Patient
-                                        )
-                                ),
-                            SwaggerShared.Responses.internalServerError,
-                            SwaggerShared.Responses.tokenNotProvided
-                            ]
-                        )
-                ]
-            )
+            .addMethods([
+                SwaggerShared.Methods.Patient.patientInfo,
+                SwaggerShared.Methods.Patient.patientUpdate,
+            ])
     )
     .addBranch(dietPatientTree)
     .toJson()

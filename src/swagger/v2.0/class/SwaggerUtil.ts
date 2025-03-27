@@ -21,4 +21,8 @@ export default class SwaggerUtil {
             }
         }
     }
+
+    public static copy<T>(obj: T) {
+        return JSON.parse(JSON.stringify(obj));
+    }
 }

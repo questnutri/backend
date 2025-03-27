@@ -1,3 +1,4 @@
+import SwaggerSchema_Aliment from "./extends/aliment";
 import SwaggerSchema_Diet from "./extends/diet";
 import SwaggerSchema_Error from "./extends/errors";
 import SwaggerSchema_Food from "./extends/food";
@@ -14,6 +15,7 @@ export default abstract class SwaggerSchema {
     public static Diet = class extends SwaggerSchema_Diet { }
     public static Meal = class extends SwaggerSchema_Meal { }
     public static Food = class extends SwaggerSchema_Food { }
+    public static Aliment = class extends SwaggerSchema_Aliment { }
 
     public static Error = class extends SwaggerSchema_Error { }
     public static Token = class extends SwaggerSchema_Token { }

@@ -1,24 +1,22 @@
 import SwaggerUrlLeaf from "../../v2.0/class/SwaggerUrlLeaf";
 import SwaggerUrlTree from "../../v2.0/class/SwaggerUrlTree";
 import SwaggerShared from "../../v2.0/shared/SwaggerShared/SwaggerShared";
-import mealPatientTree from "./mealPatient.tree";
 
 export default SwaggerUrlTree.builder()
-    .setPath("/diet")
+    .setPath("/food")
     .addLeaf(
         SwaggerUrlLeaf.builder()
             .addMethods([
-                SwaggerShared.Methods.Diet.getAllDiets
+                SwaggerShared.Methods.Food.getAllFoods
             ])
     )
     .addBranch(
         SwaggerUrlTree.builder()
-            .setPath("/{dietId}")
+            .setPath("/{foodId}")
             .addLeaf(
                 SwaggerUrlLeaf.builder()
                     .addMethods([
-                        SwaggerShared.Methods.Diet.getDietById
+                        SwaggerShared.Methods.Food.getFoodById
                     ])
             )
-            .addBranch(mealPatientTree)
     )

@@ -46,7 +46,9 @@ export default class SwaggerUrlTree {
      * @returns {SwaggerUrlTree} The updated instance.
      */
     public addLeaves(paths: SwaggerUrlLeaf[]) {
-        this.leafs.push(...paths);
+        paths.forEach(p => {
+            this.leafs.push(SwaggerUrlLeaf.copy(p));
+        })
         return this;
     }
 
@@ -56,7 +58,7 @@ export default class SwaggerUrlTree {
      * @returns {SwaggerUrlTree} The updated instance.
      */
     public addLeaf(path: SwaggerUrlLeaf) {
-        this.leafs.push(path)
+        this.leafs.push(SwaggerUrlLeaf.copy(path));
         return this;
     }
 
@@ -66,7 +68,9 @@ export default class SwaggerUrlTree {
      * @returns {SwaggerUrlTree} The updated instance.
      */
     public addBranches(trees: SwaggerUrlTree[]) {
-        this.branches.push(...trees);
+        trees.forEach(t => {
+            this.branches.push(SwaggerUrlTree.copy(t));
+        })
         return this;
     }
 
@@ -76,7 +80,7 @@ export default class SwaggerUrlTree {
      * @returns {SwaggerUrlTree} The updated instance.
      */
     public addBranch(tree: SwaggerUrlTree) {
-        this.branches.push(tree)
+        this.branches.push(SwaggerUrlTree.copy(tree))
         return this;
     }
 
@@ -115,5 +119,29 @@ export default class SwaggerUrlTree {
             ...branches
         };
 
+    }
+
+    public static copy(ref: SwaggerUrlTree) {
+        // private pathName: string | null = null;
+        // private tags: string[] = [];
+        // private leafs: SwaggerUrlLeaf[] = [];
+        // private branches: SwaggerUrlTree[] = [];
+
+        let copied = new SwaggerUrlTree();
+
+        copied.pathName = ref.pathName;
+        copied.leafs = [...ref.leafs];
+        ref.branches.forEach(b => {
+            copied.branches.push(
+                SwaggerUrlTree.copy(b)
+            );
+        });
+        copied.leafs.forEach(l => {
+            copied.leafs.push(
+                SwaggerUrlLeaf.copy(l)
+            );
+        });
+
+        return copied;
     }
 }
