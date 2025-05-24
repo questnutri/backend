@@ -3,6 +3,7 @@ import * as bcrypt from 'bcrypt'
 import validateCPF from '../../middlewares/validate/validateCPF'
 
 export interface INutritionist extends Document {
+	_id: mongoose.Types.ObjectId,
 	firstName: string,
 	lastName?: string
 	email: string,
@@ -22,6 +23,7 @@ export interface INutritionist extends Document {
 }
 
 export const NutritionistSchema = new Schema<INutritionist>({
+	_id: { type: Schema.Types.ObjectId },
 	firstName: {
 		type: String,
 		required: true

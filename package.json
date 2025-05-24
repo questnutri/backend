@@ -8,7 +8,7 @@
     "dev": "ts-node-dev src/server.ts",
     "lint": "eslint . --fix",
     "cycle:diet": "ts-node-dev src/scripts/resetPatientDailyDiet.ts",
-    "start:container": "node server.js"
+    "start:container": "node src/server.js"
   },
   "keywords": [],
   "author": "",
@@ -24,11 +24,10 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.7.0",
     "sequelize": "^6.37.5",
-    "sqlite3": "^5.1.7",
+    "sqlite3": "^5.1.6",
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
-    "@types/swagger-ui-express": "^4.1.6",
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
@@ -36,6 +35,7 @@
     "@types/mongoose": "^5.11.96",
     "@types/node": "^22.7.4",
     "@types/sequelize": "^4.28.20",
+    "@types/swagger-ui-express": "^4.1.6",
     "@typescript-eslint/eslint-plugin": "^8.8.0",
     "@typescript-eslint/parser": "^8.8.0",
     "colors": "^1.4.0",

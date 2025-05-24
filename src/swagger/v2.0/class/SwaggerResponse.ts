@@ -58,6 +58,7 @@ export default class SwaggerResponse {
         if (this.content) {
             json[this.code].content = this.content.toJson();
         }
+
         return json;
     }
 }

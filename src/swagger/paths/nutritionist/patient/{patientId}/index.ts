@@ -5,7 +5,7 @@ import rebasePathSwagger from '../../../../utils/rebasePath.swagger'
 import swaggerResponse from '../../../../utils/responses/status-code/response.swagger'
 import { swapSingleRoot } from '../../../../utils/swapDetails.swagger'
 import { Nutritionist_Patient_SwaggerTag } from '../../../../utils/tags'
-import { patientRoot } from '../../../patient'
+import patientRoot from '../../../patient'
 import diet from './diet'
 
 const root = {

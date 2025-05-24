@@ -15,6 +15,7 @@ COPY mongo-init.js /mongo-init.js
 EXPOSE 27017 3000
 
 WORKDIR /app
+COPY /mount/mockdata.js /mockdata.js
 
 COPY /dist .
 
@@ -26,4 +27,5 @@ RUN npm install
 
 CMD mongod --auth --bind_ip_all --fork --logpath /var/log/mongodb.log && \
     mongosh admin --eval "load('/mongo-init.js')" && \
+    mongosh -f /mockdata.js && \
     npm run start:container

@@ -1,4 +1,5 @@
 import SwaggerContent from "./SwaggerContent";
+import { SwaggerParameter } from "./SwaggerParameter";
 import SwaggerResponse from "./SwaggerResponse";
 
 enum SMethod {
@@ -21,6 +22,7 @@ export default class SwaggerMethod {
     private method: SMethod = SMethod.GET;
     private security: boolean = false;
     private tags: string[] = [];
+    private parameters: SwaggerParameter[] = [];
 
     private constructor() { }
 
@@ -132,6 +134,12 @@ export default class SwaggerMethod {
         return this;
     }
 
+
+    public addParameter(parameter: SwaggerParameter) {
+        this.parameters.push(parameter);
+        return this;
+    }
+
     /**
      * Converts the SwaggerMethod instance to a JSON representation.
      * @returns {object} The JSON object for Swagger documentation.
@@ -141,11 +149,13 @@ export default class SwaggerMethod {
             return { ...acc, ...response.toJson() };
         }, {});
 
+
+        const params = this.parameters.map(param => param.toJson());
+
         const json: any = {
             [this.method]: {
                 summary: this.summary,
                 description: this.description,
-
                 tags: this.tags,
                 security: this.security ? [
                     {
@@ -153,6 +163,7 @@ export default class SwaggerMethod {
                     }
                 ] : [],
                 responses: responses,
+                parameters: params
             }
         }
         if (this.requestBody) {
@@ -161,6 +172,7 @@ export default class SwaggerMethod {
             };
             json[this.method].requestBody.content = this.requestBody.toJson();
         }
+
         return json;
     }
 
@@ -174,6 +186,7 @@ export default class SwaggerMethod {
         copied.method = ref.method;
         copied.security = ref.security;
         copied.tags = [...ref.tags];
+        copied.parameters = [...ref.parameters];
 
         return copied;
 

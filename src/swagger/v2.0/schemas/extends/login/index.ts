@@ -15,7 +15,7 @@ export default class SwaggerSchema_Login {
         login: {
             value: {
                 email: 'john.doe@mail.com',
-                password: 'John_Doe_Password'
+                password: 'hard-password'
             }
         }
     }

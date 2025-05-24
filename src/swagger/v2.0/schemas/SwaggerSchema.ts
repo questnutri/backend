@@ -1,4 +1,5 @@
 import SwaggerSchema_Aliment from "./extends/aliment";
+import SwaggerSchema_Auth from "./extends/auth";
 import SwaggerSchema_Diet from "./extends/diet";
 import SwaggerSchema_Error from "./extends/errors";
 import SwaggerSchema_Food from "./extends/food";
@@ -9,6 +10,7 @@ import SwaggerSchema_Patient from "./extends/patient";
 import SwaggerSchema_Token from "./extends/token";
 
 export default abstract class SwaggerSchema {
+    public static Auth = class extends SwaggerSchema_Auth {}
     public static Nutritionist = class extends SwaggerSchema_Nutritionist { }
     public static Patient = class extends SwaggerSchema_Patient { }
 

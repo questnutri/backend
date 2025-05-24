@@ -58,7 +58,7 @@ class NutritionistController {
 					}
 				}
 			}
-			const updated = await nutritionistService.update(req.nutritionist._id as string, updateData)
+			const updated = await nutritionistService.update(req.nutritionist._id.toString(), updateData)
 			if (!updated) throw new NotFound('Nutritionist not foud')
 			return res.status(200).json(updated)
 		} catch (error) {
@@ -69,7 +69,7 @@ class NutritionistController {
 	async deleteById(req: ContextRequest, res: Response, next: NextFunction): Promise<void | any> {
 		try {
 			if (!req.nutritionist) throw new ShouldNeverHappen('Deleting a nutritionist')
-			const deleted = await nutritionistService.delete(req.nutritionist._id as string)
+			const deleted = await nutritionistService.delete(req.nutritionist._id.toString())
 			if (!deleted) return next(new NotFound('Nutritionist not found'))
 			return res.status(200).json({ message: 'Nutritionist deleted' })
 		} catch (error) {

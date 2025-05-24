@@ -12,15 +12,23 @@ import adminService from '../services/admin.service'
 import { decodeToken } from '../middlewares/auth/auth.middleware'
 import { TokenController } from './token.controller'
 import BaseError from '../errors/BaseError.error'
+import userService from '../services/user.service'
+import mongoose, { Mongoose } from 'mongoose'
+import ServerError from '../errors/ServerError.error'
+import { PasswordCycle } from '../enums/auth/passwordCycle.enum'
 
 class AuthController {
 	async register(req: Request, res: Response, next: NextFunction): Promise<void | any> {
 		try {
-			if (await nutritionistService.findByEmail(req.body.email)) {
+			if (await userService.findByEmail(req.body.email)) {
 				throw new BadRequest('Email already in use')
 			}
-			const nutritionist = await nutritionistService.create(req.body)
-			return res.status(201).json(nutritionist)
+			const user = await userService.create({ ...req.body, role: 'nutritionist' });
+			if (user) {
+				const nutritionist = await nutritionistService.create({ ...req.body, _id: user._id })
+				return res.status(201).json(nutritionist);
+			}
+			throw new BadRequest("Couldn't create new user", 503);
 		} catch (error) {
 			next(error)
 		}
@@ -29,42 +37,80 @@ class AuthController {
 	async login(req: Request, res: Response, next: NextFunction): Promise<void | any> {
 		try {
 			const { email, password } = req.body
-			const { role } = req.params
-			let service
 
-			switch (role) {
-				case 'nutritionist':
-					service = nutritionistService
-					break;
-				case 'patient':
-					service = patientService
-					break;
-				case 'admin':
-					service = adminService
-					break;
-				default:
-					throw new NotFound('Invalid role')
-			}
-
-			const user = await service.findByEmail(email)
+			const user = await userService.findByEmail(email);
 			if (!user) throw new NotFound('E-mail not found')
 			if (!user.password) throw new BaseError('Password not defined', 204)
 			if (!bcrypt.compareSync(password, user.password)) throw new Unauthorized('Invalid password')
 
-			const payload = { id: user._id as string, role }
-			const token = jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: '1h' })
+			const payload = { id: (user._id as mongoose.Types.ObjectId).toString(), role: user.role }
+			const token = jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: '1h' });
+
 			await TokenController.storeToken(payload, token)
 
 			return res.status(200).json({ token })
+
 		} catch (error) {
-			next(error)
+			next(error);
 		}
 	}
-	
+
 	async logout(req: Request, res: Response, next: NextFunction): Promise<void | any> {
 		try {
 			await TokenController.logoutStoredToken(req)
 			return res.status(204).send()
+		} catch (error) {
+			next(error)
+		}
+	}
+
+	async changePassword(req: Request, res: Response, next: NextFunction): Promise<void | any> {
+		try {
+			const { token } = req.params;
+			const decoded = jwt.verify(token, process.env.JWT_SECRET!,) as { id: mongoose.Types.ObjectId, authorized: PasswordCycle }
+			if (decoded.authorized == PasswordCycle.RESET_AUTHORIZED) {
+				throw new BadRequest("Invalid reset password token");
+			}
+
+			const user = await userService.findById(decoded.id.toString());
+			if (user) {
+				const { newPassword } = req.body;
+				const updated = await userService.update(decoded.id.toString(), { password: newPassword });
+				if (updated) {
+					return res.status(200).json({ message: `Password updated successfully!` });
+				}
+				throw new ServerError("Error while trying to update password");
+			}
+
+		} catch (error) {
+			next(error)
+		}
+	}
+
+	async resetPassword(req: Request, res: Response, next: NextFunction): Promise<void | any> {
+		try {
+			const { email } = req.body;
+			if (!email) throw new BadRequest("Email is required to reset password.");
+			const user = await userService.findByEmail(email);
+			if (!user) throw new NotFound("No user with this e-mail was found.");
+			const token = jwt.sign({ id: user._id, authorized: PasswordCycle.RESET_REQUEST }, process.env.JWT_SECRET!, { expiresIn: '15m' });
+			return res.status(200).json({ token: token });
+		} catch (error) {
+			next(error)
+		}
+	}
+
+	async checkPasswordResetToken(req: Request, res: Response, next: NextFunction): Promise<void | any> {
+		try {
+			const { token } = req.body;
+			const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string, authorized: PasswordCycle };
+			if (decoded.authorized == PasswordCycle.RESET_REQUEST) {
+				const newToken = jwt.sign({ id: decoded.id, authorized: PasswordCycle.RESET_AUTHORIZED }, process.env.JWT_SECRET!, { expiresIn: '300s' });
+				return res.status(200).json({ token: newToken });
+			}
+			throw new BadRequest("Invalid token for reset password");
+
+
 		} catch (error) {
 			next(error)
 		}
