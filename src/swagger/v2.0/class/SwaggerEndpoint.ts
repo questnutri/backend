@@ -4,25 +4,20 @@ import SwaggerUtil from "./SwaggerUtil";
 /**
  * Class representing a Swagger URL leaf, used to build API endpoint documentation.
  */
-export default class SwaggerUrlLeaf {
+export default class SwaggerEndpoint {
     private pathName: string = "";
     private methods: SwaggerMethod[] = [];
     private tags: string[] = [];
+    private security: boolean = false;
 
-    private constructor() { }
-
-    /**
-     * Creates a new instance of SwaggerUrlLeaf using the builder pattern.
-     * @returns {SwaggerUrlLeaf} A new instance of SwaggerUrlLeaf.
-     */
-    public static builder() {
-        return new SwaggerUrlLeaf();
+    public constructor(path: string="") {
+        this.pathName = path;
     }
 
     /**
      * Sets the path for the URL leaf.
      * @param {string} path - The API endpoint path.
-     * @returns {SwaggerUrlLeaf} The updated instance.
+     * @returns {SwaggerEndpoint} The updated instance.
      */
     public setPath(path: string) {
         if (path?.at(0) == '/') path = path.slice(1)
@@ -43,9 +38,9 @@ export default class SwaggerUrlLeaf {
     /**
      * Adds methods to the URL leaf.
      * @param {SwaggerMethod | SwaggerMethod[]} method - A method or an array of methods.
-     * @returns {SwaggerUrlLeaf} The updated instance.
+     * @returns {SwaggerEndpoint} The updated instance.
      */
-    public addMethods(method: SwaggerMethod | SwaggerMethod[]) {
+    public withMethods(method: SwaggerMethod | SwaggerMethod[]) {
         if (method instanceof SwaggerMethod) {
             this.methods.push(SwaggerMethod.copy(method));
         } else {
@@ -59,10 +54,15 @@ export default class SwaggerUrlLeaf {
     /**
      * Adds tags to the URL leaf.
      * @param {string[]} tags - An array of tags.
-     * @returns {SwaggerUrlLeaf} The updated instance.
+     * @returns {SwaggerEndpoint} The updated instance.
      */
-    public addTags(tags: string[]) {
+    public withTags(tags: string[]) {
         this.tags.push(...tags);
+        return this;
+    }
+
+    public enableSecurity() {
+        this.security = true;
         return this;
     }
 
@@ -73,6 +73,9 @@ export default class SwaggerUrlLeaf {
     public toJson() {
         const methodsJson = this.methods.reduce((acc, method) => {
             method.addTags(this.tags);
+            if(this.security) {
+                method.enableSecurity();
+            }
             return { ...acc, ...method.toJson() };
         }, {});
 
@@ -85,8 +88,8 @@ export default class SwaggerUrlLeaf {
         return res;
     }
 
-    public static copy(ref: SwaggerUrlLeaf) {
-        let copied = new SwaggerUrlLeaf();
+    public static copy(ref: SwaggerEndpoint) {
+        let copied = new SwaggerEndpoint();
 
         copied.pathName = ref.pathName;
         ref.methods.forEach(m => {

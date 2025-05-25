@@ -5,17 +5,23 @@ export default class SwaggerContent {
     private schema: SwaggerSchema | null = null;
     private examples: SwaggerSchema[] = [];
 
-    private constructor() {}
-
-    public static builder() {
-        return new SwaggerContent();
+    public constructor(swaggerSchema?: SwaggerSchema) {
+        if (swaggerSchema) {
+            if ("schema" in swaggerSchema) {
+                this.schema = swaggerSchema.schema as SwaggerSchema;
+            }
+            if ("example" in swaggerSchema) {
+                this.examples.push(swaggerSchema.example as SwaggerSchema);
+            }
+        }
     }
 
     public setSchemaAndExample(swaggerSchema: SwaggerSchema) {
-        if("schema" in swaggerSchema) {
+        console.log(swaggerSchema)
+        if ("schema" in swaggerSchema) {
             this.schema = swaggerSchema.schema as SwaggerSchema;
         }
-        if("example" in swaggerSchema) {
+        if ("example" in swaggerSchema) {
             this.addExample(swaggerSchema.example as SwaggerSchema);
         }
         return this;

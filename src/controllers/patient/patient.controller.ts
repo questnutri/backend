@@ -88,10 +88,10 @@ class PatientController {
 			if (updateData.details) {
 				updateData = {
 					...updateData,
-					details: {
-						...req.patient.details,
-						...req.body.details,
-					}
+					// details: {
+					// 	...req.patient.details,
+					// 	...req.body.details,
+					// }
 				}
 			}
 			const updated = await patientService.update(req.patient._id as string, updateData)

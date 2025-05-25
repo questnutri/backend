@@ -19,13 +19,13 @@ authRoutes.route('/logout')
 	.post(authController.logout)
 
 authRoutes.route('/reset-password')
-	.post(authController.resetPassword)
+	.post(authController.resetPassword_step1)
 
-authRoutes.route('/change-password')
-	.post(authController.checkPasswordResetToken)
+authRoutes.route('/reset-password/validate/:token')
+	.post(authController.resetPassword_step2)
 
-authRoutes.route('/change-password/:token')
-	.post(authController.changePassword)
+authRoutes.route('/reset-password/execute/:token')
+	.post(authController.resetPassword_step3)
 
 // authRoutes.route('/:role/login')
 // 	.post(validateDto(LoginDto), authController.login)

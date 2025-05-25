@@ -1,62 +1,52 @@
 import SwaggerMethod from "../../v2.0/class/SwaggerMethod";
 import SwaggerContent from "../../v2.0/class/SwaggerContent";
 import SwaggerResponse from "../../v2.0/class/SwaggerResponse";
-import SwaggerUrlLeaf from "../../v2.0/class/SwaggerUrlLeaf";
-import SwaggerUrlTree from "../../v2.0/class/SwaggerUrlTree";
+import SwaggerEndpoint from "../../v2.0/class/SwaggerEndpoint";
+import SwaggerPath from "../../v2.0/class/SwaggerPath";
 import SwaggerSchema from "../../v2.0/schemas/SwaggerSchema";
 import SwaggerShared from "../../v2.0/shared/SwaggerShared/SwaggerShared";
 import { HttpStatus } from "../../v2.0/shared/utils/HttpStatus.enum";
-import { SwaggerParameter } from "../../v2.0/class/SwaggerParameter";
+import { SwaggerParameter, SwaggerParameterSource } from "../../v2.0/class/SwaggerParameter";
 
 
-export default SwaggerUrlTree.builder()
-    .setPath('/auth')
-    .addTags(["Auth"])
-    .enableTagSeed()
-    .addLeaf(
-        SwaggerUrlLeaf.builder()
-            .setPath('/login')
-            .addMethods(
-                SwaggerMethod.builder()
-                    .post()
-                    .setSummary('QuestNutri Login')
-                    .setDescription('This route tries to log in an user')
-                    .setRequestBody(
+export default new SwaggerPath('/auth')
+    .withTags(["Auth"], true)
+    .withEndpoint(
+        new SwaggerEndpoint('login')
+            .withMethods(
+                SwaggerMethod.post()
+                    .setSummary('Do login')
+                    .setDescription('This route tries to log in an user (admin, nutritionist and patient)')
+                    .withRequestBody(
                         SwaggerShared.RequestBody.login
                     )
-                    .addResponses(
+                    .withResponses(
                         SwaggerShared.Responses.login
                     )
             )
     )
-    .addLeaf(
-        SwaggerUrlLeaf.builder()
-            .setPath('/register')
-            .addMethods(
-                SwaggerMethod.builder()
-                    .post()
-                    .setSummary('Creates a new nutritionist')
-                    .setDescription('This route registers a new Nutritionist')
-                    .setRequestBody(
-                        SwaggerContent.builder()
-                            .setSchemaAndExample(SwaggerSchema.Nutritionist.Register) //<< It access schema and example if exist in class
+    .withEndpoint(
+        new SwaggerEndpoint('register')
+            .withMethods(
+                SwaggerMethod.post()
+                    .setSummary('Create new nutritionist')
+                    .setDescription('This route tries to create a new Nutritionist user')
+                    .withRequestBody(
+                        new SwaggerContent(SwaggerSchema.Nutritionist.Register) //<< It access schema and example if exist in class
                         // .setSchema(SwaggerSchema.Nutritionist.Register.schema) << Equivalent
                         // .addExample(SwaggerSchema.Nutritionist.Register.example) << Equivalent
                     )
-                    .addResponses(
+                    .withResponses(
                         [
-                            SwaggerResponse.builder()
-                                .setCode(HttpStatus.CREATED)
-                                .setDescription('Nutritionist created')
+                            new SwaggerResponse(HttpStatus.CREATED)
+                                .setDescription('The created nutritionist')
                                 .setContent(
-                                    SwaggerContent.builder()
-                                        .setSchema(SwaggerSchema.Nutritionist.schema)
+                                    new SwaggerContent().setSchema(SwaggerSchema.Nutritionist.schema)
                                 ),
-                            SwaggerResponse.builder()
-                                .setCode(HttpStatus.BAD_REQUEST)
+                            new SwaggerResponse(HttpStatus.BAD_REQUEST)
                                 .setDescription('Bad request')
                                 .setContent(
-                                    SwaggerContent.builder()
+                                    new SwaggerContent()
                                         .setSchema(SwaggerSchema.Error.schema)
                                         .addExample(SwaggerSchema.Error.Registration.validationErrors)
                                 )
@@ -64,72 +54,66 @@ export default SwaggerUrlTree.builder()
                     )
             )
     )
-    .addLeaf(
-        SwaggerUrlLeaf.builder()
-            .setPath('/logout')
-            .addMethods(
-                SwaggerMethod.builder()
-                    .post()
+    .withEndpoint(
+        new SwaggerEndpoint('logout')
+            .withMethods(
+                SwaggerMethod.post()
                     .setSummary('QuestNutri logout')
                     .setDescription('This route log out an user')
-                    .setRequestBody(
-                        SwaggerContent.builder()
+                    .withRequestBody(
+                        new SwaggerContent()
                     )
-                    .addResponses(
+                    .withResponses(
                         [
                         ]
                     )
             )
     )
-    .addLeaf(
-        SwaggerUrlLeaf.builder()
-            .setPath('/reset-password')
-            .addMethods(
-                SwaggerMethod.builder()
-                    .post()
+    .withEndpoint(
+        new SwaggerEndpoint('reset-password')
+            .withMethods(
+                SwaggerMethod.post()
                     .setSummary('Reset user password')
                     .setDescription('This route reset a user password')
-                    .setRequestBody(
-                        SwaggerContent.builder()
-                            .setSchemaAndExample(SwaggerSchema.Auth.resetPassword)
+                    .withRequestBody(
+                        new SwaggerContent(SwaggerSchema.Auth.resetPassword)
                     )
-                    .addResponses(
+                    .withResponses(
                         [
                         ]
                     )
             )
     )
-    .addLeaf(
-        SwaggerUrlLeaf.builder()
-            .setPath('/change-password')
-            .addMethods(
-                SwaggerMethod.builder()
-                    .post()
+    .withEndpoint(
+        new SwaggerEndpoint('reset-password/validate/{token}')
+            .withMethods(
+                SwaggerMethod.post()
                     .setSummary('Checks if jwt token is valid for password change')
                     .setDescription('This route checks if a sent jwt token is valid for change an user password')
-                    .setRequestBody(
-                        SwaggerContent.builder()
-                            .setSchemaAndExample(SwaggerSchema.Auth.checkPasswordChange)
+                    .withParameter(
+                        new SwaggerParameter(SwaggerParameterSource.PATH)
+                        .name("token")
+                        .required()
+                        .description("Token to validate")
+                        .schema({type: "string"})
                     )
             )
     )
-    .addLeaf(
-        SwaggerUrlLeaf.builder()
-            .setPath('/change-password/{token}')
-            .addMethods(
-                SwaggerMethod.builder()
-                    .post()
+    .withEndpoint(
+        new SwaggerEndpoint('reset-password/execute/{token}')
+            .withMethods(
+                SwaggerMethod.post()
                     .setSummary('Change user password')
                     .setDescription('This route changes a user password')
-                    .setRequestBody(
-                        SwaggerContent.builder()
-                            .setSchemaAndExample(SwaggerSchema.Auth.changePassword)
+                    .withRequestBody(
+                        new SwaggerContent(SwaggerSchema.Auth.changePassword)
                     )
-                    .addParameter(
-                        SwaggerParameter.inPath()
-                            .name('token')
+                    .withParameter(
+                        new SwaggerParameter(SwaggerParameterSource.PATH)
+                            .name("token")
                             .required()
-                            .schema({ type: 'string' })
+                            .description("Validated token for password reset")
+                            .schema({ type: "string" })
                     )
             )
     )

@@ -1,24 +1,25 @@
-import SwaggerUrlLeaf from "../../v2.0/class/SwaggerUrlLeaf";
-import SwaggerUrlTree from "../../v2.0/class/SwaggerUrlTree";
+import SwaggerEndpoint from "../../v2.0/class/SwaggerEndpoint";
+import { SwaggerParameter, SwaggerParameterSource } from "../../v2.0/class/SwaggerParameter";
+import SwaggerPath from "../../v2.0/class/SwaggerPath";
 import SwaggerShared from "../../v2.0/shared/SwaggerShared/SwaggerShared";
 import mealPatientTree from "./mealPatient.tree";
 
-export default SwaggerUrlTree.builder()
+export default SwaggerPath.builder()
     .setPath("/diet")
-    .addLeaf(
-        SwaggerUrlLeaf.builder()
-            .addMethods([
+    .withEndpoint(
+        new SwaggerEndpoint()
+            .withMethods([
                 SwaggerShared.Methods.Diet.getAllDiets
             ])
     )
-    .addBranch(
-        SwaggerUrlTree.builder()
+    .withBranch(
+        SwaggerPath.builder()
             .setPath("/{dietId}")
-            .addLeaf(
-                SwaggerUrlLeaf.builder()
-                    .addMethods([
+            .withEndpoint(
+                new SwaggerEndpoint()
+                    .withMethods([
                         SwaggerShared.Methods.Diet.getDietById
                     ])
             )
-            .addBranch(mealPatientTree)
+            .withBranch(mealPatientTree)
     )

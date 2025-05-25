@@ -1,7 +1,13 @@
-import { SwaggerForest } from "./SwaggerForest.interface";
+import { SwaggerContract } from "./SwaggerContract.interface";
 
-export class SwaggerParameter implements SwaggerForest {
-    private constructor(providedIn: 'query' | 'header' | 'path') {
+export enum SwaggerParameterSource {
+    QUERY = "query",
+    HEADER = "header",
+    PATH = "path"
+}
+
+export class SwaggerParameter implements SwaggerContract {
+    public constructor(providedIn: SwaggerParameterSource) {
         this.inAux = providedIn;
     }
     
@@ -10,18 +16,6 @@ export class SwaggerParameter implements SwaggerForest {
     private requiredAux: boolean = false;
     private nameAux: string | undefined;
     private descriptionAux: string | undefined;
-    
-    public static inPath() {
-        return new SwaggerParameter('path');
-    }
-
-    public static inQuery() {
-        return new SwaggerParameter('query');
-    }
-
-    public static inHeader() {
-        return new SwaggerParameter('header');
-    }
 
     public schema(schema: any) {
         this.schemaAux = schema;

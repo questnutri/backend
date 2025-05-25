@@ -2,7 +2,7 @@ import SwaggerContent from "./SwaggerContent";
 import { SwaggerParameter } from "./SwaggerParameter";
 import SwaggerResponse from "./SwaggerResponse";
 
-enum SMethod {
+enum SwaggerHttpMethods {
     GET = "get",
     POST = "post",
     PUT = "put",
@@ -19,61 +19,56 @@ export default class SwaggerMethod {
     private description: string = "";
     private requestBody: SwaggerContent | null = null;
     private responses: SwaggerResponse[] = [];
-    private method: SMethod = SMethod.GET;
+    private method: SwaggerHttpMethods = SwaggerHttpMethods.GET;
     private security: boolean = false;
     private tags: string[] = [];
     private parameters: SwaggerParameter[] = [];
 
-    private constructor() { }
 
-    public static builder() {
-        return new SwaggerMethod();
+    private constructor(method: SwaggerHttpMethods) {
+        this.method = method;
     }
 
     /**
      * Creates a new SwaggerMethod instance with the GET method.
      * @returns {SwaggerMethod} A new instance of SwaggerMethod.
      */
-    public get() {
-        this.method = SMethod.GET;
-        return this;
+    public static get() {
+        return new SwaggerMethod(SwaggerHttpMethods.GET);
     }
 
     /**
      * Creates a new SwaggerMethod instance with the POST method.
      * @returns {SwaggerMethod} A new instance of SwaggerMethod.
      */
-    public post() {
-        this.method = SMethod.POST;
-        return this;
+    public static post() {
+        return new SwaggerMethod(SwaggerHttpMethods.POST);
     }
 
     /**
      * Creates a new SwaggerMethod instance with the PUT method.
      * @returns {SwaggerMethod} A new instance of SwaggerMethod.
      */
-    public put() {
-        this.method = SMethod.PUT;
-        return this;
+    public static put() {
+        return new SwaggerMethod(SwaggerHttpMethods.PUT);
     }
 
     /**
     * Creates a new SwaggerMethod instance with the PATCH method.
     * @returns {SwaggerMethod} A new instance of SwaggerMethod.
     */
-    public patch() {
-        this.method = SMethod.PATCH;
-        return this;
+    public static patch() {
+        return new SwaggerMethod(SwaggerHttpMethods.PATCH);
     }
 
     /**
      * Creates a new SwaggerMethod instance with the DELETE method.
      * @returns {SwaggerMethod} A new instance of SwaggerMethod.
      */
-    public delete() {
-        this.method = SMethod.DELETE;
-        return this;
+    public static delete() {
+        return new SwaggerMethod(SwaggerHttpMethods.DELETE);
     }
+
 
     /**
      * Sets the summary for the method.
@@ -96,7 +91,7 @@ export default class SwaggerMethod {
     }
 
 
-    public setRequestBody(request: SwaggerContent) {
+    public withRequestBody(request: SwaggerContent) {
         this.requestBody = request;
         return this;
     }
@@ -106,7 +101,7 @@ export default class SwaggerMethod {
      * @param {SwaggerResponse | SwaggerResponse[]} response - A response or an array of responses.
      * @returns {SwaggerMethod} The updated instance.
      */
-    public addResponses(response: SwaggerResponse | SwaggerResponse[]) {
+    public withResponses(response: SwaggerResponse | SwaggerResponse[]) {
         if (response instanceof SwaggerResponse) {
             this.responses.push(response);
         } else {
@@ -135,7 +130,7 @@ export default class SwaggerMethod {
     }
 
 
-    public addParameter(parameter: SwaggerParameter) {
+    public withParameter(parameter: SwaggerParameter) {
         this.parameters.push(parameter);
         return this;
     }
@@ -178,7 +173,7 @@ export default class SwaggerMethod {
 
     public static copy(ref: SwaggerMethod) {
 
-        let copied = new SwaggerMethod();
+        let copied = new SwaggerMethod(ref.method);
         copied.summary = ref.summary;
         copied.description = ref.description;
         copied.requestBody = ref.requestBody;

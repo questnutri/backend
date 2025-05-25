@@ -1,21 +1,21 @@
-import SwaggerUrlLeaf from "../../v2.0/class/SwaggerUrlLeaf";
-import SwaggerUrlTree from "../../v2.0/class/SwaggerUrlTree";
+import SwaggerEndpoint from "../../v2.0/class/SwaggerEndpoint";
+import SwaggerPath from "../../v2.0/class/SwaggerPath";
 import SwaggerShared from "../../v2.0/shared/SwaggerShared/SwaggerShared";
 
-export default SwaggerUrlTree.builder()
+export default SwaggerPath.builder()
     .setPath("/food")
-    .addLeaf(
-        SwaggerUrlLeaf.builder()
-            .addMethods([
+    .withEndpoint(
+        new SwaggerEndpoint()
+            .withMethods([
                 SwaggerShared.Methods.Food.getAllFoods
             ])
     )
-    .addBranch(
-        SwaggerUrlTree.builder()
+    .withBranch(
+        SwaggerPath.builder()
             .setPath("/{foodId}")
-            .addLeaf(
-                SwaggerUrlLeaf.builder()
-                    .addMethods([
+            .withEndpoint(
+                new SwaggerEndpoint()
+                    .withMethods([
                         SwaggerShared.Methods.Food.getFoodById
                     ])
             )

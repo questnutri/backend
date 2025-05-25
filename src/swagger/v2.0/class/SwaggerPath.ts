@@ -1,23 +1,27 @@
-import SwaggerUrlLeaf from "./SwaggerUrlLeaf";
+import SwaggerEndpoint from "./SwaggerEndpoint";
 
 /**
  * Class representing a Swagger URL tree, used to structure API endpoints hierarchically.
  */
-export default class SwaggerUrlTree {
+export default class SwaggerPath {
     private pathName: string | null = null;
     private tags: string[] = [];
-    private leafs: SwaggerUrlLeaf[] = [];
-    private branches: SwaggerUrlTree[] = [];
+    private leafs: SwaggerEndpoint[] = [];
+    private branches: SwaggerPath[] = [];
+    private security: boolean = false;
+    private securitySeed: boolean = false;
+    private deepSecuritySeed: boolean = false;
 
-
-    private constructor() { }
+    public constructor(path: string = "") {
+        this.pathName = path;
+    }
 
     /**
      * Creates a new instance of SwaggerUrlTree using the builder pattern.
-     * @returns {SwaggerUrlTree} A new instance of SwaggerUrlTree.
+     * @returns {SwaggerPath} A new instance of SwaggerUrlTree.
      */
     public static builder() {
-        return new SwaggerUrlTree();
+        return new SwaggerPath();
     }
 
     private tagSeed: boolean = false;
@@ -29,7 +33,7 @@ export default class SwaggerUrlTree {
     /**
      * Sets the base path for the URL tree.
      * @param {string} path - The base path of the API.
-     * @returns {SwaggerUrlTree} The updated instance.
+     * @returns {SwaggerPath} The updated instance.
      */
     public setPath(path: string) {
         this.pathName = path;
@@ -39,54 +43,55 @@ export default class SwaggerUrlTree {
     /**
      * Adds tags to the URL tree.
      * @param {string[]} tags - An array of tags.
-     * @returns {SwaggerUrlTree} The updated instance.
+     * @returns {SwaggerPath} The updated instance.
      */
-    public addTags(tags: string[]) {
+    public withTags(tags: string[], seed: boolean = false) {
+        this.tagSeed = seed;
         this.tags.push(...tags);
         return this;
     }
 
     /**
      * Adds multiple leaf nodes to the URL tree.
-     * @param {SwaggerUrlLeaf[]} paths - An array of SwaggerUrlLeaf instances.
-     * @returns {SwaggerUrlTree} The updated instance.
+     * @param {SwaggerEndpoint[]} paths - An array of SwaggerUrlLeaf instances.
+     * @returns {SwaggerPath} The updated instance.
      */
-    public addLeaves(paths: SwaggerUrlLeaf[]) {
+    public addLeaves(paths: SwaggerEndpoint[]) {
         paths.forEach(p => {
-            this.leafs.push(SwaggerUrlLeaf.copy(p));
+            this.leafs.push(SwaggerEndpoint.copy(p));
         })
         return this;
     }
 
     /**
      * Adds a single leaf node to the URL tree.
-     * @param {SwaggerUrlLeaf} path - A SwaggerUrlLeaf instance.
-     * @returns {SwaggerUrlTree} The updated instance.
+     * @param {SwaggerEndpoint} path - A SwaggerUrlLeaf instance.
+     * @returns {SwaggerPath} The updated instance.
      */
-    public addLeaf(path: SwaggerUrlLeaf) {
-        this.leafs.push(SwaggerUrlLeaf.copy(path));
+    public withEndpoint(path: SwaggerEndpoint) {
+        this.leafs.push(SwaggerEndpoint.copy(path));
         return this;
     }
 
     /**
      * Adds multiple branches (subtrees) to the URL tree.
-     * @param {SwaggerUrlTree[]} trees - An array of SwaggerUrlTree instances.
-     * @returns {SwaggerUrlTree} The updated instance.
+     * @param {SwaggerPath[]} trees - An array of SwaggerUrlTree instances.
+     * @returns {SwaggerPath} The updated instance.
      */
-    public addBranches(trees: SwaggerUrlTree[]) {
+    public addBranches(trees: SwaggerPath[]) {
         trees.forEach(t => {
-            this.branches.push(SwaggerUrlTree.copy(t));
+            this.branches.push(SwaggerPath.copy(t));
         })
         return this;
     }
 
     /**
      * Adds a single branch (subtree) to the URL tree.
-     * @param {SwaggerUrlTree} tree - A SwaggerUrlTree instance.
-     * @returns {SwaggerUrlTree} The updated instance.
+     * @param {SwaggerPath} tree - A SwaggerUrlTree instance.
+     * @returns {SwaggerPath} The updated instance.
      */
-    public addBranch(tree: SwaggerUrlTree) {
-        this.branches.push(SwaggerUrlTree.copy(tree))
+    public withBranch(tree: SwaggerPath) {
+        this.branches.push(SwaggerPath.copy(tree))
         return this;
     }
 
@@ -103,6 +108,20 @@ export default class SwaggerUrlTree {
         }
     }
 
+    public withAuthorizationToken(config: {
+        seed: boolean,
+        deep: boolean,
+    } = {
+            seed: false,
+            deep: false,
+        }) {
+        this.securitySeed = config.seed;
+        this.deepSecuritySeed = config.deep;
+
+        this.security = true;
+        return this;
+    }
+
     /**
      * Converts the SwaggerUrlTree instance to a JSON representation.
      * @returns {object} The JSON object for Swagger documentation.
@@ -110,15 +129,19 @@ export default class SwaggerUrlTree {
     public toJson() {
         const branches: any = this.branches.reduce((acc, branch) => {
             branch.addFatherPath(this.pathName);
-            if(this.tagSeed) {
-                branch.addTags(this.tags);
+            if (this.tagSeed) {
+                branch.withTags(this.tags);
+            }
+            if (this.securitySeed) {
+                branch.withAuthorizationToken({ seed: this.deepSecuritySeed, deep: this.deepSecuritySeed });
             }
             return { ...acc, ...branch.toJson() };
         }, {});
 
         const leafs = this.leafs.reduce((acc, leaf) => {
             leaf.addFatherPath(this.pathName);
-            leaf.addTags(this.tags);
+            if (this.security) leaf.enableSecurity();
+            leaf.withTags(this.tags);
             return { ...acc, ...leaf.toJson() };
         }, {});
 
@@ -129,24 +152,24 @@ export default class SwaggerUrlTree {
 
     }
 
-    public static copy(ref: SwaggerUrlTree) {
+    public static copy(ref: SwaggerPath) {
         // private pathName: string | null = null;
         // private tags: string[] = [];
         // private leafs: SwaggerUrlLeaf[] = [];
         // private branches: SwaggerUrlTree[] = [];
 
-        let copied = new SwaggerUrlTree();
+        let copied = new SwaggerPath();
 
         copied.pathName = ref.pathName;
         copied.leafs = [...ref.leafs];
         ref.branches.forEach(b => {
             copied.branches.push(
-                SwaggerUrlTree.copy(b)
+                SwaggerPath.copy(b)
             );
         });
         copied.leafs.forEach(l => {
             copied.leafs.push(
-                SwaggerUrlLeaf.copy(l)
+                SwaggerEndpoint.copy(l)
             );
         });
         copied.tags = [...ref.tags];

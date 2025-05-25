@@ -1,38 +1,32 @@
 import SwaggerContent from "../../v2.0/class/SwaggerContent";
 import SwaggerMethod from "../../v2.0/class/SwaggerMethod";
 import SwaggerResponse from "../../v2.0/class/SwaggerResponse";
-import SwaggerUrlLeaf from "../../v2.0/class/SwaggerUrlLeaf";
-import SwaggerUrlTree from "../../v2.0/class/SwaggerUrlTree";
+import SwaggerEndpoint from "../../v2.0/class/SwaggerEndpoint";
+import SwaggerPath from "../../v2.0/class/SwaggerPath";
 import SwaggerSchema from "../../v2.0/schemas/SwaggerSchema";
 import SwaggerShared from "../../v2.0/shared/SwaggerShared/SwaggerShared";
 import { HttpStatus } from "../../v2.0/shared/utils/HttpStatus.enum";
 import mealTree from "./meal.tree";
 
-export default SwaggerUrlTree.builder()
-    .setPath("/diet")
-    .addTags(["Patient`s diet control by nutritionist"])
-    .addLeaf(
-        SwaggerUrlLeaf.builder()
-            .addMethods(
+export default new SwaggerPath("/diet")
+    .withTags(["Patient`s diet control by nutritionist"])
+    .withEndpoint(
+        new SwaggerEndpoint()
+            .withMethods(
                 [
                     SwaggerShared.Methods.Diet.getAllDiets,
-                    SwaggerMethod.builder()
-                        .post()
+                    SwaggerMethod.post()
                         .setSummary("Create a new diet")
                         .setDescription("'This route creates a new diet")
-                        .setRequestBody(
-                            SwaggerContent.builder()
-                                .setSchemaAndExample(SwaggerSchema.Diet.Create)
+                        .withParameter(SwaggerShared.Parameters.patientPathParameter)
+                        .withRequestBody(
+                            new SwaggerContent(SwaggerSchema.Diet.Create)
                         )
-                        .addResponses([
-                            SwaggerResponse.builder()
-                                .setCode(HttpStatus.CREATED)
-                                .setDescription("Created.")
+                        .withResponses([
+                            new SwaggerResponse(HttpStatus.CREATED)
+                                .setDescription("The created diet")
                                 .setContent(
-                                    SwaggerContent.builder()
-                                        .setSchemaAndExample(
-                                            SwaggerSchema.Diet.schema
-                                        )
+                                    new SwaggerContent(SwaggerSchema.Diet)
                                 ),
                             SwaggerShared.Responses.internalServerError,
                             SwaggerShared.Responses.tokenNotProvided
@@ -40,53 +34,44 @@ export default SwaggerUrlTree.builder()
                 ]
             )
     )
-    .addBranch(
-        SwaggerUrlTree.builder()
+    .withBranch(
+        SwaggerPath.builder()
             .setPath("/{dietId}")
-            .addTags(["Patient`s diet control by nutritionist"])
-            .addLeaf(
-                SwaggerUrlLeaf.builder()
-                    .addMethods([
+            .withTags(["Patient`s diet control by nutritionist"])
+            .withEndpoint(
+                new SwaggerEndpoint()
+                    .withMethods([
                         SwaggerShared.Methods.Diet.getDietById,
-                        SwaggerMethod.builder()
-                            .patch()
+                        SwaggerMethod.patch()
                             .setSummary("Updates the selected diet.")
                             .setDescription("This route updates the selected diet.")
-                            .setRequestBody(
-                                SwaggerContent.builder()
-                                    .setSchemaAndExample(
-                                        SwaggerSchema.Diet.Update
-                                    )
+                            .withParameter(SwaggerShared.Parameters.patientPathParameter)
+                            .withParameter(SwaggerShared.Parameters.dietPathParameter)
+                            .withRequestBody(
+                                new SwaggerContent(SwaggerSchema.Diet.Update)
                             )
-                            .addResponses(
+                            .withResponses(
                                 [
-                                    SwaggerResponse.builder()
-                                        .setCode(HttpStatus.OK)
-                                        .setDescription("Ok")
+                                    new SwaggerResponse(HttpStatus.OK)
+                                        .setDescription("The updated diet")
                                         .setContent(
-                                            SwaggerContent.builder()
-                                                .setSchemaAndExample(
-                                                    SwaggerSchema.Diet.schema
-                                                )
+                                            new SwaggerContent(SwaggerSchema.Diet)
                                         ),
                                     SwaggerShared.Responses.internalServerError,
                                     SwaggerShared.Responses.tokenNotProvided
                                 ]
                             ),
-                        SwaggerMethod.builder()
-                            .delete()
-                            .setSummary("Delete the selected diet.")
+                        SwaggerMethod.delete()
+                            .setSummary("Delete the selected diet")
                             .setDescription("This route deletes the diet information.")
-                            .addResponses(
+                            .withParameter(SwaggerShared.Parameters.patientPathParameter)
+                            .withParameter(SwaggerShared.Parameters.dietPathParameter)
+                            .withResponses(
                                 [
-                                    SwaggerResponse.builder()
-                                        .setCode(HttpStatus.OK)
-                                        .setDescription("Ok")
+                                    new SwaggerResponse(HttpStatus.OK)
+                                        .setDescription("The diet have been deleted")
                                         .setContent(
-                                            SwaggerContent.builder()
-                                                .setSchemaAndExample(
-                                                    SwaggerSchema.Diet.Delete
-                                                )
+                                            new SwaggerContent(SwaggerSchema.Diet.Delete)
                                         ),
                                     SwaggerShared.Responses.tokenNotProvided,
                                     SwaggerShared.Responses.internalServerError
@@ -94,5 +79,5 @@ export default SwaggerUrlTree.builder()
                             )
                     ])
             )
-            .addBranch(mealTree)
+            .withBranch(mealTree)
     )

@@ -1,50 +1,41 @@
 import SwaggerContent from "../../v2.0/class/SwaggerContent";
 import SwaggerMethod from "../../v2.0/class/SwaggerMethod";
 import SwaggerResponse from "../../v2.0/class/SwaggerResponse";
-import SwaggerUrlLeaf from "../../v2.0/class/SwaggerUrlLeaf";
-import SwaggerUrlTree from "../../v2.0/class/SwaggerUrlTree";
-import SwaggerSchema_Aliment from "../../v2.0/schemas/extends/aliment";
+import SwaggerEndpoint from "../../v2.0/class/SwaggerEndpoint";
+import SwaggerPath from "../../v2.0/class/SwaggerPath";
 import SwaggerSchema from "../../v2.0/schemas/SwaggerSchema";
 import { HttpStatus } from "../../v2.0/shared/utils/HttpStatus.enum";
 
-export default SwaggerUrlTree.builder()
-    .setPath("/aliment/taco")
-    .addTags(["Aliments"])
-    .addLeaf(
-        SwaggerUrlLeaf.builder()
-            .addMethods([
-                SwaggerMethod.builder()
-                    .get()
-                    .setSummary("Retrieve a list of all aliments.")
-                    .setDescription("This route retrieves information about all aliments.")
-                    .addResponses([
-                        SwaggerResponse.builder()
-                            .setCode(HttpStatus.OK)
-                            .setDescription("Ok")
+export default new SwaggerPath("/aliment/taco")
+    .withTags(["Aliments"])
+    .withEndpoint(
+        new SwaggerEndpoint()
+            .withMethods([
+                SwaggerMethod.get()
+                    .setSummary("Get all aliments")
+                    .setDescription("This route tries to retrieve information about all aliments")
+                    .withResponses([
+                        new SwaggerResponse(HttpStatus.OK)
+                            .setDescription("An array with all the aliments")
                             .setContent(
-                                SwaggerContent.builder()
-                                    .setSchemaAndExample(SwaggerSchema_Aliment)
+                                new SwaggerContent(SwaggerSchema.Aliment)
                             )
                     ])
             ])
     )
-    .addBranch(
-        SwaggerUrlTree.builder()
-            .setPath("/{alimentId}")
-            .addLeaf(
-                SwaggerUrlLeaf.builder()
-                    .addMethods([
-                        SwaggerMethod.builder()
-                            .get()
+    .withBranch(
+        new SwaggerPath("/{alimentId}")
+            .withEndpoint(
+                new SwaggerEndpoint()
+                    .withMethods([
+                        SwaggerMethod.get()
                             .setSummary("Retrieve an aliment by its ID.")
                             .setDescription("This route retrieves an aliment using its ID.")
-                            .addResponses([
-                                SwaggerResponse.builder()
-                                    .setCode(HttpStatus.OK)
+                            .withResponses([
+                                new SwaggerResponse(HttpStatus.OK)
                                     .setDescription("Ok")
                                     .setContent(
-                                        SwaggerContent.builder()
-                                            .setSchemaAndExample(SwaggerSchema_Aliment)
+                                        new SwaggerContent(SwaggerSchema.Aliment)
                                     )
                             ])
                     ])

@@ -1,73 +1,117 @@
-import SwaggerSchema_Nutritionist_Register from "./register"
-import SwaggerSchema_Nutritionist_Update from "./update"
-
 export default class SwaggerSchema_Nutritionist {
-    public static schema = {
-        type: 'object',
-        properties: {
-            _id: {
-                type: 'string',
-                example: '60f5b4d7b9f5b65f8b1c9d9d'
-            },
-            firstName: {
-                type: 'string',
-                example: 'John'
-            },
-            lastName: {
-                type: 'string',
-                example: 'Doe'
-            },
-            email: {
-                type: 'string',
-                example: 'john.doe@mail.com'
-            },
-            patients: {
-                type: 'array',
-                items: {
-                    type: 'string',
-                    example: '60f5b4d7b9f5b65f8b1c9d9e'
+    public static Register = class {
+        public static schema = {
+            type: 'object',
+            properties: {
+                firstName: {
+                    type: 'string'
+                },
+                lastName: {
+                    type: 'string'
+                },
+                email: {
+                    type: 'string'
+                },
+                password: {
+                    type: 'string'
                 }
-            },
-            details: {
-                type: 'object',
-                properties: {
-                    rg: {
-                        type: 'string',
-                        example: '12.345.678-9'
-                    },
-                    cpf: {
-                        type: 'string',
-                        example: '123.456.789-00'
-                    },
-                    phone: {
-                        type: 'string',
-                        example: '(11) 98765-4321'
-                    },
-                    birth: {
-                        type: 'string',
-                        format: 'date',
-                        example: '1998-08-28'
-                    },
+            }
+        }
 
+        public static example = {
+            nutritionist: {
+                value: {
+                    firstName: 'John',
+                    lastName: 'Doe',
+                    email: 'john.doe@mail.com',
+                    password: 'hard-password'
                 }
-            },
-            createdAt: {
-                type: 'string',
-                format: 'date-time',
-                example: '2025-02-15T12:00:00Z'
-            },
-            updatedAt: {
-                type: 'string',
-                format: 'date-time',
-                example: '2025-02-16T15:30:00Z'
-            },
-            _v: {
-                type: 'number',
-                example: 1
             }
         }
     }
 
-    public static Register = class extends SwaggerSchema_Nutritionist_Register { }
-    public static Update = class extends SwaggerSchema_Nutritionist_Update { }
+    public static Update = class {
+        public static schema = {
+            type: 'object',
+            properties: {
+                firstName: {
+                    type: 'string'
+                },
+                lastName: {
+                    type: 'string'
+                },
+                details: {
+                    type: 'object',
+                    properties: {
+                        rg: { type: 'string' },
+                        cpf: { type: 'string' },
+                        phone: { type: 'string' },
+                        birth: { type: 'string', format: 'date' }
+                    }
+                },
+            }
+        }
+
+        public static example = {
+            nutritionist: {
+                value: {
+                    firstName: 'John',
+                    lastName: 'Doe',
+                    details: {
+                        rg: '12.345.678-9',
+                        cpf: '123.456.789-00',
+                        phone: '(11) 98765-4321',
+                        birth: '1998-08-28'
+                    },
+                },
+            }
+        }
+    }
+
+    public static schema = {
+        type: 'object',
+        properties: {
+            _id: { type: 'string' },
+            firstName: { type: 'string' },
+            lastName: { type: 'string' },
+            email: { type: 'string' },
+            patients: {
+                type: 'array',
+                items: { type: 'string' }
+            },
+            details: {
+                type: 'object',
+                properties: {
+                    rg: { type: 'string' },
+                    cpf: { type: 'string' },
+                    phone: { type: 'string' },
+                    birth: { type: 'string', format: 'date' }
+                }
+            },
+            createdAt: { type: 'string', format: 'date-time' },
+            updatedAt: { type: 'string', format: 'date-time' },
+            _v: { type: 'number' }
+        }
+    }
+
+    public static example = {
+        nutritionist: {
+            value: {
+                _id: '60f5b4d7b9f5b65f8b1c9d9d',
+                firstName: 'John',
+                lastName: 'Doe',
+                email: 'john.doe@mail.com',
+                patients: ['60f5b4d7b9f5b65f8b1c9d9e'],
+                details: {
+                    rg: '12.345.678-9',
+                    cpf: '123.456.789-00',
+                    phone: '(11) 98765-4321',
+                    birth: '1998-08-28'
+                },
+                createdAt: '2025-02-15T12:00:00Z',
+                updatedAt: '2025-02-16T15:30:00Z',
+                _v: 1
+            }
+        }
+    }
 }

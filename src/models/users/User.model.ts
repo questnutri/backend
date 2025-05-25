@@ -1,10 +1,11 @@
 import mongoose, { Document, mongo, Schema } from 'mongoose'
 import * as bcrypt from 'bcrypt'
+import { SystemRoles } from '../../enums/SystemRoles.enum'
 
 export interface IUser extends Document {
     email: string,
     password: string,
-    role: "admin" | "patient" | "nutritionist"
+    role: SystemRoles
 }
 
 export const UserSchema = new Schema<IUser>({
@@ -12,7 +13,7 @@ export const UserSchema = new Schema<IUser>({
     password: { type: String, required: true },
     role: {
         type: String,
-        enum: ["admin", "patient", "nutritionist",]
+        enum: Object.values(SystemRoles)
     }
 }, {
     timestamps: true

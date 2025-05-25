@@ -3,10 +3,12 @@ import nutritionistService from '../services/nutritionist.service'
 import NotFound from '../errors/NotFound.error'
 import ShouldNeverHappen from '../errors/ShouldNeverHappen.error'
 import { ContextRequest } from './findContext.controller'
+import authService from '../services/auth.service'
 
 class NutritionistController {
 	async getNutritionist(req: ContextRequest, res: Response, next: NextFunction): Promise<void | any> {
 		try {
+			await authService.validateSession(req);
 			if (!req.nutritionist) throw new ShouldNeverHappen('Getting a nutritionist')
 			return res.status(200).json(req.nutritionist)
 		} catch (error) {

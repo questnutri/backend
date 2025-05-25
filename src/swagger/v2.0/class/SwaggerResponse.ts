@@ -5,18 +5,12 @@ import SwaggerContent from "./SwaggerContent";
  * Class for building Swagger response definitions.
  */
 export default class SwaggerResponse {
-    private constructor() { }
+    public constructor(status: HttpStatus) {
+        this.code = status;
+    }
     private code: HttpStatus = HttpStatus.OK;
     private description: string = "Description not set"
     private content: SwaggerContent | null = null;
-
-    /**
-     * Creates a new instance of SwaggerResponse using the builder pattern.
-     * @returns {SwaggerResponse} A new instance of SwaggerResponse.
-     */
-    public static builder() {
-        return new SwaggerResponse();
-    }
 
     /**
      * Sets the HTTP status code for the response.
