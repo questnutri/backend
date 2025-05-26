@@ -12,6 +12,7 @@ if [ -z "$VERSION" ]; then
   read -p "Build version: " VERSION
 fi
 
+npm run build
 docker login
 docker build -t questnutri/backend:$VERSION .
 

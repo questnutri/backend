@@ -13,35 +13,35 @@ export interface IPatient extends Document {
 	lastName?: string
 	email: string
 	password: string
-	// details?: {
-	// 	rg?: string
-	// 	cpf?: string
-	// 	phone?: string
-	// 	birth?: Date
-	// 	height?: number
-	// 	gender?: 'male' | 'female' | 'other'
-	// 	weights?: Weight[]
-	// 	lastWeight?: ObjectId | null
-	// 	routine?: string
-	// 	goals?: string
-	// 	foodPreferences?: string
-	// 	healthState?: {
-	// 		diabetic?: boolean
-	// 		pregnancy?: {
-	// 			isPregnant: boolean
-	// 			dueDate?: Date
-	// 			trimester?: 1 | 2 | 3
-	// 			pregnancyType?: 'single' | 'multiple'
-	// 			complications?: string
-	// 			obs?: string
-	// 		}
-	// 		allergies?: IAllergy[]
-	// 		chronicDiseases?: IDisease[]
-	// 		currentMedications?: IMedication[]
-	// 		obs?: string
-	// 	},
-	// 	address?: IAddress,
-	// }
+	details?: {
+		rg?: string
+		cpf?: string
+		phone?: string
+		birth?: Date
+		height?: number
+		gender?: 'male' | 'female' | 'other'
+		weights?: Weight[]
+		lastWeight?: ObjectId | null
+		routine?: string
+		goals?: string
+		foodPreferences?: string
+		healthState?: {
+			diabetic?: boolean
+			pregnancy?: {
+				isPregnant: boolean
+				dueDate?: Date
+				trimester?: 1 | 2 | 3
+				pregnancyType?: 'single' | 'multiple'
+				complications?: string
+				obs?: string
+			}
+			allergies?: IAllergy[]
+			chronicDiseases?: IDisease[]
+			currentMedications?: IMedication[]
+			obs?: string
+		},
+		address?: IAddress,
+	}
 	nutri: ObjectId
 	activeDiet?: ObjectId
 	diets?: Diet[]
@@ -90,7 +90,7 @@ export const PatientSchema = new Schema<IPatient>(
 		lastName: { type: String, default: '' },
 		email: { type: String, required: true, unique: true },
 		password: { type: String },
-		// details: { type: DetailsSchema, required: false, default: undefined },
+		details: { type: DetailsSchema, required: false, default: undefined },
 		nutri: { type: Schema.Types.ObjectId, ref: 'Nutritionist', required: true },
 		activeDiet: { type: Schema.Types.ObjectId, ref: 'Diet', default: null },
 		diets: { type: [DietSchema], default: [] },
