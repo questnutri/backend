@@ -23,12 +23,14 @@ services:
       - "27017:27017"
 
   test:
-    image: questnutri/backend:1.1-withdb
-    container_name: test
-    ports: 
-      - 45450:45450
-    environment:
-      - PORT=45450
+    image: questnutri/backend:latest
+    container_name: questnutri-backend
+    ports:
+      - 3030:3030
+      - 27017:27017
+    # Comment lines below to disable data persistence
+    volumes:
+      - qn_mongodata:/data/db
 
     # volumes:
     #   - questnutri-volume:/data/db
@@ -43,6 +45,5 @@ services:
     #   "
     # restart: always
 
-# volumes:
-#   questnutri-volume:
-#     driver: local
+volumes:
+  qn_mongodata:
