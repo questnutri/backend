@@ -9,6 +9,7 @@ import { DiseaseSchema, IDisease } from './health/Disease.interface'
 import { AllergySchema, IAllergy } from './health/Allergy.interface'
 
 export interface IPatient extends Document {
+	_id: mongoose.Types.ObjectId,
 	firstName: string
 	lastName?: string
 	email: string
@@ -86,6 +87,7 @@ const DetailsSchema = new Schema(
 
 export const PatientSchema = new Schema<IPatient>(
 	{
+		_id: { type: Schema.Types.ObjectId },
 		firstName: { type: String, required: true },
 		lastName: { type: String, default: '' },
 		email: { type: String, required: true, unique: true },

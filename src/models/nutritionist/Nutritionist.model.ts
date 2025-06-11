@@ -8,7 +8,7 @@ export interface INutritionist extends Document {
 	lastName?: string
 	email: string,
 	password: string,
-	patients: ObjectId[]
+	patients: any[]
 	details?: {
 		rg?: string
 		cpf?: string

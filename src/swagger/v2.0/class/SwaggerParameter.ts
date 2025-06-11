@@ -17,6 +17,16 @@ export class SwaggerParameter implements SwaggerContract {
     private nameAux: string | undefined;
     private descriptionAux: string | undefined;
 
+    public static fromQuery() {
+        return new SwaggerParameter(SwaggerParameterSource.QUERY);
+    }
+    public static fromHeader() {
+        return new SwaggerParameter(SwaggerParameterSource.QUERY);
+    }
+    public static fromPath() {
+        return new SwaggerParameter(SwaggerParameterSource.QUERY);
+    }
+
     public schema(schema: any) {
         this.schemaAux = schema;
         return this;

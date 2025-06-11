@@ -6,6 +6,7 @@ import SwaggerSchema_Food from "./extends/food";
 import SwaggerSchema_Login from "./extends/login";
 import SwaggerSchema_Meal from "./extends/meal";
 import SwaggerSchema_Nutritionist from "./extends/nutritionist";
+import { SwaggerSchema_PaginatedResult } from "./extends/paginatedResult/PaginatedResult.schema";
 import SwaggerSchema_Patient from "./extends/patient";
 import SwaggerSchema_Token from "./extends/token";
 
@@ -22,4 +23,6 @@ export default abstract class SwaggerSchema {
     public static Error = class extends SwaggerSchema_Error { }
     public static Token = class extends SwaggerSchema_Token { }
     public static Login = class extends SwaggerSchema_Login { }
+
+    public static PaginatedResult = class extends SwaggerSchema_PaginatedResult {}
 }

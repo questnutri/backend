@@ -1,19 +1,19 @@
 import { NextFunction, Request, Response } from 'express'
-import patientService from '../../services/patient.service'
+import patientService, { PatientQuery } from '../../services/patient.service'
 import NotFound from '../../errors/NotFound.error'
 import ShouldNeverHappen from '../../errors/ShouldNeverHappen.error'
-import { generatePasswordResetToken } from '../../utils/password.reset.util'
 import { ContextRequest } from '../findContext.controller'
 import ServerError from '../../errors/ServerError.error'
-import { ObjectId } from 'mongoose'
 import BadRequest from '../../errors/BadRequest.error'
+import userService from '../../services/user.service'
+import { SystemRoles } from '../../enums/SystemRoles.enum'
 
 class PatientController {
 	async getPatient(req: ContextRequest, res: Response, next: NextFunction): Promise<void | any> {
 		try {
 			if (!req.patient) throw new ShouldNeverHappen('Finding a patient')
 
-			if(req.patient.dailyMealRecord?.checkingDay !== new Date().getDay()) {
+			if (req.patient.dailyMealRecord?.checkingDay !== new Date().getDay()) {
 				req.patient.dailyMealRecord!.completedToday = []
 				req.patient.dailyMealRecord!.checkingDay = new Date().getDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6
 				await req.patient.save()
@@ -40,7 +40,16 @@ class PatientController {
 		try {
 			const { nutritionistId } = req.headers
 			if (!nutritionistId) throw new ShouldNeverHappen('Getting all patients from one nutritionist')
-			const patients = await patientService.findAllFromNutritionist(nutritionistId as string)
+
+			const query: PatientQuery = {
+				firstName: req.query.firstName as string,
+				email: req.query.email as string,
+				rg: req.query.rg as string,
+				cpf: req.query.cpf as string,
+				phone: req.query.phone as string,
+			}
+
+			const patients = await patientService.findAllFromNutritionist(nutritionistId as string, query)
 			return res.status(200).json(patients)
 		} catch (error) {
 			next(error)
@@ -58,12 +67,18 @@ class PatientController {
 
 	async create(req: ContextRequest, res: Response, next: NextFunction): Promise<void | any> {
 		try {
-			if (!req.nutritionist) throw new ShouldNeverHappen('Creating a new patient to a nutritionist')
-			const newPatient = await patientService.create({ ...req.body, nutri: req.nutritionist._id, password: req.body.details.cpf })
+			if (!req.nutritionist) throw new ShouldNeverHappen('Creating a new patient to a nutritionist');
+			const user = await userService.create({
+				role: SystemRoles.PATIENT,
+				email: req.body.email,
+				password: req.body.details.cpf.replace(/[\.\-\s]/g, '') || 123456789
+			});
+			if (!user) throw new ServerError(null, "Error while trying to create a new user for patient.", 500);
+			const newPatient = await patientService.create({ ...req.body, nutri: req.nutritionist._id, password: req.body.details.cpf, _id: user._id })
 			if (!newPatient) throw new ServerError('Impossible to create a new patient')
-			req.nutritionist.patients.push(newPatient._id as ObjectId)
+			req.nutritionist.patients.push(newPatient._id)
 			await req.nutritionist.save()
-			req.headers.patientId = newPatient._id as string
+			req.headers.patientId = newPatient._id.toString()
 			next()
 			// return res.status(201).json({ patient: newPatient, activationToken: generatePasswordResetToken('Patient', newPatient!._id as string) })
 		} catch (error) {
@@ -94,7 +109,7 @@ class PatientController {
 					// }
 				}
 			}
-			const updated = await patientService.update(req.patient._id as string, updateData)
+			const updated = await patientService.update(req.patient._id.toString(), updateData)
 			if (!updated) throw new NotFound('Patient not found')
 			return res.status(200).json(updated)
 		} catch (error) {
@@ -106,9 +121,9 @@ class PatientController {
 		try {
 			if (!req.patient) throw new ShouldNeverHappen('Deleting a patient')
 			const patientId = req.patient._id
-			const deleted = await patientService.delete(req.patient._id as string)
+			const deleted = await patientService.delete(req.patient._id.toString())
 			if (deleted) {
-				const index = req.nutritionist?.patients.indexOf(patientId as ObjectId) ?? -1
+				const index = req.nutritionist?.patients.indexOf(patientId) ?? -1
 				if (index !== -1) req.nutritionist?.patients.splice(index, 1)
 				await req.nutritionist?.save()
 				return res.status(200).json({ message: 'Patient deleted' })
@@ -136,7 +151,7 @@ class PatientController {
 			const today = new Date().getDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6
 
 			if (req.patient.dailyMealRecord?.checkingDay === today) {
-				if(!req.patient.dailyMealRecord.completedToday.includes(mealId)) req.patient.dailyMealRecord.completedToday.push(mealId)
+				if (!req.patient.dailyMealRecord.completedToday.includes(mealId)) req.patient.dailyMealRecord.completedToday.push(mealId)
 			} else {
 				req.patient.dailyMealRecord = {
 					checkingDay: today,
@@ -146,11 +161,11 @@ class PatientController {
 
 			await req.patient.save()
 
-		return res.status(200).json({ message: 'Meal record saved!' })
-	} catch(error) {
-		next(error)
+			return res.status(200).json({ message: 'Meal record saved!' })
+		} catch (error) {
+			next(error)
+		}
 	}
-}
 
 }
 

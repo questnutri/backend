@@ -16,11 +16,23 @@ class AlimentController {
 
     async getAllAliments(req: Request, res: Response, next: NextFunction): Promise<void | any> {
         try {
-            const aliments = await alimentService.findAll()
-            
-            return res.status(200).json(aliments)
+            const query: any = {
+                page: req.query.page || '0',
+                items: req.query.items || '20',
+            };
+
+            if (req.query.name) {
+                query.name = req.query.name;
+            }
+
+            if (req.query.group) {
+                query.group = req.query.group;
+            }
+
+            const aliments = await alimentService.findAll(query);
+            return res.status(200).json(aliments);
         } catch (error) {
-            next(error)
+            next(error);
         }
     }
 

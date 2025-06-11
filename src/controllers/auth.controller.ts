@@ -41,11 +41,11 @@ class AuthController {
 			const { email, password } = req.body
 
 			const user = await userService.findByEmail(email);
-			if (!user) throw new NotFound('E-mail not found')
-			if (!user.password) throw new BaseError('Password not defined', 204)
-			if (!bcrypt.compareSync(password, user.password)) throw new Unauthorized('Invalid password')
+			if (!user) throw new NotFound('E-mail not found');
+			if (!user.password) throw new BaseError('Password not defined', 204);
+			if (!bcrypt.compareSync(password, user.password)) throw new Unauthorized('Invalid password');
 
-			return res.status(200).json({ token: await tokenService.createSession(user) });
+			return res.status(200).json({ token: await tokenService.createSession(user), role: user.role });
 		} catch (error) {
 			next(error);
 		}
@@ -76,7 +76,17 @@ class AuthController {
 			if (!email) throw new BadRequest("Email is required to reset password.");
 			const user = await userService.findByEmail(email);
 			if (!user) throw new NotFound("No user with this e-mail was found.");
-			const token = jwt.sign({ id: user._id, token_objective: TokenObjective.PASSWORD_CONTROL, authorized: PasswordCycle.RESET_REQUEST }, process.env.JWT_SECRET!, { expiresIn: '15m' });
+			const token = jwt.sign(
+				{
+					id: user._id,
+					token_objective: TokenObjective.PASSWORD_CONTROL,
+					authorized: PasswordCycle.RESET_REQUEST
+				},
+				process.env.JWT_SECRET!,
+				{
+					expiresIn: '15m'
+				}
+			);
 			return res.status(200).json({ token: token });
 		} catch (error) {
 			next(error)
@@ -89,7 +99,17 @@ class AuthController {
 			const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string, token_objective: TokenObjective, authorized: PasswordCycle };
 			if (decoded.token_objective == TokenObjective.PASSWORD_CONTROL) {
 				if (decoded.authorized == PasswordCycle.RESET_REQUEST) {
-					const newToken = jwt.sign({ id: decoded.id, token_objective: TokenObjective.PASSWORD_CONTROL, authorized: PasswordCycle.RESET_AUTHORIZED }, process.env.JWT_SECRET!, { expiresIn: '300s' });
+					const newToken = jwt.sign(
+						{
+							id: decoded.id,
+							token_objective: TokenObjective.PASSWORD_CONTROL,
+							authorized: PasswordCycle.RESET_AUTHORIZED
+						},
+						process.env.JWT_SECRET!,
+						{
+							expiresIn: '300s'
+						}
+					);
 					return res.status(200).json({ token: newToken });
 				}
 			}
@@ -107,7 +127,7 @@ class AuthController {
 			if ((decoded.token_objective != TokenObjective.PASSWORD_CONTROL) || (decoded.authorized != PasswordCycle.RESET_AUTHORIZED)) {
 				console.log(decoded);
 				console.log(decoded.token_objective != TokenObjective.PASSWORD_CONTROL);
-				console.log(decoded.authorized != PasswordCycle.RESET_AUTHORIZED)
+				console.log(decoded.authorized != PasswordCycle.RESET_AUTHORIZED);
 				throw new BadRequest("Invalid reset password token");
 			}
 

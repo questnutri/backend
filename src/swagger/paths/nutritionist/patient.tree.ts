@@ -7,7 +7,7 @@ import SwaggerSchema from "../../v2.0/schemas/SwaggerSchema";
 import SwaggerShared from "../../v2.0/shared/SwaggerShared/SwaggerShared";
 import { HttpStatus } from "../../v2.0/shared/utils/HttpStatus.enum";
 import dietTree from "./diet.tree";
-import { SwaggerParameter, SwaggerParameterSource } from "../../v2.0/class/SwaggerParameter";
+import { SwaggerParameter } from "../../v2.0/class/SwaggerParameter";
 
 export default SwaggerPath.builder()
     .setPath("/patient")
@@ -18,12 +18,31 @@ export default SwaggerPath.builder()
                 SwaggerMethod.get()
                     .setSummary("Nutritionist's Patients")
                     .setDescription("This route tries to retrieves all the patients related to a nutritionist")
+                    .withParameters([
+                        SwaggerParameter.fromQuery()
+                            .name("page")
+                            .description("Paginated Result's page")
+                            .schema({ type: "integer" }),
+                        SwaggerParameter.fromQuery()
+                            .name("items")
+                            .description("How many items should return at once")
+                            .schema({ type: "integer" }),
+                        SwaggerParameter.fromQuery()
+                            .name("firstName")
+                            .description("Paginated Result's page searching for given firstName")
+                            .schema({ type: "string" }),
+
+                    ])
                     .withResponses(
                         [
                             new SwaggerResponse(HttpStatus.OK)
                                 .setDescription('All registed Patients to the logged nutritionist')
                                 .setContent(
-                                    new SwaggerContent(SwaggerSchema.Patient)
+                                    new SwaggerContent(
+                                        SwaggerSchema.PaginatedResult.from(
+                                            SwaggerSchema.Patient.schema,
+                                            SwaggerSchema.Patient.example
+                                        )),
                                 ),
                             SwaggerShared.Responses.tokenNotProvided,
                             SwaggerShared.Responses.internalServerError

@@ -2,6 +2,7 @@ import paths from './paths'
 import 'dotenv/config'
 import schemas from './schemas_and_examples'
 
+
 export default {
 	openapi: '3.0.0',
 	info: {
@@ -13,10 +14,6 @@ export default {
 		version: '1.0.0'
 	},
 	servers: [
-		{
-			url: `http://localhost:${process.env.PORT || 3000}/api/v1`,
-			description: 'Local Environment.'
-		},
 		{
 			url: 'https://backend-ssj4.onrender.com/api/v1',
 			description: 'Production Environment'

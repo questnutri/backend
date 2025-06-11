@@ -1,7 +1,8 @@
 import { Document, ObjectId, Schema } from 'mongoose'
+import { IAliment } from '../../../aliment/Aliment.model'
 
 export interface Food extends Document {
-	aliment?: ObjectId | null
+	aliment?: IAliment | null
     quantity: number
     unit: string
     obs?: string

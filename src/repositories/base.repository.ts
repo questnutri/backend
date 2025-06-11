@@ -1,6 +1,13 @@
 import { Model } from 'mongoose'
 import { Document } from 'mongoose'
 import * as bcrypt from 'bcrypt'
+import { PaginatedResult } from '../interfaces/PaginatedResult.interface'
+
+export interface QueryParams {
+	items?: any
+	skip?: any
+	page?: any
+}
 
 export abstract class BaseRepository<T extends Document> {
 	protected model: Model<T>
@@ -9,15 +16,74 @@ export abstract class BaseRepository<T extends Document> {
 		this.model = model
 	}
 
-	async findAll(select = ''): Promise<T[]> {
-		return await this.model.find().select(select)
+	private parseNumber(value: any): number | undefined {
+		const n = Number(value)
+		return isNaN(n) ? undefined : n
 	}
 
-	async findAllWhere(query: {}, select = ''): Promise<T[]> {
-		return await this.model.find(query).select(select)
+	async findAll(select = '', queryParams: QueryParams = {}): Promise<PaginatedResult<T>> {
+		const limit = this.parseNumber(queryParams.items) ?? 20
+		const skipParam = this.parseNumber(queryParams.skip)
+		let page = this.parseNumber(queryParams.page) ?? 1
+		if (page < 1) page = 1
+
+		const totalItems = await this.model.countDocuments()
+		const query = this.model.find().select(select)
+
+		if (typeof skipParam === 'number') {
+			query.skip(skipParam)
+		} else {
+			query.skip((page - 1) * limit)
+		}
+
+		query.limit(limit)
+
+		const content = await query
+		const totalPages = Math.ceil(totalItems / limit)
+
+		return {
+			content,
+			totalItems,
+			currentPage: page,
+			pageSize: limit,
+			totalPages,
+			isFirstPage: page === 1,
+			isLastPage: page >= totalPages
+		}
 	}
 
-	async findById(id: string, select = '', populate= ''): Promise<T | null> {
+	async findAllWhere(filter: {}, select = '', queryParams: QueryParams = {}): Promise<PaginatedResult<T>> {
+		const limit = this.parseNumber(queryParams.items) ?? 20
+		const skipParam = this.parseNumber(queryParams.skip)
+		let page = this.parseNumber(queryParams.page) ?? 1
+		if (page < 1) page = 1
+
+		const totalItems = await this.model.countDocuments(filter)
+		const query = this.model.find(filter).select(select)
+
+		if (typeof skipParam === 'number') {
+			query.skip(skipParam)
+		} else {
+			query.skip((page - 1) * limit)
+		}
+
+		query.limit(limit)
+
+		const content = await query
+		const totalPages = Math.ceil(totalItems / limit)
+
+		return {
+			content,
+			totalItems,
+			currentPage: page,
+			pageSize: limit,
+			totalPages,
+			isFirstPage: page === 1,
+			isLastPage: page >= totalPages
+		}
+	}
+
+	async findById(id: string, select = '', populate = '') {
 		return await this.model.findById(id).select(select).populate(populate)
 	}
 
@@ -32,7 +98,7 @@ export abstract class BaseRepository<T extends Document> {
 
 	async update(id: string, data: Partial<T>, select = '') {
 		if ('password' in data && data.password) {
-			data.password = await bcrypt.hash(data.password as string, 12);
+			data.password = await bcrypt.hash(data.password as string, 12)
 		}
 		return await this.model.findByIdAndUpdate(id, {
 			...data,

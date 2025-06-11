@@ -135,6 +135,11 @@ export default class SwaggerMethod {
         return this;
     }
 
+        public withParameters(parameters: SwaggerParameter[]) {
+        this.parameters.push(...parameters);
+        return this;
+    }
+
     /**
      * Converts the SwaggerMethod instance to a JSON representation.
      * @returns {object} The JSON object for Swagger documentation.
