@@ -1,5 +1,6 @@
 import { IPatient } from '../models/patient/Patient.model'
 import patientRepository from '../repositories/patient.repository'
+import alimentService from './aliment.service'
 
 export interface PatientQuery {
 	firstName?: string
@@ -32,7 +33,21 @@ class PatientService {
 	}
 
 	async findById(id: string) {
-		return await patientRepository.findById(id, '-password')
+		const patient = await patientRepository.findById(id, '-password')
+		if (!patient) return null
+
+		for (const diet of patient.diets ?? []) {
+			for (const meal of diet.meals ?? []) {
+				for (const food of meal.foods ?? []) {
+					if (food.aliment) {
+						const alimentData = await alimentService.findById(food.aliment._id as string);
+						if (alimentData) food.aliment = alimentData
+					}
+				}
+			}
+		}
+
+		return patient
 	}
 
 	async findByEmail(email: string) {
