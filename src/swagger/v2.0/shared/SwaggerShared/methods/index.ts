@@ -13,7 +13,7 @@ export default abstract class SharedSwagger_Methods {
         public static patientInfo =
             SwaggerMethod.get()
                 .setSummary("Patient info")
-                .withParameter(SwaggerShared_Parameters.patientPathParameter)
+                // .withParameter(SwaggerShared_Parameters.patientPathParameter)
                 .setDescription("This route retrieves basic information related to a patient")
                 .withResponses(
                     [
@@ -32,7 +32,7 @@ export default abstract class SharedSwagger_Methods {
         public static patientUpdate =
             SwaggerMethod.patch()
                 .setSummary("Update patient info")
-                .withParameter(SwaggerShared_Parameters.patientPathParameter)
+                // .withParameter(SwaggerShared_Parameters.patientPathParameter)
                 .setDescription("This route updates basic information related to a patient.")
                 .withRequestBody(
                     new SwaggerContent(SwaggerSchema.Patient.Update)

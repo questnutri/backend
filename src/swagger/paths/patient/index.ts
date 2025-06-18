@@ -3,7 +3,7 @@ import SwaggerPath from "../../v2.0/class/SwaggerPath";
 import SwaggerShared from "../../v2.0/shared/SwaggerShared/SwaggerShared";
 import dietPatientTree from "./dietPatient.tree";
 
-export default new SwaggerPath("/patient")
+export default new SwaggerPath("/patients")
     .withTags(["Patient"])
     .withEndpoint(
         new SwaggerEndpoint()
